@@ -3,6 +3,10 @@ import { fromJS } from 'immutable'
 const initialState = fromJS({
    path: [
        {
+           x: 0,
+           y: 0
+        },
+       {
            x: 100,
            y: 200
        },
@@ -11,13 +15,21 @@ const initialState = fromJS({
            y: 400
        },
        {
-           x: 500,
-           y: 750
+           x: 400,
+           y: 450
        },
        {
-           x: 1000,
-           y: 200
-       }
+           x: 200,
+           y: 250
+       },
+       {
+            x: 500,
+            y: 500
+        },
+        {
+            x: 300,
+            y: 100
+        }
    ]
 })
 
