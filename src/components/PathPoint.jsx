@@ -1,12 +1,15 @@
 import React from 'react'
+import { Circle } from 'react-konva'
 
 const PathPoint = ( {point} ) => {
     return (
-        <div>
-            {point.get('x')}
-            ,
-            {point.get('y')}
-        </div>
+        <Circle
+            x={point.get('x')}
+            y={point.get('y')}
+            radius={10}
+            fill={window.Konva.Util.getRandomColor()}
+            shadowBlur={5}
+        />
     )
 }
 
