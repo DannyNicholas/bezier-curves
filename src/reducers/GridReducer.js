@@ -1,36 +1,23 @@
 import { fromJS } from 'immutable'
+import createBezierPath from '../maths/createBezierPath'
+import createControlPoints from '../maths/createControlPoints'
+import createPoint from '../maths/createPoint'
+
+const start = createPoint( 0, 500 )
+const startControl = createPoint( 0, 0 )
+const finish = createPoint( 500, 500 )
+const finishControl = createPoint( 500, 0 )
+const controlPoints = createControlPoints(
+    start,
+    startControl,
+    finish,
+    finishControl
+)
+
+const path = createBezierPath( controlPoints, 100 )
 
 const initialState = fromJS({
-   path: [
-       {
-           x: 0,
-           y: 0
-        },
-       {
-           x: 100,
-           y: 200
-       },
-       {
-           x: 300,
-           y: 400
-       },
-       {
-           x: 400,
-           y: 450
-       },
-       {
-           x: 200,
-           y: 250
-       },
-       {
-            x: 500,
-            y: 500
-        },
-        {
-            x: 300,
-            y: 100
-        }
-   ]
+    path: path
 })
 
 const GridReducer = (state = initialState, action) => {
