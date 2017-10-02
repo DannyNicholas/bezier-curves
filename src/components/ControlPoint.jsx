@@ -3,23 +3,23 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Circle } from 'react-konva'
 
-const PathPoint = ( {point} ) => {
+const ControlPoint = ( {point} ) => {
     return (
         <Circle
             x={point.get('x')}
             y={point.get('y')}
-            radius={2}
-            fill={'black'}
-            shadowBlur={3}
+            radius={5}
+            fill={'red'}
+            shadowBlur={6}
         />
     )
 }
 
-PathPoint.propTypes = {
+ControlPoint.propTypes = {
     point: ImmutablePropTypes.contains({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired
     })
 }
 
-export default PathPoint
+export default ControlPoint

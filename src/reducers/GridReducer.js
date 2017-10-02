@@ -17,7 +17,8 @@ const controlPoints = createControlPoints(
 const path = createBezierPath( controlPoints, 100 )
 
 const initialState = fromJS({
-    path: path
+    path: path,
+    controlPoints: controlPoints
 })
 
 const GridReducer = (state = initialState, action) => {

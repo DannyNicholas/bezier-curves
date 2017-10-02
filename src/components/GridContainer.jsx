@@ -3,7 +3,8 @@ import Grid from './Grid'
 
 const mapStateToProps = (state) => {
     return {
-        path: state.get('path')
+        path: state.get('path'),
+        controlPoints: state.get('controlPoints')
     }
 }
 
