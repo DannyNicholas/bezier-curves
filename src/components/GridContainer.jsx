@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import GridActionCreators from '../action-creators/GridActionCreators'
 import Grid from './Grid'
 
 const mapStateToProps = (state) => {
@@ -10,7 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // TODO
+        moveControlPoint: (pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(pointType, controlPoint))
     }
 }
 
