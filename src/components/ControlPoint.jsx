@@ -4,6 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Circle } from 'react-konva'
 
 const ControlPoint = ( {point} ) => {
+
     return (
         <Circle
             x={point.get('x')}
