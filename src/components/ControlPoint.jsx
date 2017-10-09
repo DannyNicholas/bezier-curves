@@ -18,8 +18,8 @@ const ControlPoint = ( {point} ) => {
 
 ControlPoint.propTypes = {
     point: ImmutablePropTypes.contains({
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired
+        x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+        y: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
     })
 }
 
