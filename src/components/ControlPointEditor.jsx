@@ -6,12 +6,14 @@ import createPoint from '../maths/createPoint'
 const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
 
     const handleChangeX = (event) => {
-        const newPoint = createPoint(event.target.value, controlPoint.get('y'))
+        const value = event.target.value === '' ? '' : parseInt(event.target.value, 10) 
+        const newPoint = createPoint(value, controlPoint.get('y'))
         handleChange(type, newPoint)
     }
 
     const handleChangeY = (event) => {
-        const newPoint = createPoint(controlPoint.get('x'), event.target.value)
+        const value = event.target.value === '' ? '' : parseInt(event.target.value, 10) 
+        const newPoint = createPoint(controlPoint.get('x'), value)
         handleChange(type, newPoint)
     }
 
@@ -33,8 +35,8 @@ const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
 ControlPointEditor.propTypes = {
     type: PropTypes.string.isRequired,
     controlPoint: ImmutablePropTypes.contains({
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired
+        x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+        y: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
     }),
     handleChange: PropTypes.func.isRequired,
 }
