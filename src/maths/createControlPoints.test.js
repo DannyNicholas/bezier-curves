@@ -15,10 +15,14 @@ describe('control points creation', () => {
             finishControl
         )
 
-        expect(controlPoints.get('start')).toEqual(start)
-        expect(controlPoints.get('startControl')).toEqual(startControl)
-        expect(controlPoints.get('finish')).toEqual(finish)
-        expect(controlPoints.get('finishControl')).toEqual(finishControl)
+        expect(controlPoints.get('start').get('point')).toEqual(start)
+        expect(controlPoints.get('startControl').get('point')).toEqual(startControl)
+        expect(controlPoints.get('finish').get('point')).toEqual(finish)
+        expect(controlPoints.get('finishControl').get('point')).toEqual(finishControl)
+        expect(controlPoints.get('start').get('name')).toEqual('start')
+        expect(controlPoints.get('startControl').get('name')).toEqual('startControl')
+        expect(controlPoints.get('finish').get('name')).toEqual('finish')
+        expect(controlPoints.get('finishControl').get('name')).toEqual('finishControl')
     })
 
     it('decimal control points creation', () => {
@@ -33,9 +37,13 @@ describe('control points creation', () => {
             finishControl
         )
 
-        expect(controlPoints.get('start')).toEqual(start)
-        expect(controlPoints.get('startControl')).toEqual(startControl)
-        expect(controlPoints.get('finish')).toEqual(finish)
-        expect(controlPoints.get('finishControl')).toEqual(finishControl)
+        expect(controlPoints.get('start').get('point')).toEqual(start)
+        expect(controlPoints.get('startControl').get('point')).toEqual(startControl)
+        expect(controlPoints.get('finish').get('point')).toEqual(finish)
+        expect(controlPoints.get('finishControl').get('point')).toEqual(finishControl)
+        expect(controlPoints.get('start').get('name')).toEqual('start')
+        expect(controlPoints.get('startControl').get('name')).toEqual('startControl')
+        expect(controlPoints.get('finish').get('name')).toEqual('finish')
+        expect(controlPoints.get('finishControl').get('name')).toEqual('finishControl')
     })
 })

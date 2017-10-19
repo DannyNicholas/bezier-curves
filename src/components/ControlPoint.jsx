@@ -2,8 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Circle } from 'react-konva'
+import createPoint from '../maths/createPoint'
 
-const ControlPoint = ( {point} ) => {
+const ControlPoint = ( {type, point, handleChange} ) => {
+
+    const onDrag = (e) => {
+        const newPoint = createPoint(e.target.attrs.x, e.target.attrs.y)
+        handleChange(type, newPoint)
+    }
 
     return (
         <Circle
@@ -12,6 +18,10 @@ const ControlPoint = ( {point} ) => {
             radius={5}
             fill={'red'}
             shadowBlur={6}
+            draggable='true'
+            onDragStart={onDrag}
+            onDragMove={onDrag}
+            onDragEnd={onDrag}
         />
     )
 }

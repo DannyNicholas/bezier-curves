@@ -9,10 +9,10 @@ const calculateBezierPoint = ( bezierPoints, t ) => {
     const uuu = uu * u
     const ttt = tt * t
 
-    const pointStage1 = pointMultiplication( bezierPoints.get('start'), uuu )
-    const pointStage2 = pointAddition( pointStage1, pointMultiplication( bezierPoints.get('startControl'), 3 * uu * t ) )
-    const pointStage3 = pointAddition( pointStage2, pointMultiplication( bezierPoints.get('finishControl'), 3 * u * tt) )
-    return pointAddition( pointStage3, pointMultiplication( bezierPoints.get('finish'), ttt) )
+    const pointStage1 = pointMultiplication( bezierPoints.get('start').get('point'), uuu )
+    const pointStage2 = pointAddition( pointStage1, pointMultiplication( bezierPoints.get('startControl').get('point'), 3 * uu * t ) )
+    const pointStage3 = pointAddition( pointStage2, pointMultiplication( bezierPoints.get('finishControl').get('point'), 3 * u * tt) )
+    return pointAddition( pointStage3, pointMultiplication( bezierPoints.get('finish').get('point'), ttt) )
 }
 
 export default calculateBezierPoint

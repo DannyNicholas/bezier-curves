@@ -10,10 +10,12 @@ const Grid = ( { path, controlPoints, moveControlPoint } ) => {
 
     // valueSeq() allows immutable map to be used as children
     const ControlPoints = controlPoints.valueSeq()
-        .map((point, index) =>
+        .map((controlPoint, index) =>
             <ControlPoint
                 key={index}
-                point={point}
+                type={controlPoint.get('name')}
+                point={controlPoint.get('point')}
+                handleChange={moveControlPoint}
             />
         )
 
