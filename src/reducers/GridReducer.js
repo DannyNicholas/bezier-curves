@@ -4,10 +4,10 @@ import createBezierPath from '../maths/createBezierPath'
 import createControlPoints from '../maths/createControlPoints'
 import createPoint from '../maths/createPoint'
 
-const start = createPoint( 0, 500 )
-const startControl = createPoint( 0, 0 )
-const finish = createPoint( 500, 500 )
-const finishControl = createPoint( 500, 0 )
+const start = createPoint( 20, 490 )
+const startControl = createPoint( 20, 20 )
+const finish = createPoint( 480, 480 )
+const finishControl = createPoint( 480, 20 )
 const controlPoints = createControlPoints(
     start,
     startControl,
@@ -23,8 +23,13 @@ const initialState = fromJS({
 })
 
 const moveControlPoint = (state, action) => {
-    const newControlPoints = state.get('controlPoints').set(action.pointType, action.controlPoint)
+    // update the moved control point with the new point position
+    const newControlPoints = state.get('controlPoints').setIn([action.pointType, 'point'], action.controlPoint)
+    
+    // update path based on new control points
     const path = createBezierPath( newControlPoints, 100 )
+
+    // return new combined state
     return state.set('path', path).set('controlPoints', newControlPoints)
 }
 
