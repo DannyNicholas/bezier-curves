@@ -19,19 +19,15 @@ const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
     }
 
     return(
-        <span className="pointEditor">
-            <span className="type">
-                {type}
-            </span>
-            <label>
-                X:
+        <tr>
+            <th scope="row">{type}</th>
+            <td>
                 <input type="number" value={controlPoint.get('x')} onChange={handleChangeX} />
-            </label>
-            <label>
-                Y:
+            </td>
+            <td>
                 <input type="number" value={controlPoint.get('y')} onChange={handleChangeY} />
-            </label>
-        </span>
+            </td>
+        </tr>
     )
 }
 

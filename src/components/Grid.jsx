@@ -6,7 +6,7 @@ import ControlPoint from './ControlPoint'
 import BezierPointsEditor from './BezierPointsEditor'
 import './Grid.css';
 
-const Grid = ( { path, controlPoints, moveControlPoint } ) => {
+const Grid = ( { path, controlPoints, pathPoints, moveControlPoint, changePathPoints } ) => {
 
     // valueSeq() allows immutable map to be used as children
     const ControlPoints = controlPoints.valueSeq()
@@ -42,7 +42,9 @@ const Grid = ( { path, controlPoints, moveControlPoint } ) => {
             <div className="sideBar">
                 <BezierPointsEditor
                     controlPoints={controlPoints}
-                    moveControlPoint={moveControlPoint} />
+                    moveControlPoint={moveControlPoint}
+                    pathPoints={pathPoints}
+                    changePathPoints={changePathPoints} />
             </div>
         </div>
     )

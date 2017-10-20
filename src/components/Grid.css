@@ -8,6 +8,7 @@
   margin: 0 auto;
   display: inline-block;
 }
+
 .grid {
     background-color: green;
     width: 500px;
@@ -23,7 +24,7 @@
   }
 
   .sideBar {
-    width: 400px;
+    width: 300px;
     float: right;
     background: #dadada;
   }

@@ -1,7 +1,6 @@
-.pointEditor {
-  background-color: red;
-  display: inline-block;
+th {
   width: 100%;
+  text-align: center;
 }
 
 input {
