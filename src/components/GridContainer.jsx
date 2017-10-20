@@ -5,13 +5,15 @@ import Grid from './Grid'
 const mapStateToProps = (state) => {
     return {
         path: state.get('path'),
-        controlPoints: state.get('controlPoints')
+        controlPoints: state.get('controlPoints'),
+        pathPoints: state.get('pathPoints')
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        moveControlPoint: (pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(pointType, controlPoint))
+        moveControlPoint: (pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(pointType, controlPoint)),
+        changePathPoints: (pathPoints) => dispatch(GridActionCreators.changePathPoints(pathPoints))
     }
 }
 

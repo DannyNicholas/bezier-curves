@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import createPoint from '../maths/createPoint'
+import './ControlPointEditor.css'
 
 const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
 
@@ -18,17 +19,15 @@ const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
     }
 
     return(
-        <div>
-            {type}
-            <label>
-                X:
+        <tr>
+            <th scope="row">{type}</th>
+            <td>
                 <input type="number" value={controlPoint.get('x')} onChange={handleChangeX} />
-            </label>
-            <label>
-                Y:
+            </td>
+            <td>
                 <input type="number" value={controlPoint.get('y')} onChange={handleChangeY} />
-            </label>
-        </div>
+            </td>
+        </tr>
     )
 }
 

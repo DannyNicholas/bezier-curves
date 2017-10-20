@@ -1,3 +1,14 @@
+.page {
+  background-color: blueviolet;
+  height: 1000px;
+  width: 100%;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: inline-block;
+}
+
 .grid {
     background-color: green;
     width: 500px;
@@ -5,4 +16,15 @@
     margin: 10px;
     padding: 5px;
     border-radius: 10px;
+  }
+
+  .content {
+    float: left;
+    background: #ff11ff;
+  }
+
+  .sideBar {
+    width: 300px;
+    float: right;
+    background: #dadada;
   }
