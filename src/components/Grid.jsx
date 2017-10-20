@@ -28,19 +28,22 @@ const Grid = ( { path, controlPoints, moveControlPoint } ) => {
         )
 
     return (
-        <div>
-            <div>Hello</div>
-            <Stage width={500} height={500} className="grid">
-                <Layer>
-                    {PathPoints}
-                </Layer>
-                <Layer>
-                    {ControlPoints}
-                </Layer>
-            </Stage>
-            <BezierPointsEditor
-                controlPoints={controlPoints}
-                moveControlPoint={moveControlPoint} />
+        <div className="page">
+            <div className="content">
+                <Stage width={500} height={500} className="grid">
+                    <Layer>
+                        {PathPoints}
+                    </Layer>
+                    <Layer>
+                        {ControlPoints}
+                    </Layer>
+                </Stage>
+            </div>
+            <div className="sideBar">
+                <BezierPointsEditor
+                    controlPoints={controlPoints}
+                    moveControlPoint={moveControlPoint} />
+            </div>
         </div>
     )
 }

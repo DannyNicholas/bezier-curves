@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
+import './BezierPointsEditor.css'
 
 const BezierPointsEditor = ( {controlPoints, moveControlPoint} ) => {
     
@@ -15,7 +16,7 @@ const BezierPointsEditor = ( {controlPoints, moveControlPoint} ) => {
         )
 
     return(
-        <div>
+        <div className="bezierEditor">
             {Editors}           
         </div>
     )
