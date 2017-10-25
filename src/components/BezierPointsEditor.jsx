@@ -4,12 +4,13 @@ import ControlPointEditor from './ControlPointEditor'
 import PathPointsEditor from './PathPointsEditor'
 import './BezierPointsEditor.css'
 
-const BezierPointsEditor = ( {controlPoints, pathPoints, moveControlPoint, changePathPoints} ) => {
+const BezierPointsEditor = ( {pathIndex, controlPoints, pathPoints, moveControlPoint, changePathPoints} ) => {
     
     const Editors = controlPoints.valueSeq()
         .map((controlPoint, index) =>
             <ControlPointEditor
                 key={index}
+                pathIndex={pathIndex}
                 type={controlPoint.get('name')}
                 controlPoint={controlPoint.get('point')}
                 handleChange={moveControlPoint}
@@ -29,6 +30,7 @@ const BezierPointsEditor = ( {controlPoints, pathPoints, moveControlPoint, chang
                 <tbody>
                     {Editors}
                     <PathPointsEditor
+                        pathIndex={pathIndex}
                         pathPoints={pathPoints}
                         handleChange={changePathPoints}
                     />

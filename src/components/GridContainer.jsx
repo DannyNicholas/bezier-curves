@@ -1,22 +1,20 @@
 import { connect } from 'react-redux'
 import GridActionCreators from '../action-creators/GridActionCreators'
-import Grid from './Grid'
+import Paths from './Paths'
 
 const mapStateToProps = (state) => {
     return {
-        path: state.get('path'),
-        controlPoints: state.get('controlPoints'),
-        pathPoints: state.get('pathPoints')
+        paths: state.get('paths')
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        moveControlPoint: (pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(pointType, controlPoint)),
-        changePathPoints: (pathPoints) => dispatch(GridActionCreators.changePathPoints(pathPoints))
+        moveControlPoint: (index, pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(index, pointType, controlPoint)),
+        changePathPoints: (index, pathPoints) => dispatch(GridActionCreators.changePathPoints(index, pathPoints))
     }
 }
 
-const GridContainer = connect(mapStateToProps, mapDispatchToProps)(Grid)
+const GridContainer = connect(mapStateToProps, mapDispatchToProps)(Paths)
 
 export default GridContainer

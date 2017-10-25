@@ -4,18 +4,18 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import createPoint from '../maths/createPoint'
 import './ControlPointEditor.css'
 
-const ControlPointEditor = ( {type, controlPoint, handleChange} ) => {
+const ControlPointEditor = ( {pathIndex, type, controlPoint, handleChange} ) => {
 
     const handleChangeX = (event) => {
         const value = event.target.value === '' ? '' : parseInt(event.target.value, 10) 
         const newPoint = createPoint(value, controlPoint.get('y'))
-        handleChange(type, newPoint)
+        handleChange(pathIndex, type, newPoint)
     }
 
     const handleChangeY = (event) => {
         const value = event.target.value === '' ? '' : parseInt(event.target.value, 10) 
         const newPoint = createPoint(controlPoint.get('x'), value)
-        handleChange(type, newPoint)
+        handleChange(pathIndex, type, newPoint)
     }
 
     return(
