@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PathPointsEditor = ( {pathPoints, handleChange} ) => {
+const PathPointsEditor = ( {pathIndex, pathPoints, handleChange} ) => {
 
     const handlePathPointsChange = (event) => {
         const value = event.target.value === '' ? '' : parseInt(event.target.value, 10) 
-        handleChange(value)
+        handleChange(pathIndex, value)
     }
 
     return(
