@@ -41,8 +41,11 @@ const BezierPointsEditor = ( {pathIndex, controlPoints, pathPoints, moveControlP
 }
 
 BezierPointsEditor.propTypes = {
+    pathIndex: PropTypes.number.isRequired,
     controlPoints: PropTypes.object.isRequired,
+    pathPoints: PropTypes.number.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
+    changePathPoints: PropTypes.func.isRequired
 }
 
 export default BezierPointsEditor

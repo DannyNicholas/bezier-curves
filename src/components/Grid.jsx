@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import {Layer, Stage} from 'react-konva'
 import PathPoint from './PathPoint'
 import ControlPoint from './ControlPoint'
-import BezierPointsEditor from './BezierPointsEditor'
 import './Grid.css';
 
-const Grid = ( { pathIndex, path, controlPoints, pathPoints, moveControlPoint, changePathPoints } ) => {
+const Grid = ( { paths, moveControlPoint } ) => {
 
     // valueSeq() allows immutable map to be used as children
-    const ControlPoints = controlPoints.valueSeq()
-        .map((controlPoint, index) =>
+    const ControlPoints = paths.map((path, pathIndex) => 
+        path.get('controlPoints').valueSeq().map((controlPoint, index) =>
             <ControlPoint
                 key={index}
                 pathIndex={pathIndex}
@@ -19,42 +18,34 @@ const Grid = ( { pathIndex, path, controlPoints, pathPoints, moveControlPoint, c
                 handleChange={moveControlPoint}
             />
         )
+        )
 
-    const PathPoints = path.valueSeq()
-        .map((point, index) =>
+    const PathPoints = paths.valueSeq().map((path) => 
+        path.get('path').map((point, index) =>
             <PathPoint
                 key={index}
                 point={point}
             />
         )
+        )
 
     return (
-        <div className="page">
-            <div className="content">
-                <Stage width={500} height={500} className="grid">
-                    <Layer>
-                        {PathPoints}
-                    </Layer>
-                    <Layer>
-                        {ControlPoints}
-                    </Layer>
-                </Stage>
-            </div>
-            <div className="sideBar">
-                <BezierPointsEditor
-                    pathIndex={pathIndex}
-                    controlPoints={controlPoints}
-                    moveControlPoint={moveControlPoint}
-                    pathPoints={pathPoints}
-                    changePathPoints={changePathPoints} />
-            </div>
+        <div className="grid">
+            <Stage width={500} height={500}>
+                <Layer>
+                    {PathPoints}
+                </Layer>
+                <Layer>
+                    {ControlPoints}
+                </Layer>
+            </Stage>
         </div>
     )
 }
 
 Grid.propTypes = {
-    path: PropTypes.object.isRequired,
-    controlPoints: PropTypes.object.isRequired
+    paths: PropTypes.object.isRequired,
+    moveControlPoint: PropTypes.func.isRequired
 }
 
 export default Grid

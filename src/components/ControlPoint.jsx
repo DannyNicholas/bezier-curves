@@ -27,10 +27,13 @@ const ControlPoint = ( {pathIndex, type, point, handleChange} ) => {
 }
 
 ControlPoint.propTypes = {
+    pathIndex: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
     point: ImmutablePropTypes.contains({
         x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
         y: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
-    })
+    }),
+    handleChange: PropTypes.func.isRequired
 }
 
 export default ControlPoint

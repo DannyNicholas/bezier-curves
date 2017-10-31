@@ -1,32 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Grid from './Grid'
+import SideBar from './SideBar'
+import './Paths.css';
 
 const Paths = ( { paths, moveControlPoint, changePathPoints } ) => {
 
-    // valueSeq() allows immutable map to be used as children
-    const Paths = paths.valueSeq()
-        .map((path, index) =>
-            <Grid
-                key={index}
-                pathIndex={index}
-                path={path.get('path')}
-                controlPoints={path.get('controlPoints')}
-                pathPoints={path.get('pathPoints')}
-                moveControlPoint={moveControlPoint}
-                changePathPoints={changePathPoints}
-            />
-        )
-
     return (
-        <div>
-            {Paths}
+        <div className="paths">
+            <div className="main">
+                <p>Main</p>
+                <Grid 
+                    paths={paths}
+                    moveControlPoint={moveControlPoint}
+                />
+            </div>
+            <div className="sideBar">
+                <p>SideBar</p>
+                <SideBar
+                    paths={paths}
+                    moveControlPoint={moveControlPoint}
+                    changePathPoints={changePathPoints}
+                />
+            </div>
         </div>
     )
 }
 
 Paths.propTypes = {
-    paths: PropTypes.object.isRequired
+    paths: PropTypes.object.isRequired,
+    moveControlPoint: PropTypes.func.isRequired,
+    changePathPoints: PropTypes.func.isRequired,
 }
 
 export default Paths

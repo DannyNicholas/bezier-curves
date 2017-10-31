@@ -32,6 +32,7 @@ const ControlPointEditor = ( {pathIndex, type, controlPoint, handleChange} ) => 
 }
 
 ControlPointEditor.propTypes = {
+    pathIndex: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     controlPoint: ImmutablePropTypes.contains({
         x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,

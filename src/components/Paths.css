@@ -1,0 +1,25 @@
+.paths {
+  background-color: blueviolet;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.main {
+    float: left;
+    background-color: magenta;
+    width: -webkit-calc(100% - 345px);
+    width:    -moz-calc(100% - 345px);
+    width:         calc(100% - 345px);
+    margin: 10px;
+    border: 1px solid #665544;
+    min-width: 520px;
+  }
+
+  .sideBar {
+    float: right;
+    width: 300px;
+    margin: 10px;
+    background: #dadada;
+    border: 1px solid #665544;
+  }
