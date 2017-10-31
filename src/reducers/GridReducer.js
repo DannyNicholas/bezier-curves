@@ -7,8 +7,8 @@ import { createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFini
 
 const start = createPoint( 20, 490 )
 const startControl = createPoint( 20, 20 )
-const finish = createPoint( 480, 480 )
-const finishControl = createPoint( 480, 20 )
+const finish = createPoint( 200, 480 )
+const finishControl = createPoint( 200, 20 )
 const controlPoints = createControlPoints(
     start,
     startControl,
@@ -16,13 +16,30 @@ const controlPoints = createControlPoints(
     finishControl
 )
 
+const start2 = createPoint( 200, 480 )
+const startControl2 = createPoint( 240, 20 )
+const finish2 = createPoint( 480, 480 )
+const finishControl2 = createPoint( 480, 20 )
+const controlPoints2 = createControlPoints(
+    start2,
+    startControl2,
+    finish2,
+    finishControl2
+)
+
 const path = createBezierPath( controlPoints, 100 )
+const path2 = createBezierPath( controlPoints2, 100 )
 
 const initialState = fromJS({
     paths: [
         {
             path: path,
             controlPoints: controlPoints,
+            pathPoints: 100
+        },
+        {
+            path: path2,
+            controlPoints: controlPoints2,
             pathPoints: 100
         }
     ]

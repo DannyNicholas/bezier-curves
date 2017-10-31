@@ -19,6 +19,7 @@ const PathPointsEditor = ( {pathIndex, pathPoints, handleChange} ) => {
 }
 
 PathPointsEditor.propTypes = {
+    pathIndex: PropTypes.number.isRequired,
     pathPoints: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     handleChange: PropTypes.func.isRequired,
 }
