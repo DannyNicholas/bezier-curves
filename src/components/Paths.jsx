@@ -4,7 +4,14 @@ import Grid from './Grid'
 import SideBar from './SideBar'
 import './Paths.css';
 
-const Paths = ( { paths, moveControlPoint, changePathPoints } ) => {
+const Paths = ( {
+    paths,
+    moveControlPoint,
+    changePathPoints,
+    insertPathDataBefore,
+    insertPathDataAfter,
+    deletePathData
+} ) => {
 
     return (
         <div className="paths">
@@ -21,6 +28,9 @@ const Paths = ( { paths, moveControlPoint, changePathPoints } ) => {
                     paths={paths}
                     moveControlPoint={moveControlPoint}
                     changePathPoints={changePathPoints}
+                    insertPathDataBefore={insertPathDataBefore}
+                    insertPathDataAfter={insertPathDataAfter}
+                    deletePathData={deletePathData}
                 />
             </div>
         </div>

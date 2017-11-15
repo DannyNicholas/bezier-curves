@@ -4,7 +4,16 @@ import ControlPointEditor from './ControlPointEditor'
 import PathPointsEditor from './PathPointsEditor'
 import './BezierPointsEditor.css'
 
-const BezierPointsEditor = ( {pathIndex, controlPoints, pathPoints, moveControlPoint, changePathPoints} ) => {
+const BezierPointsEditor = ( {
+    pathIndex,
+    controlPoints,
+    pathPoints,
+    moveControlPoint,
+    changePathPoints,
+    insertPathDataBefore,
+    insertPathDataAfter,
+    deletePathData
+} ) => {
     
     const Editors = controlPoints.valueSeq()
         .map((controlPoint, index) =>
@@ -36,6 +45,17 @@ const BezierPointsEditor = ( {pathIndex, controlPoints, pathPoints, moveControlP
                     />
                 </tbody>
             </table>
+            <ul className="button-group">
+                <li>
+                    <button className="button" onClick={() => insertPathDataBefore(pathIndex)}>Add Before</button>
+                </li>
+                <li>
+                    <button className="button" onClick={() => insertPathDataAfter(pathIndex)}>Add After</button>
+                </li>
+                <li>
+                    <button className="button" onClick={() => deletePathData(pathIndex)}>Delete</button>
+                </li>
+            </ul>
         </div>
     )
 }

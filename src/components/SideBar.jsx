@@ -2,7 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BezierPointsEditor from './BezierPointsEditor'
 
-const SideBar = ( { paths, moveControlPoint, changePathPoints  } ) => {
+const SideBar = ( {
+    paths,
+    moveControlPoint,
+    changePathPoints,
+    insertPathDataBefore,
+    insertPathDataAfter,
+    deletePathData
+} ) => {
 
     const Editors = paths.map((path, index) => 
         <BezierPointsEditor
@@ -12,6 +19,9 @@ const SideBar = ( { paths, moveControlPoint, changePathPoints  } ) => {
             pathPoints={path.get('pathPoints')}
             moveControlPoint={moveControlPoint}
             changePathPoints={changePathPoints}
+            insertPathDataBefore={insertPathDataBefore}
+            insertPathDataAfter={insertPathDataAfter}
+            deletePathData={deletePathData}
         />
     )
       

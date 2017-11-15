@@ -3,3 +3,26 @@
   border-radius: 4px;
   margin: 20px;
 }
+
+.button-group {
+  border: medium;
+  border-color: black;
+  background-color: blue;
+  margin: 5px;
+}
+
+li {
+  display: inline;
+  margin-right: 10px;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 4px;
+  width: 75px;
+  text-align: center;
+  font-size: 12px;
+  margin: 2px 2px;
+}
