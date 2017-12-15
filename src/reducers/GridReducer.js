@@ -35,14 +35,16 @@ const initialState = fromJS({
         {
             path: path,
             controlPoints: controlPoints,
-            pathPoints: 100
+            pathPoints: 100,
+            active: true
         },
         {
             path: path2,
             controlPoints: controlPoints2,
-            pathPoints: 100
+            pathPoints: 100,
+            active: false
         }
-    ]
+    ],
 })
 
 // move one of the control points and recalculate path
