@@ -6,11 +6,14 @@ import './Paths.css';
 
 const Paths = ( {
     paths,
+    width,
+    height,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
     insertPathDataAfter,
-    deletePathData
+    deletePathData,
+    activatePath
 } ) => {
 
     return (
@@ -19,6 +22,8 @@ const Paths = ( {
                 <p>Main</p>
                 <Grid 
                     paths={paths}
+                    width={width}
+                    height={height}
                     moveControlPoint={moveControlPoint}
                 />
             </div>
@@ -31,6 +36,7 @@ const Paths = ( {
                     insertPathDataBefore={insertPathDataBefore}
                     insertPathDataAfter={insertPathDataAfter}
                     deletePathData={deletePathData}
+                    activatePath={activatePath}
                 />
             </div>
         </div>

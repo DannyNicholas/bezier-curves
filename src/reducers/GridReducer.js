@@ -35,14 +35,18 @@ const initialState = fromJS({
         {
             path: path,
             controlPoints: controlPoints,
-            pathPoints: 100
+            pathPoints: 100,
+            active: true
         },
         {
             path: path2,
             controlPoints: controlPoints2,
-            pathPoints: 100
+            pathPoints: 100,
+            active: false
         }
-    ]
+    ],
+    width: 540,
+    height: 960,
 })
 
 // move one of the control points and recalculate path
@@ -120,6 +124,20 @@ const deletePathData = (state, action) => {
     return state.set('paths', newPaths)
 }
 
+// set active flag to true for path that matches action.index
+// set all other active flags to false
+const activatePath = (state, action) => {
+    let pathsList = state.get('paths')
+
+    pathsList = pathsList.map((path,index) => {
+        if (index === action.index) {
+            return path.set('active', true);
+        }
+        return path.set('active', false);
+    })
+    return state.set('paths', pathsList)
+}
+
 
 // move one of the control points and recalculate path
 //
@@ -154,6 +172,9 @@ const GridReducer = (state = initialState, action) => {
 
         case GridAction.DELETE_PATH_DATA:
             return deletePathData(state, action)
+
+        case GridAction.ACTIVATE_PATH:
+            return activatePath(state, action)
 
         default:
             return state

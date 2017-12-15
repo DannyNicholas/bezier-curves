@@ -4,7 +4,9 @@ import Paths from './Paths'
 
 const mapStateToProps = (state) => {
     return {
-        paths: state.get('paths')
+        paths: state.get('paths'),
+        width: state.get('width'),
+        height: state.get('height'),
     }
 }
 
@@ -14,7 +16,8 @@ const mapDispatchToProps = (dispatch) => {
         changePathPoints: (index, pathPoints) => dispatch(GridActionCreators.changePathPoints(index, pathPoints)),
         insertPathDataBefore: (index) => dispatch(GridActionCreators.insertPathDataBefore(index)),
         insertPathDataAfter: (index) => dispatch(GridActionCreators.insertPathDataAfter(index)),
-        deletePathData: (index) => dispatch(GridActionCreators.deletePathData(index))
+        deletePathData: (index) => dispatch(GridActionCreators.deletePathData(index)),
+        activatePath: (index) => dispatch(GridActionCreators.activatePath(index)),
     }
 }
 

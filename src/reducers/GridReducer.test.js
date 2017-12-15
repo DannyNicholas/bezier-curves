@@ -77,6 +77,29 @@ describe('reducer logic', () => {
         testDeleteAtIndex(2)
     })
 
+    it('activate the wanted path', () => {
+        const initialActiveState = fromJS({
+            paths: [
+            {
+                active: true
+            },
+            {
+                active: false
+            },
+            {
+                active: false
+            }
+            ],
+        })
+
+        const action = GridActionCreators.activatePath(1) 
+        const newState = GridReducer(initialActiveState, action)
+        const paths = newState.get('paths')
+        expect(paths.get(0).get('active')).toEqual(false)
+        expect(paths.get(1).get('active')).toEqual(true)
+        expect(paths.get(2).get('active')).toEqual(false)
+    })
+
     // test helper functions
 
     // test inserting data before supplied index
