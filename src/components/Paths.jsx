@@ -6,6 +6,8 @@ import './Paths.css';
 
 const Paths = ( {
     paths,
+    width,
+    height,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
@@ -20,6 +22,8 @@ const Paths = ( {
                 <p>Main</p>
                 <Grid 
                     paths={paths}
+                    width={width}
+                    height={height}
                     moveControlPoint={moveControlPoint}
                 />
             </div>

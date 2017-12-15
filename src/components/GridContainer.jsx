@@ -4,7 +4,9 @@ import Paths from './Paths'
 
 const mapStateToProps = (state) => {
     return {
-        paths: state.get('paths')
+        paths: state.get('paths'),
+        width: state.get('width'),
+        height: state.get('height'),
     }
 }
 

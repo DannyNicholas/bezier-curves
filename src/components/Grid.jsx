@@ -5,7 +5,7 @@ import PathPoint from './PathPoint'
 import ControlPoint from './ControlPoint'
 import './Grid.css';
 
-const Grid = ( { paths, moveControlPoint } ) => {
+const Grid = ( { paths, width, height, moveControlPoint } ) => {
 
     // valueSeq() allows immutable map to be used as children
     const ControlPoints = paths.map((path, pathIndex) => {
@@ -33,9 +33,14 @@ const Grid = ( { paths, moveControlPoint } ) => {
         )
     )
 
+    const sizeStyle = {
+        width: `${width}px`,
+        height: `${height}px`
+    };
+
     return (
-        <div className="grid">
-            <Stage width={500} height={500}>
+        <div className="grid" style={sizeStyle}>
+            <Stage width={width} height={height}>
                 <Layer>
                     {PathPoints}
                 </Layer>

@@ -45,6 +45,8 @@ const initialState = fromJS({
             active: false
         }
     ],
+    width: 540,
+    height: 960,
 })
 
 // move one of the control points and recalculate path
