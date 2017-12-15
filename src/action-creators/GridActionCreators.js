@@ -33,6 +33,12 @@ const GridActionCreators = {
             type: GridAction.DELETE_PATH_DATA,
             index
         }
+    },
+    activatePath(index) {
+        return {
+            type: GridAction.ACTIVATE_PATH,
+            index
+        }
     }
 }
 

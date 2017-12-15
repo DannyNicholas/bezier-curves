@@ -8,20 +8,20 @@ import './Grid.css';
 const Grid = ( { paths, moveControlPoint } ) => {
 
     // valueSeq() allows immutable map to be used as children
-    const ControlPoints = paths
-        .filter((path) => path.get('active'))
-        .map((path, pathIndex) =>
-            path.get('controlPoints').valueSeq()
-            .map((controlPoint, index) =>
-                <ControlPoint
-                    key={index}
-                    pathIndex={pathIndex}
-                    type={controlPoint.get('name')}
-                    point={controlPoint.get('point')}
-                    handleChange={moveControlPoint}
-                />
-            )
-        )
+    const ControlPoints = paths.map((path, pathIndex) => {
+            if (path.get('active')) {
+                return path.get('controlPoints').valueSeq().map((controlPoint, index) =>
+                    <ControlPoint
+                        key={index}
+                        pathIndex={pathIndex}
+                        type={controlPoint.get('name')}
+                        point={controlPoint.get('point')}
+                        handleChange={moveControlPoint}
+                    />
+                )
+            }
+        }
+    )
 
     const PathPoints = paths.valueSeq().map((path) => 
         path.get('path').map((point, index) =>

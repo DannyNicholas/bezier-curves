@@ -10,7 +10,8 @@ const Paths = ( {
     changePathPoints,
     insertPathDataBefore,
     insertPathDataAfter,
-    deletePathData
+    deletePathData,
+    activatePath
 } ) => {
 
     return (
@@ -31,6 +32,7 @@ const Paths = ( {
                     insertPathDataBefore={insertPathDataBefore}
                     insertPathDataAfter={insertPathDataAfter}
                     deletePathData={deletePathData}
+                    activatePath={activatePath}
                 />
             </div>
         </div>

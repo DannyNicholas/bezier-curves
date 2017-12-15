@@ -1,7 +1,8 @@
 .bezierEditor {
   background-color: #A5BE55;
   border-radius: 4px;
-  margin: 20px;
+  margin: 5px;
+  border: 1px solid black
 }
 
 .button-group {
