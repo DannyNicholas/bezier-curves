@@ -20,6 +20,7 @@ const Grid = ( { paths, moveControlPoint } ) => {
                     />
                 )
             }
+            return null
         }
     )
 
