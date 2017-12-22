@@ -85,7 +85,8 @@ const insertPathDataBefore = (state, action) => {
     const pathDataToInsert = createDefaultPathDataWithFixedFinish(500, 500, 100, currentControlPointStart)
 
      // insert path data into list before index and return
-    const newPaths = state.get('paths').insert(action.index, pathDataToInsert)
+    let newPaths = state.get('paths').insert(action.index, pathDataToInsert)
+    newPaths = setActivatePath(newPaths, action.index)
     return state.set('paths', newPaths)
 }
 
@@ -99,7 +100,8 @@ const insertPathDataAfter = (state, action) => {
     const pathDataToInsert = createDefaultPathDataWithFixedStart(500, 500, 100, currentControlPointFinish)
 
     // insert path data into list after index and return
-    const newPaths = state.get('paths').insert(action.index + 1, pathDataToInsert)
+    let newPaths = state.get('paths').insert(action.index + 1, pathDataToInsert)
+    newPaths = setActivatePath(newPaths, action.index + 1)
     return state.set('paths', newPaths)
 }
 

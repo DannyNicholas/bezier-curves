@@ -116,6 +116,11 @@ describe('reducer logic', () => {
         const pathPoints = newState.get('paths').get(index).get('pathPoints')
         expect(pathPoints).toEqual(pathPointsMax)
 
+        // check new item is now active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === index) ? true : false)
+        })
+
         // verify that new data's finish point matches previous data's start point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
         expect(controlPoints.get('finish').get('point').get('x')).toEqual(index * multiplier)
@@ -135,6 +140,11 @@ describe('reducer logic', () => {
         expect(newState.get('paths').size).toEqual(4)
         const pathPoints = newState.get('paths').get(index + 1).get('pathPoints')
         expect(pathPoints).toEqual(pathPointsMax)
+
+        // check new item is now active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === (index + 1)) ? true : false)
+        })
 
         // verify that new data's start point matches previous data's finish point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
