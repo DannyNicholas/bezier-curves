@@ -21,6 +21,7 @@ const SideBar = ( {
             key={index}
             index={index}
             path={path}
+            showDelete={paths.size > 1}
             moveControlPoint={moveControlPoint}
             changePathPoints={changePathPoints}
             insertPathDataBefore={insertPathDataBefore}
