@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Circle } from 'react-konva'
 
-const PathPoint = ( {point} ) => {
+const PathPoint = ( {point, active} ) => {
     return (
         <Circle
             x={point.get('x')}
             y={point.get('y')}
             radius={2}
-            fill={'black'}
+            fill={active ? 'red' : 'black'}
             shadowBlur={3}
         />
     )

@@ -29,6 +29,7 @@ const Grid = ( { paths, width, height, moveControlPoint } ) => {
             <PathPoint
                 key={index}
                 point={point}
+                active={path.get('active')}
             />
         )
     )
