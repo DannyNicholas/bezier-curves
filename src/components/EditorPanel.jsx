@@ -6,6 +6,7 @@ const EditorPanel = ( {
     path,
     index,
     active,
+    showDelete,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
@@ -21,6 +22,7 @@ const EditorPanel = ( {
             pathIndex={index}
             controlPoints={path.get('controlPoints')}
             pathPoints={path.get('pathPoints')}
+            showDelete={showDelete}
             moveControlPoint={moveControlPoint}
             changePathPoints={changePathPoints}
             insertPathDataBefore={insertPathDataBefore}

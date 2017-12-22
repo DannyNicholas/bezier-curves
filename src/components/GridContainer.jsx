@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
         insertPathDataAfter: (index) => dispatch(GridActionCreators.insertPathDataAfter(index)),
         deletePathData: (index) => dispatch(GridActionCreators.deletePathData(index)),
         activatePath: (index) => dispatch(GridActionCreators.activatePath(index)),
+        changeDimensions: (width, height) => dispatch(GridActionCreators.changeDimensions(width, height))
     }
 }
 

@@ -4,7 +4,7 @@ import GridActionCreators from '../action-creators/GridActionCreators'
 import createBezierPath from '../maths/createBezierPath'
 import createControlPoints from '../maths/createControlPoints'
 import createPoint from '../maths/createPoint'
-import { createDefaultPath } from './createDefaultPath'
+import { createInitialState } from './PathsCreator'
 
 // confirm reducer logic by creating test state,
 // passing in actions to reducer
@@ -16,8 +16,19 @@ describe('reducer logic', () => {
     const pathPointsMax = 100
     const multiplier = 1111
      
+    it('changes width and height dimensions', () => {
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
+
+        // trigger action to change width and height dimensions
+        const action = GridActionCreators.changeDimensions(123,987)
+        const newState = GridReducer(defaultState, action)
+
+        expect(newState.get('width')).toEqual(123)
+        expect(newState.get('height')).toEqual(987)
+    })
+
     it('moves a control point to the expected position', () => {
-        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
 
         // trigger action to move the start control point to new position
         const movedControlPoint = createPoint( 200, 300 )
@@ -29,8 +40,32 @@ describe('reducer logic', () => {
         expect(controlPoints.get('start').get('point').get('y')).toEqual(300)
     })
 
+    it('moves finish point and adjacent point at start of list', () => {
+        testMoveFinishPoint(0)
+    })
+
+    it('moves finish point and adjacent point at middle of list', () => {
+        testMoveFinishPoint(1)
+    })
+
+    it('moves finish point and adjacent point at end of list', () => {
+        testMoveFinishPoint(2)
+    })
+
+    it('moves start point and adjacent point at start of list', () => {
+        testMoveStartPoint(0)
+    })
+
+    it('moves start point and adjacent point at middle of list', () => {
+        testMoveStartPoint(1)
+    })
+
+    it('moves start point and adjacent point at end of list', () => {
+        testMoveStartPoint(2)
+    })
+
     it('changes to the expected number of path points', () => {
-        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
 
         // triggers action to increase the number of path points to 200
         const newPathPoints = 200
@@ -74,7 +109,7 @@ describe('reducer logic', () => {
     })
 
     it('deletes path data at end of list', () => {
-        testDeleteAtIndex(2)
+       testDeleteAtIndex(2)
     })
 
     it('activate the wanted path', () => {
@@ -102,19 +137,69 @@ describe('reducer logic', () => {
 
     // test helper functions
 
+    const testMoveFinishPoint = (index) => {
+        // create initial test list
+        const state = createTestPathDataList()
+            
+        // trigger action to move the finish control point to new position
+        const movedControlPoint = createPoint( 200, 300 )
+        const action = GridActionCreators.moveControlPoint(index, 'finish', movedControlPoint)
+        const newState = GridReducer(state, action)
+
+        // verify the new finish point is at expected position
+        const controlPoints = newState.get('paths').get(index).get('controlPoints')
+        expect(controlPoints.get('finish').get('point').get('x')).toEqual(200)
+        expect(controlPoints.get('finish').get('point').get('y')).toEqual(300)
+
+        // verify next start point has also moved
+        if (index < newState.get('paths').size - 1) {
+            const nextControlPoints = newState.get('paths').get(index + 1).get('controlPoints')
+            expect(nextControlPoints.get('start').get('point').get('x')).toEqual(200)
+            expect(nextControlPoints.get('start').get('point').get('y')).toEqual(300)
+        }
+    }
+
+    const testMoveStartPoint = (index) => {
+        // create initial test list
+        const state = createTestPathDataList()
+            
+        // trigger action to move the start control point to new position
+        const movedControlPoint = createPoint( 200, 300 )
+        const action = GridActionCreators.moveControlPoint(index, 'start', movedControlPoint)
+        const newState = GridReducer(state, action)
+
+        // verify the new start point is at expected position
+        const controlPoints = newState.get('paths').get(index).get('controlPoints')
+        expect(controlPoints.get('start').get('point').get('x')).toEqual(200)
+        expect(controlPoints.get('start').get('point').get('y')).toEqual(300)
+
+        // verify previous finish point has also moved
+        if (index > 0) {
+            const previousControlPoints = newState.get('paths').get(index - 1).get('controlPoints')
+            expect(previousControlPoints.get('finish').get('point').get('x')).toEqual(200)
+            expect(previousControlPoints.get('finish').get('point').get('y')).toEqual(300)
+        }
+    }
+
     // test inserting data before supplied index
     const testInsertBeforeIndex = (index) => {
         // create initial test list
         const state = createTestPathDataList()
-        
+    
         // trigger action to insert before index position
         const action = GridActionCreators.insertPathDataBefore(index)
         const newState = GridReducer(state, action)
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
+        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
         const pathPoints = newState.get('paths').get(index).get('pathPoints')
-        expect(pathPoints).toEqual(pathPointsMax)
+        expect(pathPoints).toEqual(expectedPathPoints)
+
+        // check new item is now active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === index) ? true : false)
+        })
 
         // verify that new data's finish point matches previous data's start point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
@@ -133,8 +218,14 @@ describe('reducer logic', () => {
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
+        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
         const pathPoints = newState.get('paths').get(index + 1).get('pathPoints')
-        expect(pathPoints).toEqual(pathPointsMax)
+        expect(pathPoints).toEqual(expectedPathPoints)
+
+        // check new item is now active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === (index + 1)) ? true : false)
+        })
 
         // verify that new data's start point matches previous data's finish point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
@@ -157,6 +248,13 @@ describe('reducer logic', () => {
         // check deleted item is no longer in list
         newState.get('paths').map((path) => {
             expect(path.get('pathPoints')).not.toEqual(index * multiplier)
+        })
+
+        // check item before deletion index is now active
+        // item before deleted item should be active
+        // if first item was deleted then new first item (pathIndex = 0) should be active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === index - 1 || (index === 0 && pathIndex === 0) ) ? true : false)
         })
 
          // if deleted item was in the middle, check previous item's finish control
@@ -208,7 +306,8 @@ describe('reducer logic', () => {
             {
                 path: path,
                 controlPoints: controlPoints,
-                pathPoints: pathPoints
+                pathPoints: pathPoints,
+                active: false
             }
         )
     }
@@ -216,7 +315,9 @@ describe('reducer logic', () => {
     // create list of paths from array
     const createPathsArray = (array) => {  
         return fromJS({
-            paths: array
+            paths: array,
+            width: 1000,
+            height: 1000
         })
     }
 })

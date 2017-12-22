@@ -10,6 +10,7 @@ Each path holds it's:
   - calculated path points
   - control points
   - number of points on path
+  - is path active
 
   Example JSON:
 
@@ -30,10 +31,15 @@ Each path holds it's:
         finishControl: {name: 'finishControl', point: {x: 50, y:50}}
       },
       // number of points between start and finish
-      pathPoints: 100
+      pathPoints: 100,
+      // is path active? - only one path can be active
+      active: true
     },
     .... more path/control point objects ...
-  ]
+  ],
+  // dimensions of display area
+  width: 540,
+  height: 960
 }
 ```
 
@@ -85,7 +91,8 @@ Detailed exmaple
           }
         }
       },
-      pathPoints: 100
+      pathPoints: 100,
+      active: true
     },
     {
       path: [
@@ -133,8 +140,11 @@ Detailed exmaple
           }
         }
       },
-      pathPoints: 100
+      pathPoints: 100,
+      active: false
     }
-  ]
+  ],
+  width: 540,
+  height: 960
 }
 ```

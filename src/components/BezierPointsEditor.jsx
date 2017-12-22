@@ -8,6 +8,7 @@ const BezierPointsEditor = ( {
     pathIndex,
     controlPoints,
     pathPoints,
+    showDelete,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
@@ -26,6 +27,16 @@ const BezierPointsEditor = ( {
             />
         )
 
+    // optional delete button
+    let DeleteButton
+    if(showDelete) {
+        DeleteButton = (
+            <li>
+                <button className="button" onClick={() => deletePathData(pathIndex)}>Delete</button>
+            </li>
+        )
+    }
+      
     return(
         <div className="bezierEditor">
             <table>
@@ -52,9 +63,7 @@ const BezierPointsEditor = ( {
                 <li>
                     <button className="button" onClick={() => insertPathDataAfter(pathIndex)}>Add After</button>
                 </li>
-                <li>
-                    <button className="button" onClick={() => deletePathData(pathIndex)}>Delete</button>
-                </li>
+                {DeleteButton}
             </ul>
         </div>
     )
