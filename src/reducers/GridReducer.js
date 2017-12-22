@@ -1,6 +1,6 @@
 import GridAction from '../constants/GridAction'
 import createBezierPath from '../maths/createBezierPath'
-import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
+import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './PathsCreator'
 
 const initialState = createDefaultInitialState()
 

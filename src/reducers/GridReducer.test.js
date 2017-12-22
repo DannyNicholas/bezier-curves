@@ -4,7 +4,7 @@ import GridActionCreators from '../action-creators/GridActionCreators'
 import createBezierPath from '../maths/createBezierPath'
 import createControlPoints from '../maths/createControlPoints'
 import createPoint from '../maths/createPoint'
-import { createInitialState } from './createDefaultPath'
+import { createInitialState } from './PathsCreator'
 
 // confirm reducer logic by creating test state,
 // passing in actions to reducer

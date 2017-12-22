@@ -1,4 +1,4 @@
-import { createInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
+import { createInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './PathsCreator'
 import createPoint from '../maths/createPoint'
 
 // tests that the default path data creator
