@@ -1,4 +1,4 @@
-import { createDefaultPath, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
+import { createInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
 import createPoint from '../maths/createPoint'
 
 // tests that the default path data creator
@@ -13,7 +13,7 @@ describe('default data creator', () => {
     const expectedOffset = 20
     
     it('creates expected default control points', () => {
-        const defaultPath = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultPath = createInitialState(xMax, yMax, pathPointsMax)
 
         const controlPoints = defaultPath.get('paths').get(0).get('controlPoints')
         verifyControlPoints(controlPoints, xMax, yMax)
@@ -23,7 +23,7 @@ describe('default data creator', () => {
     })
 
     it('creates expected default control points with wanted start point', () => {
-        const initialPath = createDefaultPath(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialState(xMax, yMax, pathPointsMax)
         const startPoint = createPoint( 350, 250 )
 
         const defaultPath = createDefaultPathDataWithFixedStart(xMax, yMax, pathPointsMax, startPoint)
@@ -44,7 +44,7 @@ describe('default data creator', () => {
     })
 
     it('creates expected default control points with wanted finish point', () => {
-        const initialPath = createDefaultPath(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialState(xMax, yMax, pathPointsMax)
         const finishPoint = createPoint( 350, 250 )
 
         const defaultPath = createDefaultPathDataWithFixedFinish(xMax, yMax, pathPointsMax, finishPoint)

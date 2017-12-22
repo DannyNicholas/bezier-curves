@@ -4,7 +4,7 @@ import GridActionCreators from '../action-creators/GridActionCreators'
 import createBezierPath from '../maths/createBezierPath'
 import createControlPoints from '../maths/createControlPoints'
 import createPoint from '../maths/createPoint'
-import { createDefaultPath } from './createDefaultPath'
+import { createInitialState } from './createDefaultPath'
 
 // confirm reducer logic by creating test state,
 // passing in actions to reducer
@@ -17,7 +17,7 @@ describe('reducer logic', () => {
     const multiplier = 1111
      
     it('changes width and height dimensions', () => {
-        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
 
         // trigger action to change width and height dimensions
         const action = GridActionCreators.changeDimensions(123,987)
@@ -28,7 +28,7 @@ describe('reducer logic', () => {
     })
 
     it('moves a control point to the expected position', () => {
-        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
 
         // trigger action to move the start control point to new position
         const movedControlPoint = createPoint( 200, 300 )
@@ -65,7 +65,7 @@ describe('reducer logic', () => {
     })
 
     it('changes to the expected number of path points', () => {
-        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
 
         // triggers action to increase the number of path points to 200
         const newPathPoints = 200
@@ -185,15 +185,16 @@ describe('reducer logic', () => {
     const testInsertBeforeIndex = (index) => {
         // create initial test list
         const state = createTestPathDataList()
-        
+    
         // trigger action to insert before index position
         const action = GridActionCreators.insertPathDataBefore(index)
         const newState = GridReducer(state, action)
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
+        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
         const pathPoints = newState.get('paths').get(index).get('pathPoints')
-        expect(pathPoints).toEqual(pathPointsMax)
+        expect(pathPoints).toEqual(expectedPathPoints)
 
         // check new item is now active
         newState.get('paths').map((path, pathIndex) => {
@@ -217,8 +218,9 @@ describe('reducer logic', () => {
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
+        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
         const pathPoints = newState.get('paths').get(index + 1).get('pathPoints')
-        expect(pathPoints).toEqual(pathPointsMax)
+        expect(pathPoints).toEqual(expectedPathPoints)
 
         // check new item is now active
         newState.get('paths').map((path, pathIndex) => {
@@ -304,7 +306,8 @@ describe('reducer logic', () => {
             {
                 path: path,
                 controlPoints: controlPoints,
-                pathPoints: pathPoints
+                pathPoints: pathPoints,
+                active: false
             }
         )
     }
@@ -312,7 +315,9 @@ describe('reducer logic', () => {
     // create list of paths from array
     const createPathsArray = (array) => {  
         return fromJS({
-            paths: array
+            paths: array,
+            width: 1000,
+            height: 1000
         })
     }
 })

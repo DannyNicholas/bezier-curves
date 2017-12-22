@@ -1,53 +1,8 @@
-import { fromJS } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createBezierPath from '../maths/createBezierPath'
-import createControlPoints from '../maths/createControlPoints'
-import createPoint from '../maths/createPoint'
-import { createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
+import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './createDefaultPath'
 
-const start = createPoint( 20, 490 )
-const startControl = createPoint( 20, 20 )
-const finish = createPoint( 200, 480 )
-const finishControl = createPoint( 200, 20 )
-const controlPoints = createControlPoints(
-    start,
-    startControl,
-    finish,
-    finishControl
-)
-
-const start2 = createPoint( 200, 480 )
-const startControl2 = createPoint( 240, 20 )
-const finish2 = createPoint( 480, 480 )
-const finishControl2 = createPoint( 480, 20 )
-const controlPoints2 = createControlPoints(
-    start2,
-    startControl2,
-    finish2,
-    finishControl2
-)
-
-const path = createBezierPath( controlPoints, 100 )
-const path2 = createBezierPath( controlPoints2, 100 )
-
-const initialState = fromJS({
-    paths: [
-        {
-            path: path,
-            controlPoints: controlPoints,
-            pathPoints: 100,
-            active: true
-        },
-        {
-            path: path2,
-            controlPoints: controlPoints2,
-            pathPoints: 100,
-            active: false
-        }
-    ],
-    width: 540,
-    height: 960,
-})
+const initialState = createDefaultInitialState()
 
 // change the dimensions of the grid that displays paths
 const changeDimensions = (state, action) => {
@@ -108,14 +63,17 @@ const changePathPoints = (state, action) => {
 // action.index holds the list insert index
 const insertPathDataBefore = (state, action) => {
 
+    let paths = state.get('paths')
+    const currentPath = paths.get(action.index)
+
     // create new path data with finsh point equal to current path data start point
-    const currentControlPointStart = state.get('paths').get(action.index).get('controlPoints').get('start').get('point')
-    const pathDataToInsert = createDefaultPathDataWithFixedFinish(500, 500, 100, currentControlPointStart)
+    const currentControlPointStart = currentPath.get('controlPoints').get('start').get('point')
+    const pathDataToInsert = createDefaultPathDataWithFixedFinish(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointStart)
 
      // insert path data into list before index and return
-    let newPaths = state.get('paths').insert(action.index, pathDataToInsert)
-    newPaths = setActivatePath(newPaths, action.index)
-    return state.set('paths', newPaths)
+    paths = paths.insert(action.index, pathDataToInsert)
+    paths = setActivatePath(paths, action.index)
+    return state.set('paths', paths)
 }
 
 // insert new path data into the list of paths after supplied index
@@ -123,14 +81,17 @@ const insertPathDataBefore = (state, action) => {
 // action.index holds the list insert index
 const insertPathDataAfter = (state, action) => {
 
+    let paths = state.get('paths')
+    const currentPath = paths.get(action.index)
+
     // create new path data with start point equal to current path data finish point
-    const currentControlPointFinish = state.get('paths').get(action.index).get('controlPoints').get('finish').get('point')
-    const pathDataToInsert = createDefaultPathDataWithFixedStart(500, 500, 100, currentControlPointFinish)
+    const currentControlPointFinish = currentPath.get('controlPoints').get('finish').get('point')
+    const pathDataToInsert = createDefaultPathDataWithFixedStart(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointFinish)
 
     // insert path data into list after index and return
-    let newPaths = state.get('paths').insert(action.index + 1, pathDataToInsert)
-    newPaths = setActivatePath(newPaths, action.index + 1)
-    return state.set('paths', newPaths)
+    paths = paths.insert(action.index + 1, pathDataToInsert)
+    paths = setActivatePath(paths, action.index + 1)
+    return state.set('paths', paths)
 }
 
 // delete path item at the supplied index
