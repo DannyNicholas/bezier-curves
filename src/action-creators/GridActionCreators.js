@@ -39,6 +39,13 @@ const GridActionCreators = {
             type: GridAction.ACTIVATE_PATH,
             index
         }
+    },
+    changeDimensions(width, height) {
+        return {
+            type: GridAction.CHANGE_DIMENSIONS,
+            width,
+            height
+        }
     }
 }
 

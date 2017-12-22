@@ -13,7 +13,8 @@ const Paths = ( {
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
-    activatePath
+    activatePath,
+    changeDimensions
 } ) => {
 
     return (
@@ -30,6 +31,8 @@ const Paths = ( {
             <div className="sideBar">
                 <p>SideBar</p>
                 <SideBar
+                    width={width}
+                    height={height}
                     paths={paths}
                     moveControlPoint={moveControlPoint}
                     changePathPoints={changePathPoints}
@@ -37,6 +40,7 @@ const Paths = ( {
                     insertPathDataAfter={insertPathDataAfter}
                     deletePathData={deletePathData}
                     activatePath={activatePath}
+                    changeDimensions={changeDimensions}
                 />
             </div>
         </div>
@@ -47,6 +51,7 @@ Paths.propTypes = {
     paths: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
     changePathPoints: PropTypes.func.isRequired,
+    changeDimensions: PropTypes.func.isRequired
 }
 
 export default Paths

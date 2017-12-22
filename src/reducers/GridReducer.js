@@ -49,6 +49,13 @@ const initialState = fromJS({
     height: 960,
 })
 
+// change the dimensions of the grid that displays paths
+const changeDimensions = (state, action) => {
+    return state
+        .set('width', action.width)
+        .set('height', action.height)
+}
+
 // move one of the control points and recalculate path
 // move any adjacent start/finish points
 //
@@ -206,6 +213,9 @@ const GridReducer = (state = initialState, action) => {
 
         case GridAction.ACTIVATE_PATH:
             return activatePath(state, action)
+
+        case GridAction.CHANGE_DIMENSIONS:
+            return changeDimensions(state, action)
 
         default:
             return state

@@ -16,6 +16,17 @@ describe('reducer logic', () => {
     const pathPointsMax = 100
     const multiplier = 1111
      
+    it('changes width and height dimensions', () => {
+        const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
+
+        // trigger action to change width and height dimensions
+        const action = GridActionCreators.changeDimensions(123,987)
+        const newState = GridReducer(defaultState, action)
+
+        expect(newState.get('width')).toEqual(123)
+        expect(newState.get('height')).toEqual(987)
+    })
+
     it('moves a control point to the expected position', () => {
         const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
 
@@ -135,11 +146,12 @@ describe('reducer logic', () => {
         const action = GridActionCreators.moveControlPoint(index, 'finish', movedControlPoint)
         const newState = GridReducer(state, action)
 
-        // verify the new points is at expected position
+        // verify the new finish point is at expected position
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
         expect(controlPoints.get('finish').get('point').get('x')).toEqual(200)
         expect(controlPoints.get('finish').get('point').get('y')).toEqual(300)
 
+        // verify next start point has also moved
         if (index < newState.get('paths').size - 1) {
             const nextControlPoints = newState.get('paths').get(index + 1).get('controlPoints')
             expect(nextControlPoints.get('start').get('point').get('x')).toEqual(200)
@@ -156,11 +168,12 @@ describe('reducer logic', () => {
         const action = GridActionCreators.moveControlPoint(index, 'start', movedControlPoint)
         const newState = GridReducer(state, action)
 
-        // verify the new points is at expected position
+        // verify the new start point is at expected position
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
         expect(controlPoints.get('start').get('point').get('x')).toEqual(200)
         expect(controlPoints.get('start').get('point').get('y')).toEqual(300)
 
+        // verify previous finish point has also moved
         if (index > 0) {
             const previousControlPoints = newState.get('paths').get(index - 1).get('controlPoints')
             expect(previousControlPoints.get('finish').get('point').get('x')).toEqual(200)

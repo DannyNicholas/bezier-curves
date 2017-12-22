@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EditorPanel from './EditorPanel'
+import DimensionsEditor from './DimensionsEditor'
 
 const SideBar = ( {
+    width,
+    height,
     paths,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
-    activatePath
+    activatePath,
+    changeDimensions
 } ) => {
 
     const Editors = paths.map((path, index) => 
@@ -27,8 +31,15 @@ const SideBar = ( {
     )
       
     return (
-        <div className="editor">
-            {Editors}
+        <div>
+            <DimensionsEditor
+                width={width}
+                height={height}
+                changeDimensions={changeDimensions}
+            />
+            <div className="editor">
+                {Editors}
+            </div>
         </div>
     )
 }
@@ -36,7 +47,8 @@ const SideBar = ( {
 SideBar.propTypes = {
     paths: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
-    changePathPoints: PropTypes.func.isRequired
+    changePathPoints: PropTypes.func.isRequired,
+    changeDimensions: PropTypes.func.isRequired
 }
 
 export default SideBar
