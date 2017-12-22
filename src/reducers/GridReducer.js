@@ -120,22 +120,30 @@ const deletePathData = (state, action) => {
         pathsList = moveControlPointHelper(pathsList, action.index + 1, 'start', previousControlPointFinish)
     }
 
-    const newPaths = pathsList.delete(action.index) 
+    let newPaths = pathsList.delete(action.index)
+    
+    // activate the path before the one deleted unless the first path was deleted
+    const activeIndex = action.index > 0 ? (action.index - 1) : 0
+    newPaths = setActivatePath(newPaths, activeIndex)
     return state.set('paths', newPaths)
 }
 
 // set active flag to true for path that matches action.index
 // set all other active flags to false
 const activatePath = (state, action) => {
-    let pathsList = state.get('paths')
+    const paths = setActivatePath(state.get('paths'), action.index)
+    return state.set('paths', paths)
+}
 
-    pathsList = pathsList.map((path,index) => {
-        if (index === action.index) {
+// set active flag for path that matches index
+// set all other active flags to false
+const setActivatePath = (paths, activeIndex) => {
+    return paths.map((path,index) => {
+        if (index === activeIndex) {
             return path.set('active', true);
         }
         return path.set('active', false);
     })
-    return state.set('paths', pathsList)
 }
 
 

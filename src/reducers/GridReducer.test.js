@@ -74,7 +74,7 @@ describe('reducer logic', () => {
     })
 
     it('deletes path data at end of list', () => {
-        testDeleteAtIndex(2)
+       testDeleteAtIndex(2)
     })
 
     it('activate the wanted path', () => {
@@ -157,6 +157,13 @@ describe('reducer logic', () => {
         // check deleted item is no longer in list
         newState.get('paths').map((path) => {
             expect(path.get('pathPoints')).not.toEqual(index * multiplier)
+        })
+
+        // check item before deletion index is now active
+        // item before deleted item should be active
+        // if first item was deleted then new first item (pathIndex = 0) should be active
+        newState.get('paths').map((path, pathIndex) => {
+            expect(path.get('active')).toEqual((pathIndex === index - 1 || (index === 0 && pathIndex === 0) ) ? true : false)
         })
 
          // if deleted item was in the middle, check previous item's finish control
