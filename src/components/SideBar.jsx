@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditorPanel from './EditorPanel'
 import DimensionsEditor from './DimensionsEditor'
+import Exporter from './Exporter'
 
 const SideBar = ( {
     width,
@@ -37,6 +38,9 @@ const SideBar = ( {
                 width={width}
                 height={height}
                 changeDimensions={changeDimensions}
+            />
+            <Exporter
+                paths={paths}
             />
             <div className="editor">
                 {Editors}
