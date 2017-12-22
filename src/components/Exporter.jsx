@@ -1,12 +1,12 @@
 import React from 'react'
 import  { exportToJsonFile } from '../utils/exportToJson'
-import { extractControlPoints } from '../utils/extractControlPoints'
+import { extractPaths } from '../utils/extractPaths'
 
 const Exporter = ( {paths} ) => {
 
     const exportToJson = () => {
         console.log("Export")
-        const json = extractControlPoints(paths)
+        const json = extractPaths(paths)
         exportToJsonFile(json)
     }
 
