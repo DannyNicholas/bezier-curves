@@ -50,13 +50,34 @@ const initialState = fromJS({
 })
 
 // move one of the control points and recalculate path
+// move any adjacent start/finish points
 //
 // action.index holds index of path data containing the control point
 // action.pointType holds the name of control point is being updated (e.g. 'start')
 // action.controlPoint holds the updated control point
 const moveControlPoint = (state, action) => {
-    const newPaths = moveControlPointHelper(state.get('paths'), action.index, action.pointType, action.controlPoint)
-    return state.set('paths', newPaths)
+
+    let paths = state.get('paths')
+    paths = moveControlPointHelper(paths, action.index, action.pointType, action.controlPoint)
+
+    // move any adjacent start/end points
+    switch (action.pointType) {
+        case 'start':
+            if (action.index > 0) {
+                paths = moveControlPointHelper(paths, action.index - 1, 'finish', action.controlPoint)
+            }
+            break;
+        case 'finish':
+            if (action.index < (paths.size - 1)) {
+                paths = moveControlPointHelper(paths, action.index + 1, 'start', action.controlPoint)
+            }
+            break;
+        default:
+            // action for control points
+            break;
+    }
+
+    return state.set('paths', paths)
 }
 
 // change number of points on the path and recalculate path
@@ -140,7 +161,7 @@ const activatePath = (state, action) => {
 // set active flag for path that matches index
 // set all other active flags to false
 const setActivatePath = (paths, activeIndex) => {
-    return paths.map((path,index) => {
+    return paths.map((path, index) => {
         if (index === activeIndex) {
             return path.set('active', true);
         }
@@ -153,7 +174,7 @@ const setActivatePath = (paths, activeIndex) => {
 //
 // type holds the name of control point is being updated (e.g. 'start')
 const moveControlPointHelper = (paths, index, type, controlPoint) => {
-    
+
     // get and update path data for index
     const pathData = paths.get(index)
     const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)

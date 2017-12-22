@@ -29,6 +29,30 @@ describe('reducer logic', () => {
         expect(controlPoints.get('start').get('point').get('y')).toEqual(300)
     })
 
+    it('moves finish point and adjacent point at start of list', () => {
+        testMoveFinishPoint(0)
+    })
+
+    it('moves finish point and adjacent point at middle of list', () => {
+        testMoveFinishPoint(1)
+    })
+
+    it('moves finish point and adjacent point at end of list', () => {
+        testMoveFinishPoint(2)
+    })
+
+    it('moves start point and adjacent point at start of list', () => {
+        testMoveStartPoint(0)
+    })
+
+    it('moves start point and adjacent point at middle of list', () => {
+        testMoveStartPoint(1)
+    })
+
+    it('moves start point and adjacent point at end of list', () => {
+        testMoveStartPoint(2)
+    })
+
     it('changes to the expected number of path points', () => {
         const defaultState = createDefaultPath(xMax, yMax, pathPointsMax)
 
@@ -101,6 +125,48 @@ describe('reducer logic', () => {
     })
 
     // test helper functions
+
+    const testMoveFinishPoint = (index) => {
+        // create initial test list
+        const state = createTestPathDataList()
+            
+        // trigger action to move the finish control point to new position
+        const movedControlPoint = createPoint( 200, 300 )
+        const action = GridActionCreators.moveControlPoint(index, 'finish', movedControlPoint)
+        const newState = GridReducer(state, action)
+
+        // verify the new points is at expected position
+        const controlPoints = newState.get('paths').get(index).get('controlPoints')
+        expect(controlPoints.get('finish').get('point').get('x')).toEqual(200)
+        expect(controlPoints.get('finish').get('point').get('y')).toEqual(300)
+
+        if (index < newState.get('paths').size - 1) {
+            const nextControlPoints = newState.get('paths').get(index + 1).get('controlPoints')
+            expect(nextControlPoints.get('start').get('point').get('x')).toEqual(200)
+            expect(nextControlPoints.get('start').get('point').get('y')).toEqual(300)
+        }
+    }
+
+    const testMoveStartPoint = (index) => {
+        // create initial test list
+        const state = createTestPathDataList()
+            
+        // trigger action to move the start control point to new position
+        const movedControlPoint = createPoint( 200, 300 )
+        const action = GridActionCreators.moveControlPoint(index, 'start', movedControlPoint)
+        const newState = GridReducer(state, action)
+
+        // verify the new points is at expected position
+        const controlPoints = newState.get('paths').get(index).get('controlPoints')
+        expect(controlPoints.get('start').get('point').get('x')).toEqual(200)
+        expect(controlPoints.get('start').get('point').get('y')).toEqual(300)
+
+        if (index > 0) {
+            const previousControlPoints = newState.get('paths').get(index - 1).get('controlPoints')
+            expect(previousControlPoints.get('finish').get('point').get('x')).toEqual(200)
+            expect(previousControlPoints.get('finish').get('point').get('y')).toEqual(300)
+        }
+    }
 
     // test inserting data before supplied index
     const testInsertBeforeIndex = (index) => {
