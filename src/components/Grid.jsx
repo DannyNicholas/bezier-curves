@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import {Layer, Stage} from 'react-konva'
 import PathPoint from './PathPoint'
 import ControlPoint from './ControlPoint'
+import Animation from './Animation'
 import './Grid.css';
 
-const Grid = ( { paths, width, height, moveControlPoint } ) => {
+const Grid = ( { paths, width, height, animation, moveControlPoint } ) => {
 
     // valueSeq() allows immutable map to be used as children
     const ControlPoints = paths.map((path, pathIndex) => {
@@ -47,6 +48,11 @@ const Grid = ( { paths, width, height, moveControlPoint } ) => {
                 </Layer>
                 <Layer>
                     {ControlPoints}
+                </Layer>
+                <Layer>
+                    <Animation
+                        position={animation.get('position')}
+                    />
                 </Layer>
             </Stage>
         </div>

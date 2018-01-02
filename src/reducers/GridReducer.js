@@ -1,8 +1,30 @@
+import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createBezierPath from '../maths/createBezierPath'
+import createPoint from '../maths/createPoint'
 import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './PathsCreator'
 
 const initialState = createDefaultInitialState()
+
+const animate = (state, action) => {
+    // create a single list of path postions from all paths
+    let combinedList = List()
+    state.get('paths').forEach( (pathData) =>
+        combinedList = combinedList.concat(
+            pathData.get('path').map( (point) =>
+                createPoint(point.get('x'), point.get('y'))
+            )
+        )
+    )
+ 
+    let animationState = state.get('animation')
+    const animationIndex = animationState.get('nextIndex')
+    animationState = animationState
+        .set('position', combinedList.get(animationIndex))
+        .set('nextIndex', (animationIndex + 1) % combinedList.size)
+ 
+    return state.set('animation', animationState)
+}
 
 // change the dimensions of the grid that displays paths
 const changeDimensions = (state, action) => {
@@ -177,6 +199,9 @@ const GridReducer = (state = initialState, action) => {
 
         case GridAction.CHANGE_DIMENSIONS:
             return changeDimensions(state, action)
+
+        case GridAction.ANIMATE:
+            return animate(state, action)    
 
         default:
             return state

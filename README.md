@@ -39,7 +39,15 @@ Each path holds it's:
   ],
   // dimensions of display area
   width: 540,
-  height: 960
+  height: 960,
+  // animation status
+  animation: {
+    animating: true,
+    nextIndex: 8,
+    position: {
+        x: 24,
+        y: 32
+    }
 }
 ```
 
@@ -145,6 +153,13 @@ Detailed exmaple
     }
   ],
   width: 540,
-  height: 960
+  height: 960,
+  animation: {
+    animating: true,
+    nextIndex: 8,
+    position: {
+        x: 24,
+        y: 32
+    }
 }
 ```

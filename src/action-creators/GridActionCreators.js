@@ -46,6 +46,11 @@ const GridActionCreators = {
             width,
             height
         }
+    },
+    animate() {
+        return {
+            type: GridAction.ANIMATE
+        }
     }
 }
 

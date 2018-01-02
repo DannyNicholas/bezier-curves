@@ -29,6 +29,11 @@ export const createInitialState = (width, height, pathPoints) => {
         ],
         width: width,
         height: height,
+        animation: {
+            animating: false,
+            nextIndex: 1,
+            position: start
+        }
     })
 }
 
