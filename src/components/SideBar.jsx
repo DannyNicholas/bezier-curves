@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import EditorPanel from './EditorPanel'
 import DimensionsEditor from './DimensionsEditor'
 import Exporter from './Exporter'
+import Animator from './Animator'
 
 const SideBar = ( {
     width,
@@ -14,7 +15,8 @@ const SideBar = ( {
     insertPathDataAfter,
     deletePathData,
     activatePath,
-    changeDimensions
+    changeDimensions,
+    animate
 } ) => {
 
     const Editors = paths.map((path, index) => 
@@ -41,6 +43,9 @@ const SideBar = ( {
             />
             <Exporter
                 paths={paths}
+            />
+            <Animator
+                animate={animate}
             />
             <div className="editor">
                 {Editors}

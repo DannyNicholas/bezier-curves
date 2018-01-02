@@ -135,6 +135,36 @@ describe('reducer logic', () => {
         expect(paths.get(2).get('active')).toEqual(false)
     })
 
+    it('animate from first position to second position', () => {
+        // set state for first animation position
+        const state = createTestPathDataList()
+        const firstList = state.get('paths').get(0).get('path')
+        const firstPosition = firstList.get(0)
+        
+        const action = GridActionCreators.animate()
+        const newState = GridReducer(state, action)
+        const actualPosition = newState.get('animation').get('position')
+
+        expect(actualPosition).toEqual(firstPosition)
+        expect(newState.get('animation').get('nextIndex')).toEqual(1)
+    })
+
+    it('animate from last position to first position', () => {
+        // set state for last animation position
+        let state = createTestPathDataList()
+        const animateState = state.get('animation').set('nextIndex', 1112 + 2223 + 3334 - 1)
+        state = state.set('animation', animateState)
+        const lastList = state.get('paths').get(2).get('path')
+        const lastPosition = lastList.get(lastList.size - 1)
+
+        const action = GridActionCreators.animate()
+        const newState = GridReducer(state, action)
+        const actualPosition = newState.get('animation').get('position')
+
+        expect(actualPosition).toEqual(lastPosition)
+        expect(newState.get('animation').get('nextIndex')).toEqual(0)
+    })
+
     // test helper functions
 
     const testMoveFinishPoint = (index) => {
@@ -203,8 +233,8 @@ describe('reducer logic', () => {
 
         // verify that new data's finish point matches previous data's start point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
-        expect(controlPoints.get('finish').get('point').get('x')).toEqual(index * multiplier)
-        expect(controlPoints.get('finish').get('point').get('y')).toEqual(index * multiplier)
+        expect(controlPoints.get('finish').get('point').get('x')).toEqual((index + 1) * multiplier)
+        expect(controlPoints.get('finish').get('point').get('y')).toEqual((index + 1) * multiplier)
     }
 
     // test inserting data after supplied index
@@ -229,8 +259,8 @@ describe('reducer logic', () => {
 
         // verify that new data's start point matches previous data's finish point
         const controlPoints = newState.get('paths').get(index).get('controlPoints')
-        expect(controlPoints.get('start').get('point').get('x')).toEqual(index * multiplier)
-        expect(controlPoints.get('start').get('point').get('y')).toEqual(index * multiplier)
+        expect(controlPoints.get('start').get('point').get('x')).toEqual((index + 1) * multiplier)
+        expect(controlPoints.get('start').get('point').get('y')).toEqual((index + 1) * multiplier)
     }
 
     // test deleting data at supplied index
@@ -247,7 +277,7 @@ describe('reducer logic', () => {
 
         // check deleted item is no longer in list
         newState.get('paths').map((path) => {
-            expect(path.get('pathPoints')).not.toEqual(index * multiplier)
+            expect(path.get('pathPoints')).not.toEqual((index + 1) * multiplier)
         })
 
         // check item before deletion index is now active
@@ -270,17 +300,17 @@ describe('reducer logic', () => {
     // create a list containing 3 known path data items based on index
     const createTestPathDataList = () => {
         const state = createPathsArray([ 
-            createTestPathData(0 * multiplier),
             createTestPathData(1 * multiplier),
-            createTestPathData(2 * multiplier)
+            createTestPathData(2 * multiplier),
+            createTestPathData(3 * multiplier)
         ])
 
         // confirm list created correctly before using it
         const paths = state.get('paths')
         expect(paths.size).toEqual(3)
-        expect(paths.get(0).get('pathPoints')).toEqual(0 * multiplier)
-        expect(paths.get(1).get('pathPoints')).toEqual(1 * multiplier)
-        expect(paths.get(2).get('pathPoints')).toEqual(2 * multiplier)
+        expect(paths.get(0).get('pathPoints')).toEqual(1 * multiplier)
+        expect(paths.get(1).get('pathPoints')).toEqual(2 * multiplier)
+        expect(paths.get(2).get('pathPoints')).toEqual(3 * multiplier)
     
         return state
     }
@@ -317,7 +347,15 @@ describe('reducer logic', () => {
         return fromJS({
             paths: array,
             width: 1000,
-            height: 1000
+            height: 1000,
+            animation: {
+                animating: true,
+                nextIndex: 0,
+                position: {
+                    x: -1,
+                    y: -1
+                }
+            }
         })
     }
 })

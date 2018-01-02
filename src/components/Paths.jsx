@@ -8,13 +8,15 @@ const Paths = ( {
     paths,
     width,
     height,
+    animation,
     moveControlPoint,
     changePathPoints,
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
     activatePath,
-    changeDimensions
+    changeDimensions,
+    animate
 } ) => {
 
     return (
@@ -25,6 +27,7 @@ const Paths = ( {
                     paths={paths}
                     width={width}
                     height={height}
+                    animation={animation}
                     moveControlPoint={moveControlPoint}
                 />
             </div>
@@ -41,6 +44,7 @@ const Paths = ( {
                     deletePathData={deletePathData}
                     activatePath={activatePath}
                     changeDimensions={changeDimensions}
+                    animate={animate}
                 />
             </div>
         </div>

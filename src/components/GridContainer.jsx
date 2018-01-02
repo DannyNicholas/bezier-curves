@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
         paths: state.get('paths'),
         width: state.get('width'),
         height: state.get('height'),
+        animation: state.get('animation'),
     }
 }
 
@@ -18,7 +19,8 @@ const mapDispatchToProps = (dispatch) => {
         insertPathDataAfter: (index) => dispatch(GridActionCreators.insertPathDataAfter(index)),
         deletePathData: (index) => dispatch(GridActionCreators.deletePathData(index)),
         activatePath: (index) => dispatch(GridActionCreators.activatePath(index)),
-        changeDimensions: (width, height) => dispatch(GridActionCreators.changeDimensions(width, height))
+        changeDimensions: (width, height) => dispatch(GridActionCreators.changeDimensions(width, height)),
+        animate: () => dispatch(GridActionCreators.animate())
     }
 }
 
