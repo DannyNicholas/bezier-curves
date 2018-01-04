@@ -6,5 +6,7 @@ export default {
     DELETE_PATH_DATA: 'delete-path-data',
     ACTIVATE_PATH: 'activate-path',
     CHANGE_DIMENSIONS: 'change-dimensions',
+    ANIMATION_ON: 'animation-on',
+    ANIMATION_OFF: 'animation-off',
     ANIMATE: 'animate'
 }

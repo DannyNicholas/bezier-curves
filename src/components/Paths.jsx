@@ -16,7 +16,8 @@ const Paths = ( {
     deletePathData,
     activatePath,
     changeDimensions,
-    animate
+    animationOn,
+    animationOff
 } ) => {
 
     return (
@@ -44,7 +45,8 @@ const Paths = ( {
                     deletePathData={deletePathData}
                     activatePath={activatePath}
                     changeDimensions={changeDimensions}
-                    animate={animate}
+                    animationOn={animationOn}
+                    animationOff={animationOff}
                 />
             </div>
         </div>

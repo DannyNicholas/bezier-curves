@@ -6,6 +6,20 @@ import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createD
 
 const initialState = createDefaultInitialState()
 
+const animationOn = (state, action) => {
+    let animationState = state.get('animation')
+    animationState = animationState
+        .set('animating', true)
+    return state.set('animation', animationState)
+}
+
+const animationOff = (state, action) => {
+    let animationState = state.get('animation')
+    animationState = animationState
+        .set('animating', false)
+    return state.set('animation', animationState)
+}
+
 const animate = (state, action) => {
     // create a single list of path postions from all paths
     let combinedList = List()
@@ -18,7 +32,11 @@ const animate = (state, action) => {
     )
  
     let animationState = state.get('animation')
-    const animationIndex = animationState.get('nextIndex')
+    let animationIndex = animationState.get('nextIndex')
+    if (animationIndex > (combinedList.size - 1)) {
+        // reset index if combined path size has reduced beyond next index
+        animationIndex = 0
+    }
     animationState = animationState
         .set('position', combinedList.get(animationIndex))
         .set('nextIndex', (animationIndex + 1) % combinedList.size)
@@ -201,7 +219,13 @@ const GridReducer = (state = initialState, action) => {
             return changeDimensions(state, action)
 
         case GridAction.ANIMATE:
-            return animate(state, action)    
+            return animate(state, action)
+        
+        case GridAction.ANIMATION_ON:
+            return animationOn(state, action) 
+            
+        case GridAction.ANIMATION_OFF:
+            return animationOff(state, action) 
 
         default:
             return state

@@ -47,11 +47,45 @@ const GridActionCreators = {
             height
         }
     },
+    animationOn() {
+        return function(dispatch, getState) {
+            
+            // turn animation on
+            dispatch({
+                type: GridAction.ANIMATION_ON
+            })
+
+            // start animation
+            actions.animate(dispatch, getState)
+        }
+    },
+    animationOff() {
+        return {
+            type: GridAction.ANIMATION_OFF
+        }
+    },
     animate() {
         return {
             type: GridAction.ANIMATE
         }
     }
+}
+
+const actions = {
+
+    // animation loop until animation turned off
+    animate(dispatch, getState) {
+        if (getState().get('animation').get('animating')) {
+            dispatch({
+                type: GridAction.ANIMATE
+            })
+
+            setTimeout(() => {
+                this.animate(dispatch, getState)
+            },50)
+        }
+    }
+
 }
 
 export default GridActionCreators

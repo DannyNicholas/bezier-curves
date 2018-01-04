@@ -135,6 +135,24 @@ describe('reducer logic', () => {
         expect(paths.get(2).get('active')).toEqual(false)
     })
 
+    it('turn animation on', () => {
+        const state = createTestPathDataList()
+        
+        const action = GridActionCreators.animationOn()
+        const newState = GridReducer(state, action)
+
+        expect(newState.get('animation').get('animating')).toEqual(true)
+    })
+
+    it('turn animation off', () => {
+        const state = createTestPathDataList()
+        
+        const action = GridActionCreators.animationOff()
+        const newState = GridReducer(state, action)
+
+        expect(newState.get('animation').get('animating')).toEqual(false)
+    })
+
     it('animate from first position to second position', () => {
         // set state for first animation position
         const state = createTestPathDataList()
@@ -163,6 +181,23 @@ describe('reducer logic', () => {
 
         expect(actualPosition).toEqual(lastPosition)
         expect(newState.get('animation').get('nextIndex')).toEqual(0)
+    })
+
+    it('reset next index when beyond limit of path length', () => {
+        // set state for last animation position
+        let state = createTestPathDataList()
+        const firstList = state.get('paths').get(0).get('path')
+        const firstPosition = firstList.get(0)
+
+        const animateState = state.get('animation').set('nextIndex', 9999)
+        state = state.set('animation', animateState)
+        
+        const action = GridActionCreators.animate()
+        const newState = GridReducer(state, action)
+        const actualPosition = newState.get('animation').get('position')
+        
+        expect(actualPosition).toEqual(firstPosition)
+        expect(newState.get('animation').get('nextIndex')).toEqual(1)
     })
 
     // test helper functions
