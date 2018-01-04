@@ -1,17 +1,24 @@
 import React from 'react'
+import './Animator.css'
 
 const Animator = ( { animationOn, animationOff } ) => {
 
+    const handleToggle = (event) => {
+        if (event.target.checked === true) {
+            animationOn()
+        }
+        else {
+            animationOff()
+        }
+    }
+
     return(
         <div>
-            <ul>
-                <li>
-                    <button onClick={() => animationOn()}>Animation On</button>
-                </li>
-                <li>
-                    <button onClick={() => animationOff()}>Animation Off</button>
-                </li>
-            </ul>
+            <div>Animate</div>
+            <label className="switch">
+                <input type="checkbox" onChange={handleToggle} />
+                <span className="slider round"></span>
+            </label>
         </div>
     )
 }

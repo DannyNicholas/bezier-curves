@@ -5,13 +5,13 @@ import './DimensionsEditor.css'
 const DimensionsEditor = ( {width, height, changeDimensions} ) => {
 
     const handleWidthChange = (event) => {
-        const value = event.target.value === '' ? '' : parseInt(event.target.value, 10)
-        changeDimensions(value, height)
+        const newWidth = event.target.value === '' ? '' : parseInt(event.target.value, 10)
+        changeDimensions(newWidth, height)
     }
 
     const handleHeightChange = (event) => {
-        const value = event.target.value === '' ? '' : parseInt(event.target.value, 10)
-        changeDimensions(width, value)
+        const newHeight = event.target.value === '' ? '' : parseInt(event.target.value, 10)
+        changeDimensions(width, newHeight)
     }
 
     return(
