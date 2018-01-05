@@ -47,6 +47,7 @@ const Paths = ( {
                     changeDimensions={changeDimensions}
                     animationOn={animationOn}
                     animationOff={animationOff}
+                    animation={animation}
                 />
             </div>
         </div>

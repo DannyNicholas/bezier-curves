@@ -17,7 +17,8 @@ const SideBar = ( {
     activatePath,
     changeDimensions,
     animationOn,
-    animationOff
+    animationOff,
+    animation
 } ) => {
 
     const Editors = paths.map((path, index) => 
@@ -48,6 +49,7 @@ const SideBar = ( {
             <Animator
                 animationOn={animationOn}
                 animationOff={animationOff}
+                animating={animation.get('animating')}
             />
             <div className="editor">
                 {Editors}

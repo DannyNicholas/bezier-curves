@@ -1,7 +1,7 @@
 import React from 'react'
 import './Animator.css'
 
-const Animator = ( { animationOn, animationOff } ) => {
+const Animator = ( { animating, animationOn, animationOff } ) => {
 
     const handleToggle = (event) => {
         if (event.target.checked === true) {
@@ -16,7 +16,7 @@ const Animator = ( { animationOn, animationOff } ) => {
         <div>
             <div>Animate</div>
             <label className="switch">
-                <input type="checkbox" onChange={handleToggle} />
+                <input type="checkbox" onChange={handleToggle} checked={animating} />
                 <span className="slider round"></span>
             </label>
         </div>
