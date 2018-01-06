@@ -8,5 +8,6 @@ export default {
     CHANGE_DIMENSIONS: 'change-dimensions',
     ANIMATION_ON: 'animation-on',
     ANIMATION_OFF: 'animation-off',
-    ANIMATE: 'animate'
+    ANIMATE: 'animate',
+    IMPORT_PATHS: 'import-paths'
 }

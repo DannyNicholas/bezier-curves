@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable'
+import { fromJS, List } from 'immutable'
 import createPoint from '../maths/createPoint'
 import createControlPoints from '../maths/createControlPoints'
 import createBezierPath from '../maths/createBezierPath'
@@ -61,6 +61,26 @@ export const createDefaultPathDataWithFixedFinish = (width, height, pathPoints, 
         finishControl
     )
     return createPathDataHelper(controlPoints, pathPoints, false)
+}
+
+export const importPathData = (pathData) => {
+
+    let paths = List()
+    pathData.forEach((data) => {
+        const start = createPoint( data.start.x, data.start.y )
+        const startControl = createPoint( data.startControl.x, data.startControl.y )
+        const finish = createPoint( data.finish.x, data.finish.y )
+        const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
+        const controlPoints = createControlPoints(
+            start,
+            startControl,
+            finish,
+            finishControl
+        )
+        paths = paths.push(createPathDataHelper(controlPoints, data.pathPoints, false))
+      })
+
+      return paths
 }
 
 // create path data from supplied control points and path points

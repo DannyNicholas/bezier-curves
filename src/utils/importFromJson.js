@@ -1,52 +1,20 @@
-export const importFromJsonFile = (jsonData) => {
-
-    // https://www.html5rocks.com/en/tutorials/file/dndfiles/
-
-    // function handleFileSelect(evt) {
-    //     var files = evt.target.files; // FileList object
-    
-    //     // files is a FileList of File objects. List some properties.
-    //     var output = [];
-    //     for (var i = 0, f; f = files[i]; i++) {
-    //       output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-    //                   f.size, ' bytes, last modified: ',
-    //                   f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-    //                   '</li>');
-    //     }
-    //     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-    //   }
-    
-      //document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
-    // Check for the various File API support.
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-    // Great success! All the File APIs are supported.
-    alert('Success.');
-  } else {
-    alert('The File APIs are not fully supported in this browser.');
+// handle file select and import. based on
+// https://www.html5rocks.com/en/tutorials/file/dndfiles/
+export const importFromJsonFile = (file, importPaths) => {
+ 
+  if (!window.File || !window.FileReader || !window.FileList) {
+      alert('The File APIs are not fully supported in this browser.')
   }
+  else {
+      const reader = new FileReader()
 
-//   var files = evt.target.files; // FileList object
-    
-//         // files is a FileList of File objects. List some properties.
-//         var output = [];
-//         for (var i = 0, f; f = files[i]; i++) {
-//           output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-//                       f.size, ' bytes, last modified: ',
-//                       f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-//                       '</li>');
-//         }
-//         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-      
+      // executes when file has loaded
+      reader.onload = (e) => {
+          const fileText = reader.result
+          const json = JSON.parse(fileText)
+          importPaths(json)
+      }
 
-
-    const dataStr = JSON.stringify(jsonData);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'data.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+      reader.readAsText(file)
+  } 
 }

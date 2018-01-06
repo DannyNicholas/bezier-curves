@@ -1,6 +1,8 @@
-export const extractPaths = (paths) => {
+export const extractPaths = (paths, width, height) => {
     return {
-        data: extractControlPoints(paths)
+        pathData: extractControlPoints(paths),
+        width: width,
+        height: height
     }
 }
 
