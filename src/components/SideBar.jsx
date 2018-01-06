@@ -18,7 +18,8 @@ const SideBar = ( {
     changeDimensions,
     animationOn,
     animationOff,
-    animation
+    animation,
+    importPaths
 } ) => {
 
     const Editors = paths.map((path, index) => 
@@ -45,6 +46,9 @@ const SideBar = ( {
             />
             <Exporter
                 paths={paths}
+                width={width}
+                height={height}
+                importPaths={importPaths}
             />
             <Animator
                 animationOn={animationOn}

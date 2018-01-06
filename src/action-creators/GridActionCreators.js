@@ -68,6 +68,12 @@ const GridActionCreators = {
         return {
             type: GridAction.ANIMATE
         }
+    },
+    importPaths(jsonData) {
+        return {
+            type: GridAction.IMPORT_PATHS,
+            jsonData
+        }
     }
 }
 

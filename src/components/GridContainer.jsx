@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
         activatePath: (index) => dispatch(GridActionCreators.activatePath(index)),
         changeDimensions: (width, height) => dispatch(GridActionCreators.changeDimensions(width, height)),
         animationOn: () => dispatch(GridActionCreators.animationOn()),
-        animationOff: () => dispatch(GridActionCreators.animationOff())
+        animationOff: () => dispatch(GridActionCreators.animationOff()),
+        importPaths: (jsonData) => dispatch(GridActionCreators.importPaths(jsonData))
     }
 }
 

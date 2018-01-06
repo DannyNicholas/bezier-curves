@@ -17,7 +17,8 @@ const Paths = ( {
     activatePath,
     changeDimensions,
     animationOn,
-    animationOff
+    animationOff,
+    importPaths
 } ) => {
 
     return (
@@ -48,6 +49,7 @@ const Paths = ( {
                     animationOn={animationOn}
                     animationOff={animationOff}
                     animation={animation}
+                    importPaths={importPaths}
                 />
             </div>
         </div>

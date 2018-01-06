@@ -2,9 +2,35 @@ import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createBezierPath from '../maths/createBezierPath'
 import createPoint from '../maths/createPoint'
-import { createDefaultInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './PathsCreator'
+import {
+    createDefaultInitialState,
+    createDefaultPathDataWithFixedStart,
+    createDefaultPathDataWithFixedFinish,
+    importPathData
+} from './PathsCreator'
 
 const initialState = createDefaultInitialState()
+
+// replace current state with imported data
+const importPaths = (state, action) => {
+    const jsonData = action.jsonData
+    let pathData = importPathData(jsonData.pathData)
+    let animation = state.get('animation')
+        .set('animating', false)
+        
+    if ( pathData.size >= 1 ) {
+        pathData = setActivatePath(pathData, 0)
+        animation = animation
+            .set('nextIndex', 1)
+            .set('position', pathData.get(0).get('controlPoints').get('start').get('point'))
+    }
+    
+    return state
+        .set('paths', pathData)
+        .set('animation', animation)
+        .set('width', jsonData.width)
+        .set('height', jsonData.height)
+}
 
 const animationOn = (state, action) => {
     let animationState = state.get('animation')
@@ -225,7 +251,10 @@ const GridReducer = (state = initialState, action) => {
             return animationOn(state, action) 
             
         case GridAction.ANIMATION_OFF:
-            return animationOff(state, action) 
+            return animationOff(state, action)
+
+        case GridAction.IMPORT_PATHS:
+            return importPaths(state, action)
 
         default:
             return state
