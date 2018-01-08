@@ -200,6 +200,44 @@ describe('reducer logic', () => {
         expect(newState.get('animation').get('nextIndex')).toEqual(1)
     })
 
+    it('import state from json object', () => {
+        
+        const importedJson = createJsonImport()
+        const state = createTestPathDataList()
+       
+        const action = GridActionCreators.importPaths(importedJson)
+        const newState = GridReducer(state, action)
+
+        expect(newState.get('paths').size).toEqual(2)
+
+        expect(newState.get('width')).toEqual(1200)
+        expect(newState.get('height')).toEqual(1300)
+       
+        const path1 = newState.get('paths').get('0')
+        const controlPoints1 = path1.get('controlPoints')
+        expect(controlPoints1.get('start').get('point').get('x')).toEqual(10)
+        expect(controlPoints1.get('start').get('point').get('y')).toEqual(20)
+        expect(controlPoints1.get('finish').get('point').get('x')).toEqual(30)
+        expect(controlPoints1.get('finish').get('point').get('y')).toEqual(40)
+        expect(controlPoints1.get('startControl').get('point').get('x')).toEqual(50)
+        expect(controlPoints1.get('startControl').get('point').get('y')).toEqual(60)
+        expect(controlPoints1.get('finishControl').get('point').get('x')).toEqual(70)
+        expect(controlPoints1.get('finishControl').get('point').get('y')).toEqual(80)
+        expect(path1.get('pathPoints')).toEqual(1000)
+
+        const path2 = newState.get('paths').get('1')
+        const controlPoints2 = path2.get('controlPoints')
+        expect(controlPoints2.get('start').get('point').get('x')).toEqual(90)
+        expect(controlPoints2.get('start').get('point').get('y')).toEqual(100)
+        expect(controlPoints2.get('finish').get('point').get('x')).toEqual(110)
+        expect(controlPoints2.get('finish').get('point').get('y')).toEqual(120)
+        expect(controlPoints2.get('startControl').get('point').get('x')).toEqual(130)
+        expect(controlPoints2.get('startControl').get('point').get('y')).toEqual(140)
+        expect(controlPoints2.get('finishControl').get('point').get('x')).toEqual(150)
+        expect(controlPoints2.get('finishControl').get('point').get('y')).toEqual(160)
+        expect(path2.get('pathPoints')).toEqual(2000)
+    })
+
     // test helper functions
 
     const testMoveFinishPoint = (index) => {
@@ -392,5 +430,53 @@ describe('reducer logic', () => {
                 }
             }
         })
+    }
+
+     // test json import
+     const createJsonImport = () => {  
+        return {
+            "pathData": [
+                {
+                    "start": {
+                        "x": 10,
+                        "y": 20
+                    },
+                    "finish": {
+                        "x": 30,
+                        "y": 40
+                    },
+                    "startControl": {
+                        "x": 50,
+                        "y": 60
+                    },
+                    "finishControl": {
+                        "x": 70,
+                        "y": 80
+                    },
+                    "pathPoints": 1000
+                },
+                {
+                    "start": {
+                        "x": 90,
+                        "y": 100
+                    },
+                    "finish": {
+                        "x": 110,
+                        "y": 120
+                    },
+                    "startControl": {
+                        "x": 130,
+                        "y": 140
+                    },
+                    "finishControl": {
+                        "x": 150,
+                        "y": 160
+                    },
+                    "pathPoints": 2000
+                }
+            ],
+            "width": 1200,
+            "height": 1300
+        }
     }
 })
