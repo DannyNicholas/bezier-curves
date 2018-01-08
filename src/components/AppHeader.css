@@ -1,0 +1,20 @@
+.AppHeader-logo {
+  animation: AppHeader-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.AppHeader-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.AppHeader-intro {
+  font-size: large;
+}
+
+@keyframes AppHeader-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
