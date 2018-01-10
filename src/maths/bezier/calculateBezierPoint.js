@@ -1,5 +1,5 @@
-import pointMultiplication from './pointMultiplication'
-import pointAddition from './pointAddition'
+import pointMultiplication from '../pointMultiplication'
+import pointAddition from '../pointAddition'
 
 // calculate current point based on parameter t (0 to 1)
 const calculateBezierPoint = ( bezierPoints, t ) => {

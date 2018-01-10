@@ -1,23 +1,23 @@
 import { fromJS, List } from 'immutable'
-import createPoint from '../maths/createPoint'
-import createControlPoints from '../maths/createControlPoints'
-import createBezierPath from '../maths/createBezierPath'
+import createPoint from '../createPoint'
+import createBezierControlPoints from './createBezierControlPoints'
+import createBezierPath from './createBezierPath'
 
 const pointOffset = 20
 const defaultWidth = 540
 const defaultHeight = 960
 const defaultPathPoints = 100
 
-export const createDefaultInitialState = () => {
-    return createInitialState(defaultWidth, defaultHeight, defaultPathPoints)
+export const createDefaultInitialBezierState = () => {
+    return createInitialBezierState(defaultWidth, defaultHeight, defaultPathPoints)
 }
 
-export const createInitialState = (width, height, pathPoints) => {
+export const createInitialBezierState = (width, height, pathPoints) => {
     const start = createPoint( pointOffset, height-pointOffset )
     const startControl = createPoint( pointOffset, pointOffset )
     const finish = createPoint( width-pointOffset, height-pointOffset )
     const finishControl = createPoint( width-pointOffset, pointOffset )
-    const controlPoints = createControlPoints(
+    const controlPoints = createBezierControlPoints(
         start,
         startControl,
         finish,
@@ -25,7 +25,7 @@ export const createInitialState = (width, height, pathPoints) => {
     )
     return fromJS({
         paths: [
-            createPathDataHelper(controlPoints, pathPoints, true)
+            createBezierPathDataHelper(controlPoints, pathPoints, true)
         ],
         width: width,
         height: height,
@@ -37,30 +37,30 @@ export const createInitialState = (width, height, pathPoints) => {
     })
 }
 
-export const createDefaultPathDataWithFixedStart = (width, height, pathPoints, start) => {
+export const createDefaultBezierPathDataWithFixedStart = (width, height, pathPoints, start) => {
     const startControl = createPoint( pointOffset, pointOffset )
     const finish = createPoint( width-pointOffset, height-pointOffset )
     const finishControl = createPoint( width-pointOffset, pointOffset )
-    const controlPoints = createControlPoints(
+    const controlPoints = createBezierControlPoints(
         start,
         startControl,
         finish,
         finishControl
     )
-    return createPathDataHelper(controlPoints, pathPoints, false)
+    return createBezierPathDataHelper(controlPoints, pathPoints, false)
 }
 
-export const createDefaultPathDataWithFixedFinish = (width, height, pathPoints, finish) => {    
+export const createDefaultBezierPathDataWithFixedFinish = (width, height, pathPoints, finish) => {    
     const start = createPoint( pointOffset, height-pointOffset )
     const startControl = createPoint( pointOffset, pointOffset )
     const finishControl = createPoint( width-pointOffset, pointOffset )
-    const controlPoints = createControlPoints(
+    const controlPoints = createBezierControlPoints(
         start,
         startControl,
         finish,
         finishControl
     )
-    return createPathDataHelper(controlPoints, pathPoints, false)
+    return createBezierPathDataHelper(controlPoints, pathPoints, false)
 }
 
 export const importPathData = (pathData) => {
@@ -71,20 +71,20 @@ export const importPathData = (pathData) => {
         const startControl = createPoint( data.startControl.x, data.startControl.y )
         const finish = createPoint( data.finish.x, data.finish.y )
         const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
-        const controlPoints = createControlPoints(
+        const controlPoints = createBezierControlPoints(
             start,
             startControl,
             finish,
             finishControl
         )
-        paths = paths.push(createPathDataHelper(controlPoints, data.pathPoints, false))
+        paths = paths.push(createBezierPathDataHelper(controlPoints, data.pathPoints, false))
       })
 
       return paths
 }
 
 // create path data from supplied control points and path points
-const createPathDataHelper = (controlPoints, pathPoints, active) => {
+const createBezierPathDataHelper = (controlPoints, pathPoints, active) => {
     const path = createBezierPath( controlPoints, pathPoints )
     return fromJS(
         {

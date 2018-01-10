@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable'
 
-const createControlPoints = ( start, startControl, finish, finishControl ) => {
+const createBezierControlPoints = ( start, startControl, finish, finishControl ) => {
     return fromJS({
         start: {
             name: 'start',
@@ -21,4 +21,4 @@ const createControlPoints = ( start, startControl, finish, finishControl ) => {
     })
 }
 
-export default createControlPoints
+export default createBezierControlPoints

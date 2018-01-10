@@ -1,15 +1,15 @@
 import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
-import createBezierPath from '../maths/createBezierPath'
+import createBezierPath from '../maths/bezier/createBezierPath'
 import createPoint from '../maths/createPoint'
 import {
-    createDefaultInitialState,
-    createDefaultPathDataWithFixedStart,
-    createDefaultPathDataWithFixedFinish,
+    createDefaultInitialBezierState,
+    createDefaultBezierPathDataWithFixedStart,
+    createDefaultBezierPathDataWithFixedFinish,
     importPathData
-} from './PathsCreator'
+} from '../maths/bezier/bezierPathsCreator'
 
-const initialState = createDefaultInitialState()
+const initialState = createDefaultInitialBezierState()
 
 // replace current state with imported data
 const importPaths = (state, action) => {
@@ -134,7 +134,7 @@ const insertPathDataBefore = (state, action) => {
 
     // create new path data with finsh point equal to current path data start point
     const currentControlPointStart = currentPath.get('controlPoints').get('start').get('point')
-    const pathDataToInsert = createDefaultPathDataWithFixedFinish(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointStart)
+    const pathDataToInsert = createDefaultBezierPathDataWithFixedFinish(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointStart)
 
      // insert path data into list before index and return
     paths = paths.insert(action.index, pathDataToInsert)
@@ -152,7 +152,7 @@ const insertPathDataAfter = (state, action) => {
 
     // create new path data with start point equal to current path data finish point
     const currentControlPointFinish = currentPath.get('controlPoints').get('finish').get('point')
-    const pathDataToInsert = createDefaultPathDataWithFixedStart(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointFinish)
+    const pathDataToInsert = createDefaultBezierPathDataWithFixedStart(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointFinish)
 
     // insert path data into list after index and return
     paths = paths.insert(action.index + 1, pathDataToInsert)
