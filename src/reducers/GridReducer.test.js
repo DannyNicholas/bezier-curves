@@ -1,10 +1,10 @@
 import { List, fromJS } from 'immutable'
 import GridReducer from './GridReducer'
 import GridActionCreators from '../action-creators/GridActionCreators'
-import createBezierPath from '../maths/createBezierPath'
-import createControlPoints from '../maths/createControlPoints'
+import createBezierPath from '../maths/bezier/createBezierPath'
+import createBezierControlPoints from '../maths/bezier/createBezierControlPoints'
 import createPoint from '../maths/createPoint'
-import { createInitialState } from './PathsCreator'
+import { createInitialBezierState } from '../maths/bezier/bezierPathsCreator'
 
 // confirm reducer logic by creating test state,
 // passing in actions to reducer
@@ -17,7 +17,7 @@ describe('reducer logic', () => {
     const multiplier = 1111
      
     it('changes width and height dimensions', () => {
-        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
 
         // trigger action to change width and height dimensions
         const action = GridActionCreators.changeDimensions(123,987)
@@ -28,7 +28,7 @@ describe('reducer logic', () => {
     })
 
     it('moves a control point to the expected position', () => {
-        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
 
         // trigger action to move the start control point to new position
         const movedControlPoint = createPoint( 200, 300 )
@@ -65,7 +65,7 @@ describe('reducer logic', () => {
     })
 
     it('changes to the expected number of path points', () => {
-        const defaultState = createInitialState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
 
         // triggers action to increase the number of path points to 200
         const newPathPoints = 200
@@ -395,7 +395,7 @@ describe('reducer logic', () => {
         const startControl = createPoint( testValue, testValue )
         const finish = createPoint( testValue, testValue )
         const finishControl = createPoint( testValue, testValue )
-        const controlPoints = createControlPoints(
+        const controlPoints = createBezierControlPoints(
             start,
             startControl,
             finish,

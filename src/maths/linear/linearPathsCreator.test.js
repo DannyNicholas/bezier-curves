@@ -1,19 +1,19 @@
-import { createInitialState, createDefaultPathDataWithFixedStart, createDefaultPathDataWithFixedFinish } from './PathsCreator'
-import createPoint from '../maths/createPoint'
+import { createInitialLinearState, createDefaultLinearPathDataWithFixedStart, createDefaultLinearPathDataWithFixedFinish } from './linearPathsCreator'
+import createPoint from '../createPoint'
 
 // tests that the default path data creator
 // 1) creates the expected default data
 // 2) creates the expected default data with fixed start point
 // 3) creates the expected default data with fixed finish point
-describe('default data creator', () => {
+describe('default linear data creator', () => {
 
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
     const expectedOffset = 20
-    
+
     it('creates expected default control points', () => {
-        const defaultPath = createInitialState(xMax, yMax, pathPointsMax)
+        const defaultPath = createInitialLinearState(xMax, yMax, pathPointsMax)
 
         const controlPoints = defaultPath.get('paths').get(0).get('controlPoints')
         verifyControlPoints(controlPoints, xMax, yMax)
@@ -23,10 +23,10 @@ describe('default data creator', () => {
     })
 
     it('creates expected default control points with wanted start point', () => {
-        const initialPath = createInitialState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialLinearState(xMax, yMax, pathPointsMax)
         const startPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultPathDataWithFixedStart(xMax, yMax, pathPointsMax, startPoint)
+        const defaultPath = createDefaultLinearPathDataWithFixedStart(xMax, yMax, pathPointsMax, startPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'start' matches the expected point
@@ -34,9 +34,7 @@ describe('default data creator', () => {
         expect(controlPoints.get('start').get('point').get('y')).toEqual(startPoint.get('y'))
 
         // verify other control points
-        verifyControlPointsStartControl(controlPoints, xMax, yMax)
         verifyControlPointsFinish(controlPoints, xMax, yMax)
-        verifyControlPointsFinishControl(controlPoints, xMax, yMax)
 
         // verify path points
         const pathPoints = defaultPath.get('pathPoints')
@@ -44,10 +42,10 @@ describe('default data creator', () => {
     })
 
     it('creates expected default control points with wanted finish point', () => {
-        const initialPath = createInitialState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialLinearState(xMax, yMax, pathPointsMax)
         const finishPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultPathDataWithFixedFinish(xMax, yMax, pathPointsMax, finishPoint)
+        const defaultPath = createDefaultLinearPathDataWithFixedFinish(xMax, yMax, pathPointsMax, finishPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'finish' matches the expected point
@@ -56,8 +54,6 @@ describe('default data creator', () => {
 
         // verify other control points
         verifyControlPointsStart(controlPoints, xMax, yMax)
-        verifyControlPointsStartControl(controlPoints, xMax, yMax)
-        verifyControlPointsFinishControl(controlPoints, xMax, yMax)
 
         // verify path points
         const pathPoints = defaultPath.get('pathPoints')
@@ -68,8 +64,6 @@ describe('default data creator', () => {
     const verifyControlPoints = (controlPoints, xMax, yMax) => {
         verifyControlPointsStart(controlPoints, xMax, yMax)
         verifyControlPointsFinish(controlPoints, xMax, yMax)
-        verifyControlPointsStartControl(controlPoints, xMax, yMax)
-        verifyControlPointsFinishControl(controlPoints, xMax, yMax)
     }
 
     const verifyControlPointsStart = (controlPoints, xMax, yMax) => {
@@ -80,16 +74,6 @@ describe('default data creator', () => {
     const verifyControlPointsFinish = (controlPoints, xMax, yMax) => {
         expect(controlPoints.get('finish').get('point').get('x')).toEqual(xMax - expectedOffset)
         expect(controlPoints.get('finish').get('point').get('y')).toEqual(yMax - expectedOffset)
-    }
-
-    const verifyControlPointsStartControl = (controlPoints, xMax, yMax) => {
-        expect(controlPoints.get('startControl').get('point').get('x')).toEqual(expectedOffset)
-        expect(controlPoints.get('startControl').get('point').get('y')).toEqual(expectedOffset)
-    }
-
-    const verifyControlPointsFinishControl = (controlPoints, xMax, yMax) => {
-        expect(controlPoints.get('finishControl').get('point').get('x')).toEqual(xMax - expectedOffset)
-        expect(controlPoints.get('finishControl').get('point').get('y')).toEqual(expectedOffset)
     }
 
     // verify number of points in path

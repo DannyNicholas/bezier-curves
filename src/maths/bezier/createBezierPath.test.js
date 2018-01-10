@@ -1,6 +1,6 @@
 import createBezierPath from './createBezierPath'
-import createControlPoints from './createControlPoints'
-import createPoint from './createPoint'
+import createBezierControlPoints from './createBezierControlPoints'
+import createPoint from '../createPoint'
 
 describe('bezier path creation', () => {
     
@@ -9,7 +9,7 @@ describe('bezier path creation', () => {
             const startControl = createPoint( 30, 40 )
             const finish = createPoint( 50, 60 )
             const finishControl = createPoint( 70, 80 )
-            const controlPoints = createControlPoints(
+            const controlPoints = createBezierControlPoints(
                 start,
                 startControl,
                 finish,
@@ -31,7 +31,7 @@ describe('bezier path creation', () => {
             const startControl = createPoint( 0.3, 0.4 )
             const finish = createPoint( 0.5, 0.6 )
             const finishControl = createPoint( 0.7, 0.8 )
-            const controlPoints = createControlPoints(
+            const controlPoints = createBezierControlPoints(
                 start,
                 startControl,
                 finish,
