@@ -1,4 +1,5 @@
 import { fromJS, List } from 'immutable'
+import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createBezierControlPoints from './createBezierControlPoints'
 import createBezierPath from './createBezierPath'
@@ -35,6 +36,19 @@ export const createInitialBezierState = (width, height, pathPoints) => {
             position: start
         }
     })
+}
+
+// transform from another path type to bezier
+export const transformToBezierPathData = (width, controlPoints, pathPoints) => {
+    const startControl = createPoint( pointOffset, pointOffset )
+    const finishControl = createPoint( width-pointOffset, pointOffset )
+    const bezierControlPoints = createBezierControlPoints(
+        controlPoints.get('start').get('point'),
+        startControl,
+        controlPoints.get('finish').get('point'),
+        finishControl
+    )
+    return createBezierPathDataHelper(bezierControlPoints, pathPoints, true)
 }
 
 export const createDefaultBezierPathDataWithFixedStart = (width, height, pathPoints, start) => {
@@ -88,6 +102,7 @@ const createBezierPathDataHelper = (controlPoints, pathPoints, active) => {
     const path = createBezierPath( controlPoints, pathPoints )
     return fromJS(
         {
+            type: PathType.BEZIER,
             path: path,
             controlPoints: controlPoints,
             pathPoints: pathPoints,

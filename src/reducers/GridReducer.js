@@ -1,15 +1,18 @@
 import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
-import createBezierPath from '../maths/bezier/createBezierPath'
 import createPoint from '../maths/createPoint'
 import {
-    createDefaultInitialBezierState,
-    createDefaultBezierPathDataWithFixedStart,
-    createDefaultBezierPathDataWithFixedFinish,
-    importPathData
-} from '../maths/bezier/bezierPathsCreator'
+    createDefaultInitialState,
+    createDefaultPathDataWithFixedStart,
+    createDefaultPathDataWithFixedFinish,
+    createPath,
+    transformPathData
+} from '../maths/facade/pathsCreator'
 
-const initialState = createDefaultInitialBezierState()
+// TODO refactor import path data to handle all path types
+import { importPathData } from '../maths/bezier/bezierPathsCreator'
+
+const initialState = createDefaultInitialState()
 
 // replace current state with imported data
 const importPaths = (state, action) => {
@@ -116,7 +119,7 @@ const changePathPoints = (state, action) => {
     
      // get and update path data for index
      const pathData = state.get('paths').get(action.index)
-     const path = createBezierPath( pathData.get('controlPoints'), action.pathPoints )
+     const path = createPath( pathData.get('type'), pathData.get('controlPoints'), action.pathPoints )
      const newPathData = pathData.set('path', path).set('pathPoints', action.pathPoints)
 
      // update path data in list and return
@@ -134,7 +137,12 @@ const insertPathDataBefore = (state, action) => {
 
     // create new path data with finsh point equal to current path data start point
     const currentControlPointStart = currentPath.get('controlPoints').get('start').get('point')
-    const pathDataToInsert = createDefaultBezierPathDataWithFixedFinish(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointStart)
+    const pathDataToInsert = createDefaultPathDataWithFixedFinish(
+        currentPath.get('type'),
+        state.get('width'),
+        state.get('height'),
+        currentPath.get('pathPoints'),
+        currentControlPointStart)
 
      // insert path data into list before index and return
     paths = paths.insert(action.index, pathDataToInsert)
@@ -152,11 +160,34 @@ const insertPathDataAfter = (state, action) => {
 
     // create new path data with start point equal to current path data finish point
     const currentControlPointFinish = currentPath.get('controlPoints').get('finish').get('point')
-    const pathDataToInsert = createDefaultBezierPathDataWithFixedStart(state.get('width'), state.get('height'), currentPath.get('pathPoints'), currentControlPointFinish)
+    const pathDataToInsert = createDefaultPathDataWithFixedStart(
+        currentPath.get('type'),
+        state.get('width'),
+        state.get('height'),
+        currentPath.get('pathPoints'),
+        currentControlPointFinish
+    )
 
     // insert path data into list after index and return
     paths = paths.insert(action.index + 1, pathDataToInsert)
     paths = setActivatePath(paths, action.index + 1)
+    return state.set('paths', paths)
+}
+
+// transform path data to another type (e.g. transform to bezier)
+const transformPath = (state, action) => {
+
+    let paths = state.get('paths')
+    const currentPath = paths.get(action.index)
+    const transformedPathData = transformPathData(
+        action.pathType,
+        state.get('width'),
+        state.get('height'),
+        currentPath.get('controlPoints'),
+        currentPath.get('pathPoints')
+    )
+
+    paths = paths.set(action.index, transformedPathData)
     return state.set('paths', paths)
 }
 
@@ -212,7 +243,7 @@ const moveControlPointHelper = (paths, index, type, controlPoint) => {
     // get and update path data for index
     const pathData = paths.get(index)
     const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)
-    const path = createBezierPath( newControlPoints, pathData.get('pathPoints') )
+    const path = createPath(pathData.get('type'), newControlPoints, pathData.get('pathPoints'))
     const newPathData = pathData.set('path', path).set('controlPoints', newControlPoints)
 
     // update path data in list and return
@@ -240,6 +271,9 @@ const GridReducer = (state = initialState, action) => {
 
         case GridAction.ACTIVATE_PATH:
             return activatePath(state, action)
+
+        case GridAction.TRANSFORM_PATH:
+            return transformPath(state, action)
 
         case GridAction.CHANGE_DIMENSIONS:
             return changeDimensions(state, action)

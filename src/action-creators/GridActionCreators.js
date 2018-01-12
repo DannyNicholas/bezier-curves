@@ -40,6 +40,13 @@ const GridActionCreators = {
             index
         }
     },
+    transformPath(index, pathType) {
+        return {
+            type: GridAction.TRANSFORM_PATH,
+            index,
+            pathType
+        }
+    },
     changeDimensions(width, height) {
         return {
             type: GridAction.CHANGE_DIMENSIONS,

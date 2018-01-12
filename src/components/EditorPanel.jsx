@@ -12,7 +12,8 @@ const EditorPanel = ( {
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
-    activatePath
+    activatePath,
+    transformPath
 } ) => {
     
     let PointsEditor;
@@ -20,6 +21,7 @@ const EditorPanel = ( {
         PointsEditor = <BezierPointsEditor
             key={index}
             pathIndex={index}
+            type={path.get('type')}
             controlPoints={path.get('controlPoints')}
             pathPoints={path.get('pathPoints')}
             showDelete={showDelete}
@@ -28,6 +30,7 @@ const EditorPanel = ( {
             insertPathDataBefore={insertPathDataBefore}
             insertPathDataAfter={insertPathDataAfter}
             deletePathData={deletePathData}
+            transformPath={transformPath}
         />
     }
 
