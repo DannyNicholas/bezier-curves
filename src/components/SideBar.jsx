@@ -15,6 +15,7 @@ const SideBar = ( {
     insertPathDataAfter,
     deletePathData,
     activatePath,
+    transformPath,
     changeDimensions,
     animationOn,
     animationOff,
@@ -34,6 +35,7 @@ const SideBar = ( {
             insertPathDataAfter={insertPathDataAfter}
             deletePathData={deletePathData}
             activatePath={activatePath}
+            transformPath={transformPath}
         />
     )
       

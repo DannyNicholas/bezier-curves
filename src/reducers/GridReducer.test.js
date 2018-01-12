@@ -5,6 +5,7 @@ import createBezierPath from '../maths/bezier/createBezierPath'
 import createBezierControlPoints from '../maths/bezier/createBezierControlPoints'
 import createPoint from '../maths/createPoint'
 import { createInitialBezierState } from '../maths/bezier/bezierPathsCreator'
+import PathType from '../constants/PathType'
 
 // confirm reducer logic by creating test state,
 // passing in actions to reducer
@@ -110,6 +111,24 @@ describe('reducer logic', () => {
 
     it('deletes path data at end of list', () => {
        testDeleteAtIndex(2)
+    })
+
+    it('transforms path data to the path type', () => {
+        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const initialControlPoints = defaultState.get('paths').get(0).get('controlPoints')
+        const initialStart = initialControlPoints.get('start').get('point')
+        const initialFinish = initialControlPoints.get('finish').get('point')
+
+        // trigger action to transform path data to linear type
+        const action = GridActionCreators.transformPath(0, PathType.LINEAR)
+        const newState = GridReducer(defaultState, action)
+
+        const path = newState.get('paths').get(0)
+        const controlPoints = path.get('controlPoints')
+        expect(controlPoints.get('start').get('point')).toEqual(initialStart)
+        expect(controlPoints.get('finish').get('point')).toEqual(initialFinish)
+
+        expect(path.get('type')).toEqual(PathType.LINEAR)
     })
 
     it('activate the wanted path', () => {
@@ -407,6 +426,7 @@ describe('reducer logic', () => {
         
         return fromJS(
             {
+                type: PathType.BEZIER,
                 path: path,
                 controlPoints: controlPoints,
                 pathPoints: pathPoints,

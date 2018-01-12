@@ -15,6 +15,7 @@ const Paths = ( {
     insertPathDataAfter,
     deletePathData,
     activatePath,
+    transformPath,
     changeDimensions,
     animationOn,
     animationOff,
@@ -45,6 +46,7 @@ const Paths = ( {
                     insertPathDataAfter={insertPathDataAfter}
                     deletePathData={deletePathData}
                     activatePath={activatePath}
+                    transformPath={transformPath}
                     changeDimensions={changeDimensions}
                     animationOn={animationOn}
                     animationOff={animationOff}

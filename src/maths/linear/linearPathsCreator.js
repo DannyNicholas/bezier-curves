@@ -1,4 +1,5 @@
 import { fromJS, List } from 'immutable'
+import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createLinearControlPoints from './createLinearControlPoints'
 import createLinearPath from './createLinearPath'
@@ -24,6 +25,15 @@ export const createInitialLinearState = (width, height, pathPoints) => {
             position: start
         }
     })
+}
+
+// transform from another path type to linear
+export const transformToLinearPathData = (controlPoints, pathPoints) => {
+    const linearControlPoints = createLinearControlPoints(
+        controlPoints.get('start').get('point'),
+        controlPoints.get('finish').get('point')
+    )
+    return createLinearPathDataHelper(linearControlPoints, pathPoints, true)
 }
 
 export const createDefaultLinearPathDataWithFixedStart = (width, height, pathPoints, start) => {
@@ -65,6 +75,7 @@ const createLinearPathDataHelper = (controlPoints, pathPoints, active) => {
     const path = createLinearPath( controlPoints, pathPoints )
     return fromJS(
         {
+            type: PathType.LINEAR,
             path: path,
             controlPoints: controlPoints,
             pathPoints: pathPoints,
