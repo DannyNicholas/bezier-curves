@@ -1,6 +1,7 @@
 import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createPoint from '../maths/createPoint'
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../constants/DimensionDefault'
 import {
     createDefaultInitialState,
     createDefaultPathDataWithFixedStart,
@@ -27,12 +28,12 @@ const importPaths = (state, action) => {
             .set('nextIndex', 1)
             .set('position', pathData.get(0).get('controlPoints').get('start').get('point'))
     }
-    
+
     return state
         .set('paths', pathData)
         .set('animation', animation)
-        .set('width', jsonData.width)
-        .set('height', jsonData.height)
+        .set('width', jsonData.width || DEFAULT_WIDTH)
+        .set('height', jsonData.height || DEFAULT_HEIGHT)
 }
 
 const animationOn = (state, action) => {

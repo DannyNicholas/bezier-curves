@@ -1,16 +1,15 @@
 import { fromJS, List } from 'immutable'
 import PathType from '../../constants/PathType'
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/DimensionDefault'
 import createPoint from '../createPoint'
 import createBezierControlPoints from './createBezierControlPoints'
 import createBezierPath from './createBezierPath'
 
 const pointOffset = 20
-const defaultWidth = 540
-const defaultHeight = 960
 const defaultPathPoints = 100
 
 export const createDefaultInitialBezierState = () => {
-    return createInitialBezierState(defaultWidth, defaultHeight, defaultPathPoints)
+    return createInitialBezierState(DEFAULT_WIDTH, DEFAULT_HEIGHT, defaultPathPoints)
 }
 
 export const createInitialBezierState = (width, height, pathPoints) => {
