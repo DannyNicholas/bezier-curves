@@ -1,4 +1,5 @@
 export default {
     BEZIER: 'bezier',
-    LINEAR: 'linear'
+    LINEAR: 'linear',
+    PAUSE: 'pause',
 }
