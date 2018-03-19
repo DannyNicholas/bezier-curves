@@ -2,7 +2,7 @@ import createLinearPath from './createLinearPath'
 import createLinearControlPoints from './createLinearControlPoints'
 import createPoint from '../createPoint'
 
-describe('bezier path creation', () => {
+describe('linear path creation', () => {
     
     it('checks integer linear path length, start and end', () => {
         const start = createPoint( 0, 100 )
