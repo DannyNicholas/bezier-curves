@@ -1,7 +1,7 @@
 import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createPoint from '../maths/createPoint'
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../constants/DimensionDefault'
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_PATH_POINTS } from '../constants/DimensionDefault'
 import {
     createDefaultInitialState,
     createDefaultPathDataWithFixedStart,
@@ -137,12 +137,13 @@ const insertPathDataBefore = (state, action) => {
     const currentPath = paths.get(action.index)
 
     // create new path data with finsh point equal to current path data start point
-    const currentControlPointStart = currentPath.get('controlPoints').get('start').get('point')
+    const startPosition = currentPath.get('controlPoints').get('start') || currentPath.get('controlPoints').get('position')
+    const currentControlPointStart = startPosition.get('point')
     const pathDataToInsert = createDefaultPathDataWithFixedFinish(
         currentPath.get('type'),
         state.get('width'),
         state.get('height'),
-        currentPath.get('pathPoints'),
+        currentPath.get('pathPoints') || DEFAULT_PATH_POINTS,
         currentControlPointStart)
 
      // insert path data into list before index and return
@@ -160,12 +161,13 @@ const insertPathDataAfter = (state, action) => {
     const currentPath = paths.get(action.index)
 
     // create new path data with start point equal to current path data finish point
-    const currentControlPointFinish = currentPath.get('controlPoints').get('finish').get('point')
+    const finishPosition = currentPath.get('controlPoints').get('finish') || currentPath.get('controlPoints').get('position')
+    const currentControlPointFinish = finishPosition.get('point')
     const pathDataToInsert = createDefaultPathDataWithFixedStart(
         currentPath.get('type'),
         state.get('width'),
         state.get('height'),
-        currentPath.get('pathPoints'),
+        currentPath.get('pathPoints') || DEFAULT_PATH_POINTS,
         currentControlPointFinish
     )
 

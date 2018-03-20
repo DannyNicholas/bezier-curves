@@ -27,9 +27,11 @@ export const createInitialPauseState = (width, height, pauseTime) => {
 
 // transform from another path type to pause
 export const transformToPausePathData = (controlPoints, pauseTime) => {
-    const pauseControlPoints = createPauseControlPoints(
-        controlPoints.get('position').get('point')
-    )
+
+    // get 'position' if it exists or 'start' if not
+    const position = controlPoints.get('position') || controlPoints.get('start')
+
+    const pauseControlPoints = createPauseControlPoints(position.get('point'))
     return createPausePathDataHelper(pauseControlPoints, pauseTime, true)
 }
 

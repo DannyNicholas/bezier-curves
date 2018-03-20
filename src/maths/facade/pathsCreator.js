@@ -12,6 +12,12 @@ import {
     createDefaultLinearPathDataWithFixedFinish,
     transformToLinearPathData
 } from '../linear/linearPathsCreator'
+import createPausePath from '../pause/createPausePath'
+import {
+    createDefaultPausePathDataWithFixedStart,
+    createDefaultPausePathDataWithFixedFinish,
+    transformToPausePathData
+} from '../pause/pausePathsCreator'
 
 const bezier = {
     createDefaultInitialState: (width, height, pathPoints) => createDefaultInitialBezierState(width, height, pathPoints),
@@ -26,6 +32,13 @@ const linear = {
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultLinearPathDataWithFixedFinish(width, height, pathPoints, finish),
     createPath: (controlPoints, pathPoints) => createLinearPath(controlPoints, pathPoints),
     transformPathData: (controlPoints, pathPoints) => transformToLinearPathData(controlPoints, pathPoints)
+}
+
+const pause = {
+    createDefaultPathDataWithFixedStart: (width, height, pathPoints, start) => createDefaultPausePathDataWithFixedStart(pathPoints, start),
+    createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultPausePathDataWithFixedFinish(pathPoints, finish),
+    createPath: (controlPoints, pathPoints) => createPausePath(controlPoints, pathPoints),
+    transformPathData: (controlPoints, pathPoints) => transformToPausePathData(controlPoints, pathPoints)
 }
 
 // create and return the initial default path data
@@ -43,6 +56,9 @@ export const createPath = (type, controlPoints, pathPoints) => {
         case PathType.LINEAR:
             return linear.createPath(controlPoints, pathPoints)
 
+        case PathType.PAUSE:
+            return pause.createPath(controlPoints, pathPoints)
+
         default:
             console.error("Unrecognised path type '" + type + "'.")
             return null
@@ -58,6 +74,9 @@ export const createDefaultPathDataWithFixedStart = (type, width, height, pathPoi
 
         case PathType.LINEAR:
             return linear.createDefaultPathDataWithFixedStart(width, height, pathPoints, start)
+
+        case PathType.PAUSE:
+            return pause.createDefaultPathDataWithFixedStart(width, height, pathPoints, start)
 
         default:
             console.error("Unrecognised path type '" + type + "'.")
@@ -75,6 +94,9 @@ export const createDefaultPathDataWithFixedFinish = (type, width, height, pathPo
         case PathType.LINEAR:
             return linear.createDefaultPathDataWithFixedFinish(width, height, pathPoints, finish)
 
+        case PathType.PAUSE:
+            return pause.createDefaultPathDataWithFixedFinish(width, height, pathPoints, finish)
+
         default:
             console.error("Unrecognised path type '" + type + "'.")
             return null
@@ -90,6 +112,9 @@ export const transformPathData = (type, width, height, controlPoints, pathPoints
 
         case PathType.LINEAR:
             return linear.transformPathData(controlPoints, pathPoints)
+
+        case PathType.PAUSE:
+            return pause.transformPathData(controlPoints, pathPoints)
 
         default:
             console.error("Unrecognised path type '" + type + "'.")

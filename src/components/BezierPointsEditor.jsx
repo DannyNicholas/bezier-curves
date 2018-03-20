@@ -35,6 +35,17 @@ const BezierPointsEditor = ( {
             />
     )
 
+    let PointEditor
+    if(type === PathType.BEZIER || type === PathType.LINEAR) {
+        PointEditor = (
+            <PathPointsEditor
+                pathIndex={pathIndex}
+                pathPoints={pathPoints}
+                handleChange={changePathPoints}
+            />
+        )
+    }
+
     // optional delete button
     let DeleteButton
     if(showDelete) {
@@ -50,6 +61,7 @@ const BezierPointsEditor = ( {
         <select name="path-type" value={type} onChange={handlePathTypeChange}>
             <option value={PathType.BEZIER}>Bezier</option>
             <option value={PathType.LINEAR}>Line</option>
+            <option value={PathType.PAUSE}>Pause</option>
         </select>
     )
       
@@ -67,11 +79,7 @@ const BezierPointsEditor = ( {
                 </thead>
                 <tbody>
                     {Editors}
-                    <PathPointsEditor
-                        pathIndex={pathIndex}
-                        pathPoints={pathPoints}
-                        handleChange={changePathPoints}
-                    />
+                    {PointEditor}
                 </tbody>
             </table>
             <ul className="button-group">
@@ -90,7 +98,6 @@ const BezierPointsEditor = ( {
 BezierPointsEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
     controlPoints: PropTypes.object.isRequired,
-    pathPoints: PropTypes.number.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
     changePathPoints: PropTypes.func.isRequired
 }
