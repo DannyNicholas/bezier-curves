@@ -1,6 +1,8 @@
 import {
     getLinearStartPoint,
     getLinearFinishPoint,
+    getLinearStartKey,
+    getLinearFinishKey,
     createInitialLinearState,
     createDefaultLinearPathDataWithFixedStart,
     createDefaultLinearPathDataWithFixedFinish
@@ -26,6 +28,8 @@ describe('default linear data creator', () => {
 
         expect(startPoint.get('x')).toEqual(0)
         expect(startPoint.get('y')).toEqual(10)
+
+        expect(getLinearStartKey()).toEqual('start')
     })
 
     it('get expected finish point', () => {
@@ -34,6 +38,8 @@ describe('default linear data creator', () => {
 
         expect(finishPoint.get('x')).toEqual(40)
         expect(finishPoint.get('y')).toEqual(50)
+
+        expect(getLinearFinishKey()).toEqual('finish')
     })
 
     it('creates expected default control points', () => {

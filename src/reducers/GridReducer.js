@@ -7,7 +7,9 @@ import {
     createDefaultPathDataWithFixedStart,
     createDefaultPathDataWithFixedFinish,
     createPath,
-    transformPathData
+    transformPathData,
+    getStartKey,
+    getFinishKey
 } from '../maths/facade/pathsCreator'
 
 // TODO refactor import path data to handle all path types
@@ -95,14 +97,14 @@ const moveControlPoint = (state, action) => {
     // move any adjacent start/end points
     switch (action.pointType) {
         case 'start':
-            if (action.index > 0) {
-                paths = moveControlPointHelper(paths, action.index - 1, 'finish', action.controlPoint)
-            }
+            paths = moveNextStartPoint(paths, action.index, action.controlPoint)
             break;
         case 'finish':
-            if (action.index < (paths.size - 1)) {
-                paths = moveControlPointHelper(paths, action.index + 1, 'start', action.controlPoint)
-            }
+            paths = movePreviousFinishPoint(paths, action.index, action.controlPoint)
+            break;
+        case 'position':
+            paths = moveNextStartPoint(paths, action.index, action.controlPoint)
+            paths = movePreviousFinishPoint(paths, action.index, action.controlPoint)
             break;
         default:
             // action for control points
@@ -110,6 +112,24 @@ const moveControlPoint = (state, action) => {
     }
 
     return state.set('paths', paths)
+}
+
+// move next path to start from provided point
+const moveNextStartPoint = (paths, index, controlPoint) => {
+    if (index > 0) {
+        const finishKey = getFinishKey(paths.get(index - 1).get('type'))
+        paths = moveControlPointHelper(paths, index - 1, finishKey, controlPoint)
+    }
+    return paths
+}
+
+// move previous path to finish from provided point
+const movePreviousFinishPoint = (paths, index, controlPoint) => {
+    if (index < (paths.size - 1)) {
+        const startKey = getStartKey(paths.get(index + 1).get('type'))
+        paths = moveControlPointHelper(paths, index + 1, startKey, controlPoint)
+    }
+    return paths
 }
 
 // change number of points on the path and recalculate path

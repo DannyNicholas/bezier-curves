@@ -1,6 +1,8 @@
 import {
     getPauseStartPoint,
     getPauseFinishPoint,
+    getPauseStartKey,
+    getPauseFinishKey,
     createInitialPauseState,
     createDefaultPausePathDataWithFixedStart,
     createDefaultPausePathDataWithFixedFinish
@@ -25,6 +27,8 @@ describe('default pause data creator', () => {
 
         expect(startPoint.get('x')).toEqual(0)
         expect(startPoint.get('y')).toEqual(10)
+
+        expect(getPauseStartKey()).toEqual('position')
     })
 
     it('get expected finish point', () => {
@@ -33,6 +37,8 @@ describe('default pause data creator', () => {
 
         expect(finishPoint.get('x')).toEqual(0)
         expect(finishPoint.get('y')).toEqual(10)
+
+        expect(getPauseFinishKey()).toEqual('position')
     })
 
     it('creates expected default control points', () => {

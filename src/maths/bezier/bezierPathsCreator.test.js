@@ -1,6 +1,8 @@
 import {
     getBezierStartPoint,
     getBezierFinishPoint,
+    getBezierStartKey,
+    getBezierFinishKey,
     createInitialBezierState,
     createDefaultBezierPathDataWithFixedStart,
     createDefaultBezierPathDataWithFixedFinish
@@ -25,6 +27,8 @@ describe('default bezier data creator', () => {
 
         expect(startPoint.get('x')).toEqual(0)
         expect(startPoint.get('y')).toEqual(10)
+
+        expect(getBezierStartKey()).toEqual('start')
     })
 
     it('get expected finish point', () => {
@@ -33,6 +37,8 @@ describe('default bezier data creator', () => {
 
         expect(finishPoint.get('x')).toEqual(40)
         expect(finishPoint.get('y')).toEqual(50)
+
+        expect(getBezierFinishKey()).toEqual('finish')
     })
     
     it('creates expected default control points', () => {

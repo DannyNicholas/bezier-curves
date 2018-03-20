@@ -14,6 +14,14 @@ export const getLinearFinishPoint = (controlPoints) => {
     return controlPoints.get('finish').get('point')
 }
 
+export const getLinearStartKey = () => {
+    return 'start'
+}
+
+export const getLinearFinishKey = () => {
+    return 'finish'
+}
+
 export const createInitialLinearState = (width, height, pathPoints) => {
     const start = createPoint( pointOffset, height-pointOffset )
     const finish = createPoint( width-pointOffset, height-pointOffset )

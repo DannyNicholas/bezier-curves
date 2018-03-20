@@ -16,6 +16,14 @@ export const getBezierFinishPoint = (controlPoints) => {
     return controlPoints.get('finish').get('point')
 }
 
+export const getBezierStartKey = () => {
+    return 'start'
+}
+
+export const getBezierFinishKey = () => {
+    return 'finish'
+}
+
 export const createDefaultInitialBezierState = () => {
     return createInitialBezierState(DEFAULT_WIDTH, DEFAULT_HEIGHT, defaultPathPoints)
 }

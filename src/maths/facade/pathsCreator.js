@@ -3,6 +3,8 @@ import createBezierPath from '../bezier/createBezierPath'
 import {
     getBezierStartPoint,
     getBezierFinishPoint,
+    getBezierStartKey,
+    getBezierFinishKey,
     createDefaultInitialBezierState,
     createDefaultBezierPathDataWithFixedStart,
     createDefaultBezierPathDataWithFixedFinish,
@@ -12,6 +14,8 @@ import createLinearPath from '../linear/createLinearPath'
 import {
     getLinearStartPoint,
     getLinearFinishPoint,
+    getLinearStartKey,
+    getLinearFinishKey,
     createDefaultLinearPathDataWithFixedStart,
     createDefaultLinearPathDataWithFixedFinish,
     transformToLinearPathData
@@ -20,6 +24,8 @@ import createPausePath from '../pause/createPausePath'
 import {
     getPauseStartPoint,
     getPauseFinishPoint,
+    getPauseStartKey,
+    getPauseFinishKey,
     createDefaultPausePathDataWithFixedStart,
     createDefaultPausePathDataWithFixedFinish,
     transformToPausePathData
@@ -31,6 +37,8 @@ const bezier = {
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultBezierPathDataWithFixedFinish(width, height, pathPoints, finish),
     createPath: (controlPoints, pathPoints) => createBezierPath(controlPoints, pathPoints),
     transformPathData: (width, controlPoints, pathPoints) => transformToBezierPathData(width, controlPoints, pathPoints),
+    getStartKey: () => getBezierStartKey(),
+    getFinishKey: () => getBezierFinishKey(),
     getStartPoint: (controlPoints) => getBezierStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getBezierFinishPoint(controlPoints)
 }
@@ -40,6 +48,8 @@ const linear = {
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultLinearPathDataWithFixedFinish(width, height, pathPoints, finish),
     createPath: (controlPoints, pathPoints) => createLinearPath(controlPoints, pathPoints),
     transformPathData: (controlPoints, pathPoints) => transformToLinearPathData(controlPoints, pathPoints),
+    getStartKey: () => getLinearStartKey(),
+    getFinishKey: () => getLinearFinishKey(),
     getStartPoint: (controlPoints) => getLinearStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getLinearFinishPoint(controlPoints)
 }
@@ -49,6 +59,8 @@ const pause = {
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultPausePathDataWithFixedFinish(pathPoints, finish),
     createPath: (controlPoints, pathPoints) => createPausePath(controlPoints, pathPoints),
     transformPathData: (controlPoints, pathPoints) => transformToPausePathData(controlPoints, pathPoints),
+    getStartKey: () => getPauseStartKey(),
+    getFinishKey: () => getPauseFinishKey(),
     getStartPoint: (controlPoints) => getPauseStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getPauseFinishPoint(controlPoints)
 }
@@ -57,6 +69,44 @@ const pause = {
 // this is always a bezier path
 export const createDefaultInitialState = (width, height, pathPoints) =>
     bezier.createDefaultInitialState(width, height, pathPoints)
+
+// get starting point key (e.g. 'start' or 'position') for path data of the wanted type
+export const getStartKey = (type) => {
+
+    switch (type) {
+        case PathType.BEZIER:
+            return bezier.getStartKey()
+
+        case PathType.LINEAR:
+            return linear.getStartKey()
+
+        case PathType.PAUSE:
+            return pause.getStartKey()
+
+        default:
+            console.error("Unrecognised path type '" + type + "'.")
+            return null
+    }
+}
+
+// get finishing point key (e.g. 'finish' or 'position') for path data of the wanted type
+export const getFinishKey = (type) => {
+
+    switch (type) {
+        case PathType.BEZIER:
+            return bezier.getFinishKey()
+
+        case PathType.LINEAR:
+            return linear.getFinishKey()
+
+        case PathType.PAUSE:
+            return pause.getFinishKey()
+
+        default:
+            console.error("Unrecognised path type '" + type + "'.")
+            return null
+    }
+}
 
 // get starting point for path data of the wanted type
 export const getStartPoint = (type, controlPoints) => {
