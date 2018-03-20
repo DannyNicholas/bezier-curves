@@ -6,6 +6,14 @@ import createLinearPath from './createLinearPath'
 
 const pointOffset = 20
 
+export const getLinearStartPoint = (controlPoints) => {
+    return controlPoints.get('start').get('point')
+}
+
+export const getLinearFinishPoint = (controlPoints) => {
+    return controlPoints.get('finish').get('point')
+}
+
 export const createInitialLinearState = (width, height, pathPoints) => {
     const start = createPoint( pointOffset, height-pointOffset )
     const finish = createPoint( width-pointOffset, height-pointOffset )

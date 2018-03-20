@@ -1,5 +1,12 @@
-import { createInitialBezierState, createDefaultBezierPathDataWithFixedStart, createDefaultBezierPathDataWithFixedFinish } from './bezierPathsCreator'
+import {
+    getBezierStartPoint,
+    getBezierFinishPoint,
+    createInitialBezierState,
+    createDefaultBezierPathDataWithFixedStart,
+    createDefaultBezierPathDataWithFixedFinish
+} from './bezierPathsCreator'
 import createPoint from '../createPoint'
+import createBezierControlPoints from './createBezierControlPoints'
 
 // tests that the default path data creator
 // 1) creates the expected default data
@@ -11,6 +18,22 @@ describe('default bezier data creator', () => {
     const yMax = 1000
     const pathPointsMax = 100
     const expectedOffset = 20
+
+    it('get expected start point', () => {
+        const controlPoints = createTestControlPoints()
+        const startPoint = getBezierStartPoint(controlPoints)
+
+        expect(startPoint.get('x')).toEqual(0)
+        expect(startPoint.get('y')).toEqual(10)
+    })
+
+    it('get expected finish point', () => {
+        const controlPoints = createTestControlPoints()
+        const finishPoint = getBezierFinishPoint(controlPoints)
+
+        expect(finishPoint.get('x')).toEqual(40)
+        expect(finishPoint.get('y')).toEqual(50)
+    })
     
     it('creates expected default control points', () => {
         const defaultPath = createInitialBezierState(xMax, yMax, pathPointsMax)
@@ -95,5 +118,20 @@ describe('default bezier data creator', () => {
     // verify number of points in path
     const verifyPathPoints = (pathPoints, expectedPathPoints) => {
         expect(pathPoints).toEqual(expectedPathPoints)
+    }
+
+    const createTestControlPoints = () => {
+        const start = createPoint( 0, 10 )
+        const startControl = createPoint( 20, 30 )
+        const finish = createPoint( 40, 50 )
+        const finishControl = createPoint( 60, 70 )
+        const controlPoints = createBezierControlPoints(
+            start,
+            startControl,
+            finish,
+            finishControl
+        )
+
+        return controlPoints
     }
 })

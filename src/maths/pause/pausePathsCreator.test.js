@@ -1,9 +1,12 @@
 import {
+    getPauseStartPoint,
+    getPauseFinishPoint,
     createInitialPauseState,
     createDefaultPausePathDataWithFixedStart,
     createDefaultPausePathDataWithFixedFinish
 } from './pausePathsCreator'
 import createPoint from '../createPoint'
+import createPauseControlPoints from './createPauseControlPoints'
 
 // tests that the default path data creator
 // 1) creates the expected default data
@@ -15,6 +18,22 @@ describe('default pause data creator', () => {
     const yMax = 1000
     const pauseTimeMax = 2
     const expectedOffset = 20
+
+    it('get expected start point', () => {
+        const controlPoints = createTestControlPoints()
+        const startPoint = getPauseStartPoint(controlPoints)
+
+        expect(startPoint.get('x')).toEqual(0)
+        expect(startPoint.get('y')).toEqual(10)
+    })
+
+    it('get expected finish point', () => {
+        const controlPoints = createTestControlPoints()
+        const finishPoint = getPauseFinishPoint(controlPoints)
+
+        expect(finishPoint.get('x')).toEqual(0)
+        expect(finishPoint.get('y')).toEqual(10)
+    })
 
     it('creates expected default control points', () => {
         const defaultPath = createInitialPauseState(xMax, yMax, pauseTimeMax)
@@ -72,5 +91,14 @@ describe('default pause data creator', () => {
     // verify number of points in path
     const verifyPausePoints = (pausePoints, expectedPausePoints) => {
         expect(pausePoints).toEqual(expectedPausePoints)
+    }
+
+    const createTestControlPoints = () => {
+        const position = createPoint( 0, 10 )
+        const controlPoints =  createPauseControlPoints(
+            position
+        )
+
+        return controlPoints
     }
 })

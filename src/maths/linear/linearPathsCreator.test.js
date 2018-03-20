@@ -1,5 +1,13 @@
-import { createInitialLinearState, createDefaultLinearPathDataWithFixedStart, createDefaultLinearPathDataWithFixedFinish } from './linearPathsCreator'
+import {
+    getLinearStartPoint,
+    getLinearFinishPoint,
+    createInitialLinearState,
+    createDefaultLinearPathDataWithFixedStart,
+    createDefaultLinearPathDataWithFixedFinish
+} from './linearPathsCreator'
 import createPoint from '../createPoint'
+import createLinearControlPoints from './createLinearControlPoints'
+
 
 // tests that the default path data creator
 // 1) creates the expected default data
@@ -11,6 +19,22 @@ describe('default linear data creator', () => {
     const yMax = 1000
     const pathPointsMax = 100
     const expectedOffset = 20
+
+    it('get expected start point', () => {
+        const controlPoints = createTestControlPoints()
+        const startPoint = getLinearStartPoint(controlPoints)
+
+        expect(startPoint.get('x')).toEqual(0)
+        expect(startPoint.get('y')).toEqual(10)
+    })
+
+    it('get expected finish point', () => {
+        const controlPoints = createTestControlPoints()
+        const finishPoint = getLinearFinishPoint(controlPoints)
+
+        expect(finishPoint.get('x')).toEqual(40)
+        expect(finishPoint.get('y')).toEqual(50)
+    })
 
     it('creates expected default control points', () => {
         const defaultPath = createInitialLinearState(xMax, yMax, pathPointsMax)
@@ -79,5 +103,16 @@ describe('default linear data creator', () => {
     // verify number of points in path
     const verifyPathPoints = (pathPoints, expectedPathPoints) => {
         expect(pathPoints).toEqual(expectedPathPoints)
+    }
+
+    const createTestControlPoints = () => {
+        const start = createPoint( 0, 10 )
+        const finish = createPoint( 40, 50 )
+        const controlPoints = createLinearControlPoints(
+            start,
+            finish
+        )
+
+        return controlPoints
     }
 })

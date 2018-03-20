@@ -8,6 +8,14 @@ import createBezierPath from './createBezierPath'
 const pointOffset = 20
 const defaultPathPoints = 100
 
+export const getBezierStartPoint = (controlPoints) => {
+    return controlPoints.get('start').get('point')
+}
+
+export const getBezierFinishPoint = (controlPoints) => {
+    return controlPoints.get('finish').get('point')
+}
+
 export const createDefaultInitialBezierState = () => {
     return createInitialBezierState(DEFAULT_WIDTH, DEFAULT_HEIGHT, defaultPathPoints)
 }

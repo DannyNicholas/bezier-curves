@@ -6,6 +6,14 @@ import createPausePath from './createPausePath'
 
 const pointOffset = 20
 
+export const getPauseStartPoint = (controlPoints) => {
+    return controlPoints.get('position').get('point')
+}
+
+export const getPauseFinishPoint = (controlPoints) => {
+    return controlPoints.get('position').get('point')
+}
+
 export const createInitialPauseState = (width, height, pauseTime) => {
     const position = createPoint( width-pointOffset, height-pointOffset )
     const controlPoints = createPauseControlPoints(
