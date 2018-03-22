@@ -19,6 +19,7 @@ describe('default bezier data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
+    const parameters = {pathPoints: pathPointsMax}
     const expectedOffset = 20
 
     it('get expected start point', () => {
@@ -42,20 +43,20 @@ describe('default bezier data creator', () => {
     })
     
     it('creates expected default control points', () => {
-        const defaultPath = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const defaultPath = createInitialBezierState(xMax, yMax, parameters)
 
         const controlPoints = defaultPath.get('paths').get(0).get('controlPoints')
         verifyControlPoints(controlPoints, xMax, yMax)
             
-        const pathPoints = defaultPath.get('paths').get(0).get('pathPoints')
+        const pathPoints = defaultPath.get('paths').get(0).get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 
     it('creates expected default control points with wanted start point', () => {
-        const initialPath = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialBezierState(xMax, yMax, parameters)
         const startPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultBezierPathDataWithFixedStart(xMax, yMax, pathPointsMax, startPoint)
+        const defaultPath = createDefaultBezierPathDataWithFixedStart(xMax, yMax, parameters, startPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'start' matches the expected point
@@ -68,15 +69,15 @@ describe('default bezier data creator', () => {
         verifyControlPointsFinishControl(controlPoints, xMax, yMax)
 
         // verify path points
-        const pathPoints = defaultPath.get('pathPoints')
+        const pathPoints = defaultPath.get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 
     it('creates expected default control points with wanted finish point', () => {
-        const initialPath = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialBezierState(xMax, yMax, parameters)
         const finishPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultBezierPathDataWithFixedFinish(xMax, yMax, pathPointsMax, finishPoint)
+        const defaultPath = createDefaultBezierPathDataWithFixedFinish(xMax, yMax, parameters, finishPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'finish' matches the expected point
@@ -89,7 +90,7 @@ describe('default bezier data creator', () => {
         verifyControlPointsFinishControl(controlPoints, xMax, yMax)
 
         // verify path points
-        const pathPoints = defaultPath.get('pathPoints')
+        const pathPoints = defaultPath.get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 

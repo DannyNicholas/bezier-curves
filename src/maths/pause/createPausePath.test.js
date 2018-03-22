@@ -9,8 +9,9 @@ describe('pause path creation', () => {
         const controlPoints = createPauseControlPoints(
             position
         )
+        const parameters = {pauseTime: 2}
 
-        const path = createPausePath( controlPoints, 2 )
+        const path = createPausePath( controlPoints, parameters )
 
         // confirm length of path
         expect(path.size).toEqual(121)
@@ -25,8 +26,9 @@ describe('pause path creation', () => {
         const controlPoints = createPauseControlPoints(
             position
         )
+        const parameters = {pauseTime: 2}
 
-        const path = createPausePath( controlPoints, 2 )
+        const path = createPausePath( controlPoints, parameters )
         
         // confirm length of path
         expect(path.size).toEqual(121)

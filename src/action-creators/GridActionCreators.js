@@ -16,6 +16,14 @@ const GridActionCreators = {
             pathPoints
         }
     },
+    changePathParameter(index, parameterKey, parameterValue) {
+        return {
+            type: GridAction.CHANGE_PARAMETER,
+            index,
+            parameterKey,
+            parameterValue
+        }
+    },
     insertPathDataBefore(index) {
         return {
             type: GridAction.INSERT_PATH_DATA_BEFORE,

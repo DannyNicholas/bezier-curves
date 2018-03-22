@@ -22,7 +22,7 @@ export const getLinearFinishKey = () => {
     return 'finish'
 }
 
-export const createInitialLinearState = (width, height, pathPoints) => {
+export const createInitialLinearState = (width, height, parameters) => {
     const start = createPoint( pointOffset, height-pointOffset )
     const finish = createPoint( width-pointOffset, height-pointOffset )
     const controlPoints = createLinearControlPoints(
@@ -31,7 +31,7 @@ export const createInitialLinearState = (width, height, pathPoints) => {
     )
     return fromJS({
         paths: [
-            createLinearPathDataHelper(controlPoints, pathPoints, true)
+            createLinearPathDataHelper(controlPoints, parameters, true)
         ],
         width: width,
         height: height,
@@ -44,30 +44,30 @@ export const createInitialLinearState = (width, height, pathPoints) => {
 }
 
 // transform from another path type to linear
-export const transformToLinearPathData = (controlPoints, pathPoints) => {
+export const transformToLinearPathData = (controlPoints, parameters) => {
     const linearControlPoints = createLinearControlPoints(
         controlPoints.get('start').get('point'),
         controlPoints.get('finish').get('point')
     )
-    return createLinearPathDataHelper(linearControlPoints, pathPoints, true)
+    return createLinearPathDataHelper(linearControlPoints, parameters, true)
 }
 
-export const createDefaultLinearPathDataWithFixedStart = (width, height, pathPoints, start) => {
+export const createDefaultLinearPathDataWithFixedStart = (width, height, parameters, start) => {
     const finish = createPoint( width-pointOffset, height-pointOffset )
     const controlPoints = createLinearControlPoints(
         start,
         finish
     )
-    return createLinearPathDataHelper(controlPoints, pathPoints, false)
+    return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
-export const createDefaultLinearPathDataWithFixedFinish = (width, height, pathPoints, finish) => {    
+export const createDefaultLinearPathDataWithFixedFinish = (width, height, parameters, finish) => {    
     const start = createPoint( pointOffset, height-pointOffset )
     const controlPoints = createLinearControlPoints(
         start,
         finish
     )
-    return createLinearPathDataHelper(controlPoints, pathPoints, false)
+    return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
 export const importPathData = (pathData) => {
@@ -80,21 +80,22 @@ export const importPathData = (pathData) => {
             start,
             finish
         )
-        paths = paths.push(createLinearPathDataHelper(controlPoints, data.pathPoints, false))
+        const parameters = {pathPoints: data.pathPoints}
+        paths = paths.push(createLinearPathDataHelper(controlPoints, parameters, false))
       })
 
       return paths
 }
 
 // create path data from supplied control points and path points
-const createLinearPathDataHelper = (controlPoints, pathPoints, active) => {
-    const path = createLinearPath( controlPoints, pathPoints )
+const createLinearPathDataHelper = (controlPoints, parameters, active) => {
+    const path = createLinearPath( controlPoints, parameters )
     return fromJS(
         {
             type: PathType.LINEAR,
             path: path,
             controlPoints: controlPoints,
-            pathPoints: pathPoints,
+            parameters: parameters,
             active: active
         }
     )

@@ -3,9 +3,10 @@ import { fromJS } from 'immutable'
 import calculateBezierPoint from './calculateBezierPoint'
 
 // calulate all points on Bezier path from start to finish
-const createBezierPath = ( controlPoints, numberOfPoints ) => {
+const createBezierPath = ( controlPoints, parameters ) => {
 
     const path = []
+    const numberOfPoints = parameters.pathPoints
 
     for (let i = 0; i <= numberOfPoints; i++)
         {

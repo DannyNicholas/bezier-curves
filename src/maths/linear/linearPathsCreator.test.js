@@ -20,6 +20,7 @@ describe('default linear data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
+    const defaultParameters = {pathPoints: pathPointsMax}
     const expectedOffset = 20
 
     it('get expected start point', () => {
@@ -43,20 +44,20 @@ describe('default linear data creator', () => {
     })
 
     it('creates expected default control points', () => {
-        const defaultPath = createInitialLinearState(xMax, yMax, pathPointsMax)
+        const defaultPath = createInitialLinearState(xMax, yMax, defaultParameters)
 
         const controlPoints = defaultPath.get('paths').get(0).get('controlPoints')
         verifyControlPoints(controlPoints, xMax, yMax)
             
-        const pathPoints = defaultPath.get('paths').get(0).get('pathPoints')
+        const pathPoints = defaultPath.get('paths').get(0).get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 
     it('creates expected default control points with wanted start point', () => {
-        const initialPath = createInitialLinearState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialLinearState(xMax, yMax, defaultParameters)
         const startPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultLinearPathDataWithFixedStart(xMax, yMax, pathPointsMax, startPoint)
+        const defaultPath = createDefaultLinearPathDataWithFixedStart(xMax, yMax, defaultParameters, startPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'start' matches the expected point
@@ -67,15 +68,15 @@ describe('default linear data creator', () => {
         verifyControlPointsFinish(controlPoints, xMax, yMax)
 
         // verify path points
-        const pathPoints = defaultPath.get('pathPoints')
+        const pathPoints = defaultPath.get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 
     it('creates expected default control points with wanted finish point', () => {
-        const initialPath = createInitialLinearState(xMax, yMax, pathPointsMax)
+        const initialPath = createInitialLinearState(xMax, yMax, defaultParameters)
         const finishPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultLinearPathDataWithFixedFinish(xMax, yMax, pathPointsMax, finishPoint)
+        const defaultPath = createDefaultLinearPathDataWithFixedFinish(xMax, yMax, defaultParameters, finishPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'finish' matches the expected point
@@ -86,7 +87,7 @@ describe('default linear data creator', () => {
         verifyControlPointsStart(controlPoints, xMax, yMax)
 
         // verify path points
-        const pathPoints = defaultPath.get('pathPoints')
+        const pathPoints = defaultPath.get('parameters').get('pathPoints')
         verifyPathPoints(pathPoints, pathPointsMax)
     })
 

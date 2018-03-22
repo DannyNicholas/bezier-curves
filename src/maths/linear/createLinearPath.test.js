@@ -11,8 +11,9 @@ describe('linear path creation', () => {
             start,
             finish
         )
+        const parameters = {pathPoints: 2000}
 
-        const path = createLinearPath( controlPoints, 2000 )
+        const path = createLinearPath( controlPoints, parameters )
 
         // confirm length of path
         expect(path.size).toEqual(2001)
@@ -29,8 +30,9 @@ describe('linear path creation', () => {
             start,
             finish
         )
+        const parameters = {pathPoints: 2000}
 
-        const path = createLinearPath( controlPoints, 2000 )
+        const path = createLinearPath( controlPoints, parameters )
         
         // confirm length of path
         expect(path.size).toEqual(2001)

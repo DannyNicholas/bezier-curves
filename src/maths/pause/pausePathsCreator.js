@@ -22,14 +22,14 @@ export const getPauseFinishKey = () => {
     return 'position'
 }
 
-export const createInitialPauseState = (width, height, pauseTime) => {
+export const createInitialPauseState = (width, height, parameters) => {
     const position = createPoint( width-pointOffset, height-pointOffset )
     const controlPoints = createPauseControlPoints(
         position
     )
     return fromJS({
         paths: [
-            createPausePathDataHelper(controlPoints, pauseTime, true)
+            createPausePathDataHelper(controlPoints, parameters, true)
         ],
         width: width,
         height: height,
@@ -42,7 +42,7 @@ export const createInitialPauseState = (width, height, pauseTime) => {
 }
 
 // transform from another path type to pause
-export const transformToPausePathData = (controlPoints, pauseTime) => {
+export const transformToPausePathData = (controlPoints, parameters) => {
 
     // get 'position' if it exists or 'start' if not
     const position = controlPoints.get('position') || controlPoints.get('start')
@@ -51,18 +51,18 @@ export const transformToPausePathData = (controlPoints, pauseTime) => {
     return createPausePathDataHelper(pauseControlPoints, pauseTime, true)
 }
 
-export const createDefaultPausePathDataWithFixedStart = (pauseTime, start) => {
+export const createDefaultPausePathDataWithFixedStart = (parameters, start) => {
     const controlPoints = createPauseControlPoints(
         start
     )
-    return createPausePathDataHelper(controlPoints, pauseTime, false)
+    return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
-export const createDefaultPausePathDataWithFixedFinish = (pauseTime, finish) => {    
+export const createDefaultPausePathDataWithFixedFinish = (parameters, finish) => {    
     const controlPoints = createPauseControlPoints(
         finish
     )
-    return createPausePathDataHelper(controlPoints, pauseTime, false)
+    return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
 export const importPathData = (pathData) => {
@@ -73,21 +73,22 @@ export const importPathData = (pathData) => {
         const controlPoints = createPauseControlPoints(
             position
         )
-        paths = paths.push(createPausePathDataHelper(controlPoints, data.pauseTime, false))
+        const parameters = {pauseTime: data.pauseTime}
+        paths = paths.push(createPausePathDataHelper(controlPoints, parameters, false))
       })
 
       return paths
 }
 
 // create path data from supplied control points and pause time
-const createPausePathDataHelper = (controlPoints, pauseTime, active) => {
-    const path = createPausePath( controlPoints, pauseTime )
+const createPausePathDataHelper = (controlPoints, parameters, active) => {
+    const path = createPausePath( controlPoints, parameters )
     return fromJS(
         {
             type: PathType.PAUSE,
             path: path,
             controlPoints: controlPoints,
-            pauseTime: pauseTime,
+            parameters: parameters,
             active: active
         }
     )

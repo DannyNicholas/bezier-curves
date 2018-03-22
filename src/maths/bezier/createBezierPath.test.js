@@ -15,8 +15,9 @@ describe('bezier path creation', () => {
                 finish,
                 finishControl
             )
+            const parameters = {pathPoints: 100}
 
-            const path = createBezierPath( controlPoints, 100 )
+            const path = createBezierPath( controlPoints, parameters )
 
             // confirm length of path
             expect(path.size).toEqual(101)
@@ -37,8 +38,9 @@ describe('bezier path creation', () => {
                 finish,
                 finishControl
             )
+            const parameters = {pathPoints: 100}
     
-            const path = createBezierPath( controlPoints, 100 )
+            const path = createBezierPath( controlPoints, parameters )
             
             // confirm length of path
             expect(path.size).toEqual(101)

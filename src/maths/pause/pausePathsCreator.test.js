@@ -19,6 +19,7 @@ describe('default pause data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pauseTimeMax = 2
+    const defaultParameters = {pauseTime: pauseTimeMax}
     const expectedOffset = 20
 
     it('get expected start point', () => {
@@ -42,20 +43,20 @@ describe('default pause data creator', () => {
     })
 
     it('creates expected default control points', () => {
-        const defaultPath = createInitialPauseState(xMax, yMax, pauseTimeMax)
+        const defaultPath = createInitialPauseState(xMax, yMax, defaultParameters)
 
         const controlPoints = defaultPath.get('paths').get(0).get('controlPoints')
         const expectedPoint = createPoint( xMax - expectedOffset, yMax - expectedOffset )
         verifyControlPoints(controlPoints, expectedPoint)
      
-        const pathTime = defaultPath.get('paths').get(0).get('pauseTime')
+        const pathTime = defaultPath.get('paths').get(0).get('parameters').get('pauseTime')
         verifyPausePoints(pathTime, pauseTimeMax)
     })
 
     it('creates expected default control points with wanted start point', () => {
         const startPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultPausePathDataWithFixedStart(pauseTimeMax, startPoint)
+        const defaultPath = createDefaultPausePathDataWithFixedStart(defaultParameters, startPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'start' matches the expected point
@@ -66,14 +67,14 @@ describe('default pause data creator', () => {
         verifyControlPoints(controlPoints, startPoint)
 
         // verify pause points
-        const pathTime = defaultPath.get('pauseTime')
+        const pathTime = defaultPath.get('parameters').get('pauseTime')
         verifyPausePoints(pathTime, pauseTimeMax)
     })
 
     it('creates expected default control points with wanted finish point', () => {
         const finishPoint = createPoint( 350, 250 )
 
-        const defaultPath = createDefaultPausePathDataWithFixedFinish(pauseTimeMax, finishPoint)
+        const defaultPath = createDefaultPausePathDataWithFixedFinish(defaultParameters, finishPoint)
         const controlPoints = defaultPath.get('controlPoints')
 
         // confirm new item's 'finish' matches the expected point
@@ -84,7 +85,7 @@ describe('default pause data creator', () => {
         verifyControlPoints(controlPoints, finishPoint)
 
         // verify pause points
-        const pathTime = defaultPath.get('pauseTime')
+        const pathTime = defaultPath.get('parameters').get('pauseTime')
         verifyPausePoints(pathTime, pauseTimeMax)
     })
 
