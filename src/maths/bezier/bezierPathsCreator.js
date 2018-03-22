@@ -120,7 +120,9 @@ const createBezierPathDataHelper = (controlPoints, pathPoints, active) => {
             type: PathType.BEZIER,
             path: path,
             controlPoints: controlPoints,
-            pathPoints: pathPoints,
+            parameters: {
+                pathPoints: pathPoints
+            },
             active: active
         }
     )
