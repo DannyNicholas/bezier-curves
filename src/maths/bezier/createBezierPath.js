@@ -6,15 +6,14 @@ import calculateBezierPoint from './calculateBezierPoint'
 const createBezierPath = ( controlPoints, parameters ) => {
 
     const path = []
-    const numberOfPoints = parameters.pathPoints
+    const numberOfPoints = parameters.get('pathPoints')
 
-    for (let i = 0; i <= numberOfPoints; i++)
-        {
-            // calculate current path parameter from 0 to 1
-            const t = i / numberOfPoints
-            const pathPoint = calculateBezierPoint( controlPoints, t )
-            path.push(pathPoint)
-        }
+    for (let i = 0; i <= numberOfPoints; i++) {
+        // calculate current path parameter from 0 to 1
+        const t = i / numberOfPoints
+        const pathPoint = calculateBezierPoint( controlPoints, t )
+        path.push(pathPoint)
+    }
 
     return fromJS(path)
 }

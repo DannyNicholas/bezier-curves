@@ -4,7 +4,7 @@ import { fromJS } from 'immutable'
 const createPausePath = ( controlPoints, parameters ) => {
 
     const position = controlPoints.get('position').get('point')
-    const pauseTime = parameters.pauseTime
+    const pauseTime = parameters.get('pauseTime')
     
     // number of points to create a pause of wanted time
     // e.g. 1 second pause requires 60 points

@@ -80,7 +80,7 @@ export const importPathData = (pathData) => {
             start,
             finish
         )
-        const parameters = {pathPoints: data.pathPoints}
+        const parameters = fromJS({pathPoints: data.pathPoints})
         paths = paths.push(createLinearPathDataHelper(controlPoints, parameters, false))
       })
 

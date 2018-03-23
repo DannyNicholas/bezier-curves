@@ -48,7 +48,7 @@ export const transformToPausePathData = (controlPoints, parameters) => {
     const position = controlPoints.get('position') || controlPoints.get('start')
 
     const pauseControlPoints = createPauseControlPoints(position.get('point'))
-    return createPausePathDataHelper(pauseControlPoints, pauseTime, true)
+    return createPausePathDataHelper(pauseControlPoints, parameters, true)
 }
 
 export const createDefaultPausePathDataWithFixedStart = (parameters, start) => {
@@ -73,7 +73,7 @@ export const importPathData = (pathData) => {
         const controlPoints = createPauseControlPoints(
             position
         )
-        const parameters = {pauseTime: data.pauseTime}
+        const parameters = fromJS({pauseTime: data.pauseTime})
         paths = paths.push(createPausePathDataHelper(controlPoints, parameters, false))
       })
 

@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import createBezierPath from './createBezierPath'
 import createBezierControlPoints from './createBezierControlPoints'
 import createPoint from '../createPoint'
@@ -15,7 +16,7 @@ describe('bezier path creation', () => {
                 finish,
                 finishControl
             )
-            const parameters = {pathPoints: 100}
+            const parameters = fromJS({pathPoints: 100})
 
             const path = createBezierPath( controlPoints, parameters )
 
@@ -38,7 +39,7 @@ describe('bezier path creation', () => {
                 finish,
                 finishControl
             )
-            const parameters = {pathPoints: 100}
+            const parameters = fromJS({pathPoints: 100})
     
             const path = createBezierPath( controlPoints, parameters )
             

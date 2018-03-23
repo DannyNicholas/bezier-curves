@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import {
     getBezierStartPoint,
     getBezierFinishPoint,
@@ -19,7 +20,7 @@ describe('default bezier data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
-    const parameters = {pathPoints: pathPointsMax}
+    const parameters = fromJS({pathPoints: pathPointsMax})
     const expectedOffset = 20
 
     it('get expected start point', () => {

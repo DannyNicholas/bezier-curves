@@ -1,7 +1,7 @@
 import { List } from 'immutable'
 import GridAction from '../constants/GridAction'
 import createPoint from '../maths/createPoint'
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_PATH_POINTS } from '../constants/DimensionDefault'
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../constants/DimensionDefault'
 import {
     createDefaultInitialState,
     createDefaultPathDataWithFixedStart,
@@ -245,8 +245,6 @@ const deletePathData = (state, action) => {
     // join the previous path's finish point to the following path's start point
     if (action.index !== 0 && action.index !== pathsList.size -  1)
     {
-        // const previousControlPointFinish = pathsList.get(action.index - 1).get('controlPoints').get('finish').get('point')
-        // pathsList = moveControlPointHelper(pathsList, action.index + 1, 'start', previousControlPointFinish)
         const previousPath = pathsList.get(action.index - 1)
         const previousControlPointFinish = getFinishPoint(previousPath.get('type'), previousPath.get('controlPoints'))
         const startKey = getStartKey(pathsList.get(action.index + 1).get('type'))

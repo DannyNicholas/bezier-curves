@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import createLinearPath from './createLinearPath'
 import createLinearControlPoints from './createLinearControlPoints'
 import createPoint from '../createPoint'
@@ -11,7 +12,7 @@ describe('linear path creation', () => {
             start,
             finish
         )
-        const parameters = {pathPoints: 2000}
+        const parameters = fromJS({pathPoints: 2000})
 
         const path = createLinearPath( controlPoints, parameters )
 
@@ -30,7 +31,7 @@ describe('linear path creation', () => {
             start,
             finish
         )
-        const parameters = {pathPoints: 2000}
+        const parameters = fromJS({pathPoints: 2000})
 
         const path = createLinearPath( controlPoints, parameters )
         

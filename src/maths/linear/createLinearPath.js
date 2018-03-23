@@ -6,7 +6,7 @@ import pointMultiplication from '../pointMultiplication'
 // calulate all points on Linear path from start to finish
 const createLinearPath = ( controlPoints, parameters ) => {
 
-    const numberOfPoints = parameters.pathPoints
+    const numberOfPoints = parameters.get('pathPoints')
     const start = controlPoints.get('start').get('point')
     const finish = controlPoints.get('finish').get('point')
     const delta = pointSubtraction(finish, start)

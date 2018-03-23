@@ -15,7 +15,7 @@ describe('reducer logic', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
-    const parameters = {pathPoints: pathPointsMax}
+    const parameters = fromJS({pathPoints: pathPointsMax})
     const multiplier = 1111
      
     it('changes width and height dimensions', () => {
@@ -433,7 +433,7 @@ describe('reducer logic', () => {
             finish,
             finishControl
         )
-        const parameters = {pathPoints: testValue}
+        const parameters = fromJS({pathPoints: testValue})
         
         const path = createBezierPath( controlPoints, parameters )
         

@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import createPausePath from './createPausePath'
 import createPauseControlPoints from './createPauseControlPoints'
 import createPoint from '../createPoint'
@@ -9,7 +10,7 @@ describe('pause path creation', () => {
         const controlPoints = createPauseControlPoints(
             position
         )
-        const parameters = {pauseTime: 2}
+        const parameters = fromJS({pauseTime: 2})
 
         const path = createPausePath( controlPoints, parameters )
 
@@ -26,7 +27,7 @@ describe('pause path creation', () => {
         const controlPoints = createPauseControlPoints(
             position
         )
-        const parameters = {pauseTime: 2}
+        const parameters = fromJS({pauseTime: 2})
 
         const path = createPausePath( controlPoints, parameters )
         

@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import {
     getPauseStartPoint,
     getPauseFinishPoint,
@@ -19,7 +20,7 @@ describe('default pause data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pauseTimeMax = 2
-    const defaultParameters = {pauseTime: pauseTimeMax}
+    const defaultParameters = fromJS({pauseTime: pauseTimeMax})
     const expectedOffset = 20
 
     it('get expected start point', () => {

@@ -6,7 +6,7 @@ import createBezierControlPoints from './createBezierControlPoints'
 import createBezierPath from './createBezierPath'
 
 const pointOffset = 20
-const defaultParameters = {pathPoints: 100}
+const defaultParameters = fromJS({pathPoints: 100})
 
 export const getBezierStartPoint = (controlPoints) => {
     return controlPoints.get('start').get('point')
@@ -106,7 +106,7 @@ export const importPathData = (pathData) => {
             finish,
             finishControl
         )
-        const parameters = {pathPoints: data.pathPoints}
+        const parameters = fromJS({pathPoints: data.pathPoints})
         paths = paths.push(createBezierPathDataHelper(controlPoints, parameters, false))
       })
 

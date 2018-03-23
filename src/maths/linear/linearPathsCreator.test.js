@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import {
     getLinearStartPoint,
     getLinearFinishPoint,
@@ -20,7 +21,7 @@ describe('default linear data creator', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
-    const defaultParameters = {pathPoints: pathPointsMax}
+    const defaultParameters = fromJS({pathPoints: pathPointsMax})
     const expectedOffset = 20
 
     it('get expected start point', () => {
