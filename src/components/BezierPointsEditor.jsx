@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
 import PathPointsEditor from './PathPointsEditor'
+import ParameterEditor from './ParameterEditor'
 import PathType from '../constants/PathType'
 import './BezierPointsEditor.css'
 
@@ -9,10 +10,12 @@ const BezierPointsEditor = ( {
     pathIndex,
     type,
     controlPoints,
+    pathParameters,
     pathPoints,
     showDelete,
     moveControlPoint,
     changePathPoints,
+    changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
@@ -32,6 +35,17 @@ const BezierPointsEditor = ( {
                 type={controlPoint.get('name')}
                 controlPoint={controlPoint.get('point')}
                 handleChange={moveControlPoint}
+            />
+    )
+
+    const ParameterEditors = pathParameters.entrySeq()
+        .map((parameter, key) =>
+            <ParameterEditor
+                key={key}
+                pathIndex={pathIndex}
+                parameterKey={parameter[0]}
+                parameterValue={parameter[1]}
+                changePathParameter={changePathParameter}
             />
     )
 
@@ -80,6 +94,7 @@ const BezierPointsEditor = ( {
                 <tbody>
                     {Editors}
                     {PointEditor}
+                    {ParameterEditors}
                 </tbody>
             </table>
             <ul className="button-group">
