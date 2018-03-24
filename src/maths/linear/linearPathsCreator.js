@@ -3,8 +3,13 @@ import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createLinearControlPoints from './createLinearControlPoints'
 import createLinearPath from './createLinearPath'
+import {
+    getStartPoint,
+    getFinishPoint
+} from '../facade/pathsCreator'
 
 const pointOffset = 20
+const DEFAULT_PATH_POINTS = 100
 
 export const getLinearStartPoint = (controlPoints) => {
     return controlPoints.get('start').get('point')
@@ -29,6 +34,7 @@ export const createInitialLinearState = (width, height, parameters) => {
         start,
         finish
     )
+    
     return fromJS({
         paths: [
             createLinearPathDataHelper(controlPoints, parameters, true)
@@ -44,12 +50,18 @@ export const createInitialLinearState = (width, height, parameters) => {
 }
 
 // transform from another path type to linear
-export const transformToLinearPathData = (controlPoints, parameters) => {
+export const transformToLinearPathData = (previousType, controlPoints, parameters) => {
+
+    const start = getStartPoint(previousType, controlPoints)
+    const finish = getFinishPoint(previousType, controlPoints)
+    const pathPoints = parameters.get('pathPoints') || DEFAULT_PATH_POINTS
+    const newParameters = parameters.set('pathPoints', pathPoints)
+
     const linearControlPoints = createLinearControlPoints(
-        controlPoints.get('start').get('point'),
-        controlPoints.get('finish').get('point')
+        start,
+        finish
     )
-    return createLinearPathDataHelper(linearControlPoints, parameters, true)
+    return createLinearPathDataHelper(linearControlPoints, newParameters, true)
 }
 
 export const createDefaultLinearPathDataWithFixedStart = (width, height, parameters, start) => {

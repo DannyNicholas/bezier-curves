@@ -36,7 +36,7 @@ const bezier = {
     createDefaultPathDataWithFixedStart: (width, height, pathPoints, start) => createDefaultBezierPathDataWithFixedStart(width, height, pathPoints, start),
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultBezierPathDataWithFixedFinish(width, height, pathPoints, finish),
     createPath: (controlPoints, parameters) => createBezierPath(controlPoints, parameters),
-    transformPathData: (width, controlPoints, parameters) => transformToBezierPathData(width, controlPoints, parameters),
+    transformPathData: (width, previousType, controlPoints, parameters) => transformToBezierPathData(width, previousType, controlPoints, parameters),
     getStartKey: () => getBezierStartKey(),
     getFinishKey: () => getBezierFinishKey(),
     getStartPoint: (controlPoints) => getBezierStartPoint(controlPoints),
@@ -47,7 +47,7 @@ const linear = {
     createDefaultPathDataWithFixedStart: (width, height, pathPoints, start) => createDefaultLinearPathDataWithFixedStart(width, height, pathPoints, start),
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultLinearPathDataWithFixedFinish(width, height, pathPoints, finish),
     createPath: (controlPoints, parameters) => createLinearPath(controlPoints, parameters),
-    transformPathData: (controlPoints, parameters) => transformToLinearPathData(controlPoints, parameters),
+    transformPathData: (previousType, controlPoints, parameters) => transformToLinearPathData(previousType, controlPoints, parameters),
     getStartKey: () => getLinearStartKey(),
     getFinishKey: () => getLinearFinishKey(),
     getStartPoint: (controlPoints) => getLinearStartPoint(controlPoints),
@@ -58,7 +58,7 @@ const pause = {
     createDefaultPathDataWithFixedStart: (width, height, pathPoints, start) => createDefaultPausePathDataWithFixedStart(pathPoints, start),
     createDefaultPathDataWithFixedFinish: (width, height, pathPoints, finish) => createDefaultPausePathDataWithFixedFinish(pathPoints, finish),
     createPath: (controlPoints, parameters) => createPausePath(controlPoints, parameters),
-    transformPathData: (controlPoints, parameters) => transformToPausePathData(controlPoints, parameters),
+    transformPathData: (previousType, controlPoints, parameters) => transformToPausePathData(previousType, controlPoints, parameters),
     getStartKey: () => getPauseStartKey(),
     getFinishKey: () => getPauseFinishKey(),
     getStartPoint: (controlPoints) => getPauseStartPoint(controlPoints),
@@ -204,17 +204,17 @@ export const createDefaultPathDataWithFixedFinish = (type, width, height, parame
 }
 
 // create and return transformed path data to the wanted type
-export const transformPathData = (type, width, height, controlPoints, parameters) => {
+export const transformPathData = (type, width, height, previousType, controlPoints, parameters) => {
 
     switch (type) {
         case PathType.BEZIER:
-            return bezier.transformPathData(width, controlPoints, parameters)
+            return bezier.transformPathData(width, previousType, controlPoints, parameters)
 
         case PathType.LINEAR:
-            return linear.transformPathData(controlPoints, parameters)
+            return linear.transformPathData(previousType, controlPoints, parameters)
 
         case PathType.PAUSE:
-            return pause.transformPathData(controlPoints, parameters)
+            return pause.transformPathData(previousType, controlPoints, parameters)
 
         default:
             console.error("Unrecognised path type '" + type + "'.")

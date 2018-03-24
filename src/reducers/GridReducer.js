@@ -224,6 +224,7 @@ const transformPath = (state, action) => {
         action.pathType,
         state.get('width'),
         state.get('height'),
+        currentPath.get('type'),
         currentPath.get('controlPoints'),
         currentPath.get('parameters')
     )

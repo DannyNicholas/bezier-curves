@@ -3,8 +3,12 @@ import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createPauseControlPoints from './createPauseControlPoints'
 import createPausePath from './createPausePath'
+import {
+    getStartPoint
+} from '../facade/pathsCreator'
 
 const pointOffset = 20
+const DEFAULT_PAUSE_TIME = 2
 
 export const getPauseStartPoint = (controlPoints) => {
     return controlPoints.get('position').get('point')
@@ -42,13 +46,15 @@ export const createInitialPauseState = (width, height, parameters) => {
 }
 
 // transform from another path type to pause
-export const transformToPausePathData = (controlPoints, parameters) => {
+export const transformToPausePathData = (previousType, controlPoints, parameters) => {
 
-    // get 'position' if it exists or 'start' if not
-    const position = controlPoints.get('position') || controlPoints.get('start')
+    // set 'position' to 'start' of previous path
+    const position = getStartPoint(previousType, controlPoints)
+    const pauseTime = parameters.get('pauseTime') || DEFAULT_PAUSE_TIME
+    const newParameters = parameters.set('pauseTime', pauseTime)
+    const pauseControlPoints = createPauseControlPoints(position)
 
-    const pauseControlPoints = createPauseControlPoints(position.get('point'))
-    return createPausePathDataHelper(pauseControlPoints, parameters, true)
+    return createPausePathDataHelper(pauseControlPoints, newParameters, true)
 }
 
 export const createDefaultPausePathDataWithFixedStart = (parameters, start) => {
