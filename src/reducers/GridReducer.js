@@ -134,6 +134,21 @@ const moveNextStartPoint = (paths, index, controlPoint) => {
     return paths
 }
 
+// move one of the control points and recalculate path
+//
+// type holds the name of control point is being updated (e.g. 'start')
+const moveControlPointHelper = (paths, index, type, controlPoint) => {
+
+    // get and update path data for index
+    const pathData = paths.get(index)
+    const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)
+    const path = createPath(pathData.get('type'), newControlPoints, pathData.get('parameters'))
+    const newPathData = pathData.set('path', path).set('controlPoints', newControlPoints)
+
+    // update path data in list and return
+    return paths.set(index, newPathData)
+}
+
 // change number of points on the path and recalculate path
 //
 // action.index holds index of path data to change
@@ -160,8 +175,8 @@ const changeParameters = (state, action) => {
     // get and update path parameters for index
     const pathData = state.get('paths').get(action.index)
     const newParameters = pathData.get('parameters').set(action.parameterKey, action.parameterValue)
-    const path = createPath(pathData.get('type'), pathData.get('controlPoints'), newParameters)
-    const newPathData = pathData.set('path', path).set('parameters', newParameters)
+    const newPath = createPath(pathData.get('type'), pathData.get('controlPoints'), newParameters)
+    const newPathData = pathData.set('path', newPath).set('parameters', newParameters)
 
     // update path data in list and return
     const newPaths = state.get('paths').set(action.index, newPathData)
@@ -215,7 +230,9 @@ const insertPathDataAfter = (state, action) => {
     return state.set('paths', paths)
 }
 
-// transform path data to another type (e.g. transform to bezier)
+// transform path data to another type (e.g. transform linear to bezier)
+//
+// action.pathType = new path type to transform to
 const transformPath = (state, action) => {
 
     let paths = state.get('paths')
@@ -277,23 +294,6 @@ const setActivatePath = (paths, activeIndex) => {
         return path.set('active', false);
     })
 }
-
-
-// move one of the control points and recalculate path
-//
-// type holds the name of control point is being updated (e.g. 'start')
-const moveControlPointHelper = (paths, index, type, controlPoint) => {
-
-    // get and update path data for index
-    const pathData = paths.get(index)
-    const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)
-    const path = createPath(pathData.get('type'), newControlPoints, pathData.get('parameters'))
-    const newPathData = pathData.set('path', path).set('controlPoints', newControlPoints)
-
-    // update path data in list and return
-    return paths.set(index, newPathData)
-}
-
 
 const GridReducer = (state = initialState, action) => {
 
