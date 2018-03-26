@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import  { exportToJsonFile } from '../../utils/exportToJson'
 import  { importFromJsonFile } from '../../utils/importFromJson'
 import { extractPaths } from '../../utils/extractPaths'
@@ -30,6 +31,13 @@ const Exporter = ( {paths, width, height, importPaths} ) => {
             </div>
         </div>
     )
+}
+
+Exporter.propTypes = {
+    paths: PropTypes.object.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    importPaths: PropTypes.func.isRequired
 }
 
 export default Exporter

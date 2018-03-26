@@ -1,19 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import BezierPointsEditor from './BezierPointsEditor'
 import './EditorPanel.css'
 
 const EditorPanel = ( {
     path,
     index,
-    active,
     showDelete,
-    moveControlPoint,
-    changePathParameter,
-    insertPathDataBefore,
-    insertPathDataAfter,
-    deletePathData,
-    activatePath,
-    transformPath
+    editors,
+    activatePath
 } ) => {
     
     let PointsEditor;
@@ -25,12 +20,12 @@ const EditorPanel = ( {
             controlPoints={path.get('controlPoints')}
             pathParameters={path.get('parameters')}
             showDelete={showDelete}
-            moveControlPoint={moveControlPoint}
-            changePathParameter={changePathParameter}
-            insertPathDataBefore={insertPathDataBefore}
-            insertPathDataAfter={insertPathDataAfter}
-            deletePathData={deletePathData}
-            transformPath={transformPath}
+            moveControlPoint={editors.moveControlPoint}
+            changePathParameter={editors.changePathParameter}
+            insertPathDataBefore={editors.insertPathDataBefore}
+            insertPathDataAfter={editors.insertPathDataAfter}
+            deletePathData={editors.deletePathData}
+            transformPath={editors.transformPath}
         />
     }
 
@@ -49,6 +44,14 @@ const EditorPanel = ( {
             {PointsEditor}
         </div>
     )
+}
+
+EditorPanel.propTypes = {
+    path: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    showDelete: PropTypes.bool.isRequired,
+    editors: PropTypes.object.isRequired,
+    activatePath: PropTypes.func.isRequired
 }
 
 export default EditorPanel

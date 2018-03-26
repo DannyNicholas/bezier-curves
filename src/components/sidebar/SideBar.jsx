@@ -9,18 +9,8 @@ const SideBar = ( {
     width,
     height,
     paths,
-    moveControlPoint,
-    changePathParameter,
-    insertPathDataBefore,
-    insertPathDataAfter,
-    deletePathData,
-    activatePath,
-    transformPath,
-    changeDimensions,
-    animationOn,
-    animationOff,
     animation,
-    importPaths
+    editors
 } ) => {
 
     const Editors = paths.map((path, index) => 
@@ -29,13 +19,8 @@ const SideBar = ( {
             index={index}
             path={path}
             showDelete={paths.size > 1}
-            moveControlPoint={moveControlPoint}
-            changePathParameter={changePathParameter}
-            insertPathDataBefore={insertPathDataBefore}
-            insertPathDataAfter={insertPathDataAfter}
-            deletePathData={deletePathData}
-            activatePath={activatePath}
-            transformPath={transformPath}
+            editors={editors}
+            activatePath={editors.activatePath}
         />
     )
       
@@ -44,17 +29,17 @@ const SideBar = ( {
             <DimensionsEditor
                 width={width}
                 height={height}
-                changeDimensions={changeDimensions}
+                changeDimensions={editors.changeDimensions}
             />
             <Exporter
                 paths={paths}
                 width={width}
                 height={height}
-                importPaths={importPaths}
+                importPaths={editors.importPaths}
             />
             <Animator
-                animationOn={animationOn}
-                animationOff={animationOff}
+                animationOn={editors.animationOn}
+                animationOff={editors.animationOff}
                 animating={animation.get('animating')}
             />
             <div className="editor">
@@ -65,9 +50,11 @@ const SideBar = ( {
 }
 
 SideBar.propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     paths: PropTypes.object.isRequired,
-    moveControlPoint: PropTypes.func.isRequired,
-    changeDimensions: PropTypes.func.isRequired
+    animation: PropTypes.object.isRequired,
+    editors: PropTypes.object.isRequired
 }
 
 export default SideBar
