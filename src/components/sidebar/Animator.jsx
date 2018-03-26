@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './Animator.css'
 
 const Animator = ( { animating, animationOn, animationOff } ) => {
@@ -21,6 +22,12 @@ const Animator = ( { animating, animationOn, animationOff } ) => {
             </label>
         </div>
     )
+}
+
+Animator.propTypes = {
+    animating: PropTypes.bool.isRequired,
+    animationOn: PropTypes.func.isRequired,
+    animationOff: PropTypes.func.isRequired,
 }
 
 export default Animator

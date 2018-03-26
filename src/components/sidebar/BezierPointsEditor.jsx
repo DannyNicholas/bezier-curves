@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
 import ParameterEditor from './ParameterEditor'
-import PathType from '../constants/PathType'
+import PathType from '../../constants/PathType'
 import './BezierPointsEditor.css'
 
 const BezierPointsEditor = ( {
@@ -97,8 +97,15 @@ const BezierPointsEditor = ( {
 
 BezierPointsEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
     controlPoints: PropTypes.object.isRequired,
+    pathParameters: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
+    changePathParameter: PropTypes.func.isRequired,
+    insertPathDataBefore: PropTypes.func.isRequired,
+    insertPathDataAfter: PropTypes.func.isRequired,
+    deletePathData: PropTypes.func.isRequired,
+    transformPath: PropTypes.func.isRequired
 }
 
 export default BezierPointsEditor

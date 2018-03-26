@@ -61,6 +61,9 @@ const Grid = ( { paths, width, height, animation, moveControlPoint } ) => {
 
 Grid.propTypes = {
     paths: PropTypes.object.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    animation: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired
 }
 

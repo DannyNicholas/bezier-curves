@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from './Grid'
-import SideBar from './SideBar'
+import Grid from './grid/Grid'
+import SideBar from './sidebar/SideBar'
 import './Paths.css';
 
 const Paths = ( {
@@ -9,17 +9,7 @@ const Paths = ( {
     width,
     height,
     animation,
-    moveControlPoint,
-    changePathParameter,
-    insertPathDataBefore,
-    insertPathDataAfter,
-    deletePathData,
-    activatePath,
-    transformPath,
-    changeDimensions,
-    animationOn,
-    animationOff,
-    importPaths
+    editors
 } ) => {
 
     return (
@@ -31,7 +21,7 @@ const Paths = ( {
                     width={width}
                     height={height}
                     animation={animation}
-                    moveControlPoint={moveControlPoint}
+                    moveControlPoint={editors.moveControlPoint}
                 />
             </div>
             <div className="sideBar">
@@ -40,18 +30,8 @@ const Paths = ( {
                     width={width}
                     height={height}
                     paths={paths}
-                    moveControlPoint={moveControlPoint}
-                    changePathParameter={changePathParameter}
-                    insertPathDataBefore={insertPathDataBefore}
-                    insertPathDataAfter={insertPathDataAfter}
-                    deletePathData={deletePathData}
-                    activatePath={activatePath}
-                    transformPath={transformPath}
-                    changeDimensions={changeDimensions}
-                    animationOn={animationOn}
-                    animationOff={animationOff}
                     animation={animation}
-                    importPaths={importPaths}
+                    editors={editors}
                 />
             </div>
         </div>
@@ -60,8 +40,10 @@ const Paths = ( {
 
 Paths.propTypes = {
     paths: PropTypes.object.isRequired,
-    moveControlPoint: PropTypes.func.isRequired,
-    changeDimensions: PropTypes.func.isRequired
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    animation: PropTypes.object.isRequired,
+    editors: PropTypes.object.isRequired
 }
 
 export default Paths

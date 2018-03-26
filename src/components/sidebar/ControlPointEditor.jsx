@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import createPoint from '../maths/createPoint'
+import createPoint from '../../maths/createPoint'
 import './ControlPointEditor.css'
 
 const ControlPointEditor = ( {pathIndex, type, controlPoint, handleChange} ) => {

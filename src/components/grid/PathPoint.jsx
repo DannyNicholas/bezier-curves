@@ -19,7 +19,8 @@ PathPoint.propTypes = {
     point: ImmutablePropTypes.contains({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired
-    })
+    }),
+    active: PropTypes.bool.isRequired
 }
 
 export default PathPoint

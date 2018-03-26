@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import { Circle } from 'react-konva'
-import createPoint from '../maths/createPoint'
+import createPoint from '../../maths/createPoint'
 
 const ControlPoint = ( {pathIndex, type, point, handleChange} ) => {
 
