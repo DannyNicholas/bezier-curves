@@ -1,8 +1,9 @@
+import { fromJS } from 'immutable'
 import createLinearPath from './createLinearPath'
 import createLinearControlPoints from './createLinearControlPoints'
 import createPoint from '../createPoint'
 
-describe('bezier path creation', () => {
+describe('linear path creation', () => {
     
     it('checks integer linear path length, start and end', () => {
         const start = createPoint( 0, 100 )
@@ -11,8 +12,9 @@ describe('bezier path creation', () => {
             start,
             finish
         )
+        const parameters = fromJS({pathPoints: 2000})
 
-        const path = createLinearPath( controlPoints, 2000 )
+        const path = createLinearPath( controlPoints, parameters )
 
         // confirm length of path
         expect(path.size).toEqual(2001)
@@ -29,8 +31,9 @@ describe('bezier path creation', () => {
             start,
             finish
         )
+        const parameters = fromJS({pathPoints: 2000})
 
-        const path = createLinearPath( controlPoints, 2000 )
+        const path = createLinearPath( controlPoints, parameters )
         
         // confirm length of path
         expect(path.size).toEqual(2001)

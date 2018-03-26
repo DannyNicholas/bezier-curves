@@ -11,6 +11,7 @@ const Paths = ( {
     animation,
     moveControlPoint,
     changePathPoints,
+    changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
@@ -42,6 +43,7 @@ const Paths = ( {
                     paths={paths}
                     moveControlPoint={moveControlPoint}
                     changePathPoints={changePathPoints}
+                    changePathParameter={changePathParameter}
                     insertPathDataBefore={insertPathDataBefore}
                     insertPathDataAfter={insertPathDataAfter}
                     deletePathData={deletePathData}

@@ -15,10 +15,11 @@ describe('reducer logic', () => {
     const xMax = 1000
     const yMax = 1000
     const pathPointsMax = 100
+    const parameters = fromJS({pathPoints: pathPointsMax})
     const multiplier = 1111
      
     it('changes width and height dimensions', () => {
-        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, parameters)
 
         // trigger action to change width and height dimensions
         const action = GridActionCreators.changeDimensions(123,987)
@@ -29,7 +30,7 @@ describe('reducer logic', () => {
     })
 
     it('moves a control point to the expected position', () => {
-        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, parameters)
 
         // trigger action to move the start control point to new position
         const movedControlPoint = createPoint( 200, 300 )
@@ -65,15 +66,27 @@ describe('reducer logic', () => {
         testMoveStartPoint(2)
     })
 
-    it('changes to the expected number of path points', () => {
-        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
+    // it('changes to the expected number of path points', () => {
+    //     const defaultState = createInitialBezierState(xMax, yMax, parameters)
+
+    //     // triggers action to increase the number of path points to 200
+    //     const newPathPoints = 200
+    //     const action = GridActionCreators.changePathPoints(0, newPathPoints)
+    //     const newState = GridReducer(defaultState, action)
+
+    //     const pathPoints = newState.get('paths').get(0).get('pathPoints')
+    //     expect(pathPoints).toEqual(newPathPoints)
+    // })
+
+    it('changes to the expected path parameters', () => {
+        const defaultState = createInitialBezierState(xMax, yMax, parameters)
 
         // triggers action to increase the number of path points to 200
         const newPathPoints = 200
-        const action = GridActionCreators.changePathPoints(0, newPathPoints)
+        const action = GridActionCreators.changePathParameter(0, 'pathPoints', newPathPoints)
         const newState = GridReducer(defaultState, action)
-
-        const pathPoints = newState.get('paths').get(0).get('pathPoints')
+ 
+        const pathPoints = newState.get('paths').get(0).get('parameters').get('pathPoints')
         expect(pathPoints).toEqual(newPathPoints)
     })
 
@@ -114,7 +127,7 @@ describe('reducer logic', () => {
     })
 
     it('transforms path data to the path type', () => {
-        const defaultState = createInitialBezierState(xMax, yMax, pathPointsMax)
+        const defaultState = createInitialBezierState(xMax, yMax, parameters)
         const initialControlPoints = defaultState.get('paths').get(0).get('controlPoints')
         const initialStart = initialControlPoints.get('start').get('point')
         const initialFinish = initialControlPoints.get('finish').get('point')
@@ -242,7 +255,7 @@ describe('reducer logic', () => {
         expect(controlPoints1.get('startControl').get('point').get('y')).toEqual(60)
         expect(controlPoints1.get('finishControl').get('point').get('x')).toEqual(70)
         expect(controlPoints1.get('finishControl').get('point').get('y')).toEqual(80)
-        expect(path1.get('pathPoints')).toEqual(1000)
+        expect(path1.get('parameters').get('pathPoints')).toEqual(1000)
 
         const path2 = newState.get('paths').get('1')
         const controlPoints2 = path2.get('controlPoints')
@@ -254,7 +267,7 @@ describe('reducer logic', () => {
         expect(controlPoints2.get('startControl').get('point').get('y')).toEqual(140)
         expect(controlPoints2.get('finishControl').get('point').get('x')).toEqual(150)
         expect(controlPoints2.get('finishControl').get('point').get('y')).toEqual(160)
-        expect(path2.get('pathPoints')).toEqual(2000)
+        expect(path2.get('parameters').get('pathPoints')).toEqual(2000)
     })
 
     // test helper functions
@@ -314,8 +327,8 @@ describe('reducer logic', () => {
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
-        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
-        const pathPoints = newState.get('paths').get(index).get('pathPoints')
+        const expectedPathPoints = state.get('paths').get(index).get('parameters').get('pathPoints')
+        const pathPoints = newState.get('paths').get(index).get('parameters').get('pathPoints')
         expect(pathPoints).toEqual(expectedPathPoints)
 
         // check new item is now active
@@ -340,8 +353,8 @@ describe('reducer logic', () => {
 
         // verify the new data is at expected index
         expect(newState.get('paths').size).toEqual(4)
-        const expectedPathPoints = state.get('paths').get(index).get('pathPoints')
-        const pathPoints = newState.get('paths').get(index + 1).get('pathPoints')
+        const expectedPathPoints = state.get('paths').get(index).get('parameters').get('pathPoints')
+        const pathPoints = newState.get('paths').get(index + 1).get('parameters').get('pathPoints')
         expect(pathPoints).toEqual(expectedPathPoints)
 
         // check new item is now active
@@ -369,7 +382,7 @@ describe('reducer logic', () => {
 
         // check deleted item is no longer in list
         newState.get('paths').map((path) => {
-            expect(path.get('pathPoints')).not.toEqual((index + 1) * multiplier)
+            expect(path.get('parameters').get('pathPoints')).not.toEqual((index + 1) * multiplier)
         })
 
         // check item before deletion index is now active
@@ -400,9 +413,9 @@ describe('reducer logic', () => {
         // confirm list created correctly before using it
         const paths = state.get('paths')
         expect(paths.size).toEqual(3)
-        expect(paths.get(0).get('pathPoints')).toEqual(1 * multiplier)
-        expect(paths.get(1).get('pathPoints')).toEqual(2 * multiplier)
-        expect(paths.get(2).get('pathPoints')).toEqual(3 * multiplier)
+        expect(paths.get(0).get('parameters').get('pathPoints')).toEqual(1 * multiplier)
+        expect(paths.get(1).get('parameters').get('pathPoints')).toEqual(2 * multiplier)
+        expect(paths.get(2).get('parameters').get('pathPoints')).toEqual(3 * multiplier)
     
         return state
     }
@@ -420,16 +433,16 @@ describe('reducer logic', () => {
             finish,
             finishControl
         )
-        const pathPoints = testValue
+        const parameters = fromJS({pathPoints: testValue})
         
-        const path = createBezierPath( controlPoints, pathPoints )
+        const path = createBezierPath( controlPoints, parameters )
         
         return fromJS(
             {
                 type: PathType.BEZIER,
                 path: path,
                 controlPoints: controlPoints,
-                pathPoints: pathPoints,
+                parameters: parameters,
                 active: false
             }
         )

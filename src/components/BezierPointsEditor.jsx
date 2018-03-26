@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
 import PathPointsEditor from './PathPointsEditor'
+import ParameterEditor from './ParameterEditor'
 import PathType from '../constants/PathType'
 import './BezierPointsEditor.css'
 
@@ -9,10 +10,12 @@ const BezierPointsEditor = ( {
     pathIndex,
     type,
     controlPoints,
+    pathParameters,
     pathPoints,
     showDelete,
     moveControlPoint,
     changePathPoints,
+    changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
     deletePathData,
@@ -35,6 +38,28 @@ const BezierPointsEditor = ( {
             />
     )
 
+    const ParameterEditors = pathParameters.entrySeq()
+        .map((parameter, key) =>
+            <ParameterEditor
+                key={key}
+                pathIndex={pathIndex}
+                parameterKey={parameter[0]}
+                parameterValue={parameter[1]}
+                changePathParameter={changePathParameter}
+            />
+    )
+
+    let PointEditor
+    if(type === PathType.BEZIER || type === PathType.LINEAR) {
+        PointEditor = (
+            <PathPointsEditor
+                pathIndex={pathIndex}
+                pathPoints={pathPoints}
+                handleChange={changePathPoints}
+            />
+        )
+    }
+
     // optional delete button
     let DeleteButton
     if(showDelete) {
@@ -50,6 +75,7 @@ const BezierPointsEditor = ( {
         <select name="path-type" value={type} onChange={handlePathTypeChange}>
             <option value={PathType.BEZIER}>Bezier</option>
             <option value={PathType.LINEAR}>Line</option>
+            <option value={PathType.PAUSE}>Pause</option>
         </select>
     )
       
@@ -67,11 +93,8 @@ const BezierPointsEditor = ( {
                 </thead>
                 <tbody>
                     {Editors}
-                    <PathPointsEditor
-                        pathIndex={pathIndex}
-                        pathPoints={pathPoints}
-                        handleChange={changePathPoints}
-                    />
+                    {PointEditor}
+                    {ParameterEditors}
                 </tbody>
             </table>
             <ul className="button-group">
@@ -90,7 +113,6 @@ const BezierPointsEditor = ( {
 BezierPointsEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
     controlPoints: PropTypes.object.isRequired,
-    pathPoints: PropTypes.number.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
     changePathPoints: PropTypes.func.isRequired
 }

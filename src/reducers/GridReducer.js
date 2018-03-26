@@ -7,7 +7,11 @@ import {
     createDefaultPathDataWithFixedStart,
     createDefaultPathDataWithFixedFinish,
     createPath,
-    transformPathData
+    transformPathData,
+    getStartKey,
+    getFinishKey,
+    getStartPoint,
+    getFinishPoint
 } from '../maths/facade/pathsCreator'
 
 // TODO refactor import path data to handle all path types
@@ -95,14 +99,14 @@ const moveControlPoint = (state, action) => {
     // move any adjacent start/end points
     switch (action.pointType) {
         case 'start':
-            if (action.index > 0) {
-                paths = moveControlPointHelper(paths, action.index - 1, 'finish', action.controlPoint)
-            }
+            paths = movePreviousFinishPoint(paths, action.index, action.controlPoint)
             break;
         case 'finish':
-            if (action.index < (paths.size - 1)) {
-                paths = moveControlPointHelper(paths, action.index + 1, 'start', action.controlPoint)
-            }
+            paths = moveNextStartPoint(paths, action.index, action.controlPoint)
+            break;
+        case 'position':
+            paths = moveNextStartPoint(paths, action.index, action.controlPoint)
+            paths = movePreviousFinishPoint(paths, action.index, action.controlPoint)
             break;
         default:
             // action for control points
@@ -110,6 +114,39 @@ const moveControlPoint = (state, action) => {
     }
 
     return state.set('paths', paths)
+}
+
+// move previous path to finish from provided point
+const movePreviousFinishPoint = (paths, index, controlPoint) => {
+    if (index > 0) {
+        const finishKey = getFinishKey(paths.get(index - 1).get('type'))
+        paths = moveControlPointHelper(paths, index - 1, finishKey, controlPoint)
+    }
+    return paths
+}
+
+// move next path to start from provided point
+const moveNextStartPoint = (paths, index, controlPoint) => {
+    if (index < (paths.size - 1)) {
+        const startKey = getStartKey(paths.get(index + 1).get('type'))
+        paths = moveControlPointHelper(paths, index + 1, startKey, controlPoint)
+    }
+    return paths
+}
+
+// move one of the control points and recalculate path
+//
+// type holds the name of control point is being updated (e.g. 'start')
+const moveControlPointHelper = (paths, index, type, controlPoint) => {
+
+    // get and update path data for index
+    const pathData = paths.get(index)
+    const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)
+    const path = createPath(pathData.get('type'), newControlPoints, pathData.get('parameters'))
+    const newPathData = pathData.set('path', path).set('controlPoints', newControlPoints)
+
+    // update path data in list and return
+    return paths.set(index, newPathData)
 }
 
 // change number of points on the path and recalculate path
@@ -128,6 +165,24 @@ const changePathPoints = (state, action) => {
      return state.set('paths', newPaths)
 }
 
+// change a path's parameters and recalculate path
+//
+// action.index - holds index of path data to change
+// action.parameterKey - holds the parameter key
+// action.parameterValue - holds the updated value for the parameter key
+const changeParameters = (state, action) => {
+
+    // get and update path parameters for index
+    const pathData = state.get('paths').get(action.index)
+    const newParameters = pathData.get('parameters').set(action.parameterKey, action.parameterValue)
+    const newPath = createPath(pathData.get('type'), pathData.get('controlPoints'), newParameters)
+    const newPathData = pathData.set('path', newPath).set('parameters', newParameters)
+
+    // update path data in list and return
+    const newPaths = state.get('paths').set(action.index, newPathData)
+    return state.set('paths', newPaths)
+}
+
 // insert new path data into the list of paths before supplied index
 //
 // action.index holds the list insert index
@@ -137,12 +192,12 @@ const insertPathDataBefore = (state, action) => {
     const currentPath = paths.get(action.index)
 
     // create new path data with finsh point equal to current path data start point
-    const currentControlPointStart = currentPath.get('controlPoints').get('start').get('point')
+    const currentControlPointStart = getStartPoint(currentPath.get('type'), currentPath.get('controlPoints'))
     const pathDataToInsert = createDefaultPathDataWithFixedFinish(
         currentPath.get('type'),
         state.get('width'),
         state.get('height'),
-        currentPath.get('pathPoints'),
+        currentPath.get('parameters'),
         currentControlPointStart)
 
      // insert path data into list before index and return
@@ -160,12 +215,12 @@ const insertPathDataAfter = (state, action) => {
     const currentPath = paths.get(action.index)
 
     // create new path data with start point equal to current path data finish point
-    const currentControlPointFinish = currentPath.get('controlPoints').get('finish').get('point')
+    const currentControlPointFinish = getFinishPoint(currentPath.get('type'), currentPath.get('controlPoints'))
     const pathDataToInsert = createDefaultPathDataWithFixedStart(
         currentPath.get('type'),
         state.get('width'),
         state.get('height'),
-        currentPath.get('pathPoints'),
+        currentPath.get('parameters'),
         currentControlPointFinish
     )
 
@@ -175,7 +230,9 @@ const insertPathDataAfter = (state, action) => {
     return state.set('paths', paths)
 }
 
-// transform path data to another type (e.g. transform to bezier)
+// transform path data to another type (e.g. transform linear to bezier)
+//
+// action.pathType = new path type to transform to
 const transformPath = (state, action) => {
 
     let paths = state.get('paths')
@@ -184,8 +241,9 @@ const transformPath = (state, action) => {
         action.pathType,
         state.get('width'),
         state.get('height'),
+        currentPath.get('type'),
         currentPath.get('controlPoints'),
-        currentPath.get('pathPoints')
+        currentPath.get('parameters')
     )
 
     paths = paths.set(action.index, transformedPathData)
@@ -205,8 +263,10 @@ const deletePathData = (state, action) => {
     // join the previous path's finish point to the following path's start point
     if (action.index !== 0 && action.index !== pathsList.size -  1)
     {
-        const previousControlPointFinish = pathsList.get(action.index - 1).get('controlPoints').get('finish').get('point')
-        pathsList = moveControlPointHelper(pathsList, action.index + 1, 'start', previousControlPointFinish)
+        const previousPath = pathsList.get(action.index - 1)
+        const previousControlPointFinish = getFinishPoint(previousPath.get('type'), previousPath.get('controlPoints'))
+        const startKey = getStartKey(pathsList.get(action.index + 1).get('type'))
+        pathsList = moveControlPointHelper(pathsList, action.index + 1, startKey, previousControlPointFinish)
     }
 
     let newPaths = pathsList.delete(action.index)
@@ -235,31 +295,18 @@ const setActivatePath = (paths, activeIndex) => {
     })
 }
 
-
-// move one of the control points and recalculate path
-//
-// type holds the name of control point is being updated (e.g. 'start')
-const moveControlPointHelper = (paths, index, type, controlPoint) => {
-
-    // get and update path data for index
-    const pathData = paths.get(index)
-    const newControlPoints = pathData.get('controlPoints').setIn([type, 'point'], controlPoint)
-    const path = createPath(pathData.get('type'), newControlPoints, pathData.get('pathPoints'))
-    const newPathData = pathData.set('path', path).set('controlPoints', newControlPoints)
-
-    // update path data in list and return
-    return paths.set(index, newPathData)
-}
-
-
 const GridReducer = (state = initialState, action) => {
 
     switch (action.type) {
+
         case GridAction.MOVE_CONTROL_POINT:
             return moveControlPoint(state, action)
 
         case GridAction.CHANGE_PATH_POINTS:
-            return changePathPoints(state, action)  
+            return changePathPoints(state, action)
+
+        case GridAction.CHANGE_PARAMETER:
+            return changeParameters(state, action)  
 
         case GridAction.INSERT_PATH_DATA_BEFORE:
             return insertPathDataBefore(state, action)
