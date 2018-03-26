@@ -66,18 +66,6 @@ describe('reducer logic', () => {
         testMoveStartPoint(2)
     })
 
-    // it('changes to the expected number of path points', () => {
-    //     const defaultState = createInitialBezierState(xMax, yMax, parameters)
-
-    //     // triggers action to increase the number of path points to 200
-    //     const newPathPoints = 200
-    //     const action = GridActionCreators.changePathPoints(0, newPathPoints)
-    //     const newState = GridReducer(defaultState, action)
-
-    //     const pathPoints = newState.get('paths').get(0).get('pathPoints')
-    //     expect(pathPoints).toEqual(newPathPoints)
-    // })
-
     it('changes to the expected path parameters', () => {
         const defaultState = createInitialBezierState(xMax, yMax, parameters)
 

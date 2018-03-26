@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
-import PathPointsEditor from './PathPointsEditor'
 import ParameterEditor from './ParameterEditor'
 import PathType from '../constants/PathType'
 import './BezierPointsEditor.css'
@@ -11,10 +10,8 @@ const BezierPointsEditor = ( {
     type,
     controlPoints,
     pathParameters,
-    pathPoints,
     showDelete,
     moveControlPoint,
-    changePathPoints,
     changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
@@ -49,17 +46,6 @@ const BezierPointsEditor = ( {
             />
     )
 
-    let PointEditor
-    if(type === PathType.BEZIER || type === PathType.LINEAR) {
-        PointEditor = (
-            <PathPointsEditor
-                pathIndex={pathIndex}
-                pathPoints={pathPoints}
-                handleChange={changePathPoints}
-            />
-        )
-    }
-
     // optional delete button
     let DeleteButton
     if(showDelete) {
@@ -93,7 +79,6 @@ const BezierPointsEditor = ( {
                 </thead>
                 <tbody>
                     {Editors}
-                    {PointEditor}
                     {ParameterEditors}
                 </tbody>
             </table>
@@ -114,7 +99,6 @@ BezierPointsEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
     controlPoints: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
-    changePathPoints: PropTypes.func.isRequired
 }
 
 export default BezierPointsEditor

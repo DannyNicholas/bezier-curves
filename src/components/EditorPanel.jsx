@@ -8,7 +8,6 @@ const EditorPanel = ( {
     active,
     showDelete,
     moveControlPoint,
-    changePathPoints,
     changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
@@ -27,7 +26,6 @@ const EditorPanel = ( {
             pathParameters={path.get('parameters')}
             showDelete={showDelete}
             moveControlPoint={moveControlPoint}
-            changePathPoints={changePathPoints}
             changePathParameter={changePathParameter}
             insertPathDataBefore={insertPathDataBefore}
             insertPathDataAfter={insertPathDataAfter}
