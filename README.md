@@ -30,6 +30,7 @@ The internal representation of paths is an array of path data with associated di
 ### Path Data
 
 Each path data item holds it's:
+  - path type
   - calculated path points (an array of x,y path co-ordinates)
   - control points (e.g. start/finish positions)
   - additional parameters (e.g. number of points on path)
