@@ -10,7 +10,6 @@ const Paths = ( {
     height,
     animation,
     moveControlPoint,
-    changePathPoints,
     changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
@@ -42,7 +41,6 @@ const Paths = ( {
                     height={height}
                     paths={paths}
                     moveControlPoint={moveControlPoint}
-                    changePathPoints={changePathPoints}
                     changePathParameter={changePathParameter}
                     insertPathDataBefore={insertPathDataBefore}
                     insertPathDataAfter={insertPathDataAfter}
@@ -63,7 +61,6 @@ const Paths = ( {
 Paths.propTypes = {
     paths: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
-    changePathPoints: PropTypes.func.isRequired,
     changeDimensions: PropTypes.func.isRequired
 }
 

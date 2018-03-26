@@ -9,13 +9,6 @@ const GridActionCreators = {
             controlPoint
         }
     },
-    changePathPoints(index, pathPoints) {
-        return {
-            type: GridAction.CHANGE_PATH_POINTS,
-            index,
-            pathPoints
-        }
-    },
     changePathParameter(index, parameterKey, parameterValue) {
         return {
             type: GridAction.CHANGE_PARAMETER,

@@ -10,7 +10,6 @@ const SideBar = ( {
     height,
     paths,
     moveControlPoint,
-    changePathPoints,
     changePathParameter,
     insertPathDataBefore,
     insertPathDataAfter,
@@ -31,7 +30,6 @@ const SideBar = ( {
             path={path}
             showDelete={paths.size > 1}
             moveControlPoint={moveControlPoint}
-            changePathPoints={changePathPoints}
             changePathParameter={changePathParameter}
             insertPathDataBefore={insertPathDataBefore}
             insertPathDataAfter={insertPathDataAfter}
@@ -69,7 +67,6 @@ const SideBar = ( {
 SideBar.propTypes = {
     paths: PropTypes.object.isRequired,
     moveControlPoint: PropTypes.func.isRequired,
-    changePathPoints: PropTypes.func.isRequired,
     changeDimensions: PropTypes.func.isRequired
 }
 

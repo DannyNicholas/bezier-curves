@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         moveControlPoint: (index, pointType, controlPoint) => dispatch(GridActionCreators.moveControlPoint(index, pointType, controlPoint)),
-        changePathPoints: (index, pathPoints) => dispatch(GridActionCreators.changePathPoints(index, pathPoints)),
         changePathParameter: (index, parameterKey, parameterValue) => dispatch(GridActionCreators.changePathParameter(index, parameterKey, parameterValue)),
         insertPathDataBefore: (index) => dispatch(GridActionCreators.insertPathDataBefore(index)),
         insertPathDataAfter: (index) => dispatch(GridActionCreators.insertPathDataAfter(index)),

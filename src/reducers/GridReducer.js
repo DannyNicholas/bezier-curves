@@ -149,22 +149,6 @@ const moveControlPointHelper = (paths, index, type, controlPoint) => {
     return paths.set(index, newPathData)
 }
 
-// change number of points on the path and recalculate path
-//
-// action.index holds index of path data to change
-// action.pathPoints holds the updated number of points in the path
-const changePathPoints = (state, action) => {
-    
-     // get and update path data for index
-     const pathData = state.get('paths').get(action.index)
-     const path = createPath( pathData.get('type'), pathData.get('controlPoints'), action.pathPoints )
-     const newPathData = pathData.set('path', path).set('pathPoints', action.pathPoints)
-
-     // update path data in list and return
-     const newPaths = state.get('paths').set(action.index, newPathData)
-     return state.set('paths', newPaths)
-}
-
 // change a path's parameters and recalculate path
 //
 // action.index - holds index of path data to change
@@ -301,9 +285,6 @@ const GridReducer = (state = initialState, action) => {
 
         case GridAction.MOVE_CONTROL_POINT:
             return moveControlPoint(state, action)
-
-        case GridAction.CHANGE_PATH_POINTS:
-            return changePathPoints(state, action)
 
         case GridAction.CHANGE_PARAMETER:
             return changeParameters(state, action)  
