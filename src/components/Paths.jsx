@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from './Grid'
-import SideBar from './SideBar'
+import Grid from './grid/Grid'
+import SideBar from './sidebar/SideBar'
 import './Paths.css';
 
 const Paths = ( {

@@ -1,7 +1,7 @@
 import React from 'react'
-import  { exportToJsonFile } from '../utils/exportToJson'
-import  { importFromJsonFile } from '../utils/importFromJson'
-import { extractPaths } from '../utils/extractPaths'
+import  { exportToJsonFile } from '../../utils/exportToJson'
+import  { importFromJsonFile } from '../../utils/importFromJson'
+import { extractPaths } from '../../utils/extractPaths'
 
 const Exporter = ( {paths, width, height, importPaths} ) => {
 
