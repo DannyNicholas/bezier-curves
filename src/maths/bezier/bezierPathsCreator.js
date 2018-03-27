@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/DimensionDefault'
 import createPoint from '../createPoint'
@@ -102,25 +102,20 @@ export const createDefaultBezierPathDataWithFixedFinish = (width, height, parame
     return createBezierPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
+export const importBezierPathData = (data) => {
+    const start = createPoint( data.start.x, data.start.y )
+    const startControl = createPoint( data.startControl.x, data.startControl.y )
+    const finish = createPoint( data.finish.x, data.finish.y )
+    const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
+    const controlPoints = createBezierControlPoints(
+        start,
+        startControl,
+        finish,
+        finishControl
+    )
+    const parameters = fromJS({pathPoints: data.pathPoints})
 
-    let paths = List()
-    pathData.forEach((data) => {
-        const start = createPoint( data.start.x, data.start.y )
-        const startControl = createPoint( data.startControl.x, data.startControl.y )
-        const finish = createPoint( data.finish.x, data.finish.y )
-        const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
-        const controlPoints = createBezierControlPoints(
-            start,
-            startControl,
-            finish,
-            finishControl
-        )
-        const parameters = fromJS({pathPoints: data.pathPoints})
-        paths = paths.push(createBezierPathDataHelper(controlPoints, parameters, false))
-      })
-
-      return paths
+    return createBezierPathDataHelper(controlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points

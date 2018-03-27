@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createLinearControlPoints from './createLinearControlPoints'
@@ -82,21 +82,16 @@ export const createDefaultLinearPathDataWithFixedFinish = (width, height, parame
     return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
-
-    let paths = List()
-    pathData.forEach((data) => {
-        const start = createPoint( data.start.x, data.start.y )
-        const finish = createPoint( data.finish.x, data.finish.y )
-        const controlPoints = createLinearControlPoints(
-            start,
-            finish
-        )
-        const parameters = fromJS({pathPoints: data.pathPoints})
-        paths = paths.push(createLinearPathDataHelper(controlPoints, parameters, false))
-      })
-
-      return paths
+export const importLinearPathData = (data) => {
+    const start = createPoint( data.start.x, data.start.y )
+    const finish = createPoint( data.finish.x, data.finish.y )
+    const controlPoints = createLinearControlPoints(
+        start,
+        finish
+    )
+    const parameters = fromJS({pathPoints: data.pathPoints})
+    
+    return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points

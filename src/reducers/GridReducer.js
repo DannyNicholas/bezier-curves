@@ -11,11 +11,9 @@ import {
     getStartKey,
     getFinishKey,
     getStartPoint,
-    getFinishPoint
+    getFinishPoint,
+    importPathData
 } from '../maths/facade/pathsCreator'
-
-// TODO refactor import path data to handle all path types
-import { importPathData } from '../maths/bezier/bezierPathsCreator'
 
 const initialState = createDefaultInitialState()
 

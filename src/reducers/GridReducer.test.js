@@ -458,6 +458,7 @@ describe('reducer logic', () => {
         return {
             "pathData": [
                 {
+                    "type" : "bezier",
                     "start": {
                         "x": 10,
                         "y": 20
@@ -477,6 +478,7 @@ describe('reducer logic', () => {
                     "pathPoints": 1000
                 },
                 {
+                    "type" : "bezier",
                     "start": {
                         "x": 90,
                         "y": 100

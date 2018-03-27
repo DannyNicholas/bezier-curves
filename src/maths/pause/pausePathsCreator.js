@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createPauseControlPoints from './createPauseControlPoints'
@@ -71,19 +71,14 @@ export const createDefaultPausePathDataWithFixedFinish = (parameters, finish) =>
     return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
+export const importPausePathData = (data) => {
+    const position = createPoint( data.position.x, data.position.y )
+    const controlPoints = createPauseControlPoints(
+        position
+    )
+    const parameters = fromJS({pauseTime: data.pauseTime})
 
-    let paths = List()
-    pathData.forEach((data) => {
-        const position = createPoint( data.position.x, data.position.y )
-        const controlPoints = createPauseControlPoints(
-            position
-        )
-        const parameters = fromJS({pauseTime: data.pauseTime})
-        paths = paths.push(createPausePathDataHelper(controlPoints, parameters, false))
-      })
-
-      return paths
+    return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
 // create path data from supplied control points and pause time
