@@ -234,19 +234,18 @@ export const importPathData = (pathData) => {
     let paths = List()
     pathData.forEach((data) => {
         const type = data.type
-        console.log(type)
-
+        
         switch (type) {
             case PathType.BEZIER:
-                paths.push(bezier.importPathData(data))
+                paths = paths.push(bezier.importPathData(data))
                 break
     
             case PathType.LINEAR:
-                paths.push(linear.importPathData(data))
+                paths = paths.push(linear.importPathData(data))
                 break
     
             case PathType.PAUSE:
-                paths.push(pause.importPathData(data))
+                paths = paths.push(pause.importPathData(data))
                 break
     
             default:
@@ -254,6 +253,6 @@ export const importPathData = (pathData) => {
                 break
         }
     })
-    console.log(paths)
+
     return paths
 }
