@@ -55,7 +55,9 @@ export const transformToLinearPathData = (previousType, controlPoints, parameter
     const start = getStartPoint(previousType, controlPoints)
     const finish = getFinishPoint(previousType, controlPoints)
     const pathPoints = parameters.get('pathPoints') || DEFAULT_PATH_POINTS
-    const newParameters = parameters.set('pathPoints', pathPoints)
+    const newParameters = parameters
+        .set('pathPoints', pathPoints)
+        .filter((parameter, key) => key === 'pathPoints')
 
     const linearControlPoints = createLinearControlPoints(
         start,

@@ -71,7 +71,9 @@ export const transformToBezierPathData = (width, previousType, controlPoints, pa
         finishControl
     )
     const pathPoints = parameters.get('pathPoints') || DEFAULT_PATH_POINTS
-    const newParameters = parameters.set('pathPoints', pathPoints)
+    const newParameters = parameters
+        .set('pathPoints', pathPoints)
+        .filter((parameter, key) => key === 'pathPoints')
 
     return createBezierPathDataHelper(bezierControlPoints, newParameters, true)
 }

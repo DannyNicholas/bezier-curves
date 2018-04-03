@@ -51,7 +51,9 @@ export const transformToPausePathData = (previousType, controlPoints, parameters
     // set 'position' to 'start' of previous path
     const position = getStartPoint(previousType, controlPoints)
     const pauseTime = parameters.get('pauseTime') || DEFAULT_PAUSE_TIME
-    const newParameters = parameters.set('pauseTime', pauseTime)
+    const newParameters = parameters
+        .set('pauseTime', pauseTime)
+        .filter((parameter, key) => key === 'pauseTime')
     const pauseControlPoints = createPauseControlPoints(position)
 
     return createPausePathDataHelper(pauseControlPoints, newParameters, true)
