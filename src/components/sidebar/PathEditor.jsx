@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import ControlPointEditor from './ControlPointEditor'
 import ParameterEditor from './ParameterEditor'
 import PathType from '../../constants/PathType'
-import './BezierPointsEditor.css'
+import './PathEditor.css'
 
-const BezierPointsEditor = ( {
+const PathEditor = ( {
     pathIndex,
     type,
     controlPoints,
@@ -66,7 +66,7 @@ const BezierPointsEditor = ( {
     )
       
     return(
-        <div className="bezierEditor">
+        <div className="pathEditor">
             <span>Type</span>
             {PathTypeSelector}
             <table>
@@ -95,7 +95,7 @@ const BezierPointsEditor = ( {
     )
 }
 
-BezierPointsEditor.propTypes = {
+PathEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     controlPoints: PropTypes.object.isRequired,
@@ -108,4 +108,4 @@ BezierPointsEditor.propTypes = {
     transformPath: PropTypes.func.isRequired
 }
 
-export default BezierPointsEditor
+export default PathEditor

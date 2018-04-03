@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BezierPointsEditor from './BezierPointsEditor'
+import PathEditor from './PathEditor'
 import './EditorPanel.css'
 
 const EditorPanel = ( {
@@ -13,7 +13,7 @@ const EditorPanel = ( {
     
     let PointsEditor;
     if (path.get('active')) {
-        PointsEditor = <BezierPointsEditor
+        PointsEditor = <PathEditor
             key={index}
             pathIndex={index}
             type={path.get('type')}
