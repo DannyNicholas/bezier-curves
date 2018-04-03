@@ -1,16 +1,18 @@
+import { invertControlPoints } from './invertControlPoints'
+
 export const extractPaths = (paths, width, height) => {
     return {
-        pathData: extractPathData(paths),
+        pathData: extractPathData(paths, width, height),
         width: width,
         height: height
     }
 }
 
 // return an array of path data
-const extractPathData = (paths) => {
+const extractPathData = (paths, width, height) => {
     return paths.map( (path) => {
         
-        const controlPoints = extractControlPoints(path.get('controlPoints'))
+        const controlPoints = extractControlPoints(path.get('controlPoints'), width, height)
         const parameters = extractParameters(path.get('parameters'))
         return Object.assign(
             { type: path.get('type') },
@@ -21,17 +23,20 @@ const extractPathData = (paths) => {
 }
 
 // return an object representing all control points
-const extractControlPoints = (controlPoints) => {
+const extractControlPoints = (controlPoints, width, height) => {
+
+    // invert all points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
 
     const extractedControlPoints = {}
-    controlPoints.forEach( (controlPoint) => {
-        extractedControlPoints[controlPoint.get('name')] = extractPoint(controlPoint)
+    invertedControlPoints.forEach( (controlPoint) => {
+        extractedControlPoints[controlPoint.get('name')] = extractPoint(controlPoint, width, height)
     })
     return extractedControlPoints
 }
 
 // extract x and y co-ordinates from control point
-const extractPoint = (controlPoint) => {
+const extractPoint = (controlPoint, width, height) => {
     const point = controlPoint.get('point')
     return {
         x: point.get('x'),

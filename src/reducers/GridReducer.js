@@ -20,7 +20,10 @@ const initialState = createDefaultInitialState()
 // replace current state with imported data
 const importPaths = (state, action) => {
     const jsonData = action.jsonData
-    let pathData = importPathData(jsonData.pathData)
+    const width = jsonData.width || DEFAULT_WIDTH
+    const height = jsonData.height || DEFAULT_HEIGHT
+
+    let pathData = importPathData(jsonData.pathData, width, height)
     let animation = state.get('animation')
         .set('animating', false)
         
@@ -34,8 +37,8 @@ const importPaths = (state, action) => {
     return state
         .set('paths', pathData)
         .set('animation', animation)
-        .set('width', jsonData.width || DEFAULT_WIDTH)
-        .set('height', jsonData.height || DEFAULT_HEIGHT)
+        .set('width', width)
+        .set('height', height)
 }
 
 const animationOn = (state, action) => {

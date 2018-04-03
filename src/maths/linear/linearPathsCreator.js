@@ -7,6 +7,7 @@ import {
     getStartPoint,
     getFinishPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PATH_POINTS = 100
@@ -84,7 +85,7 @@ export const createDefaultLinearPathDataWithFixedFinish = (width, height, parame
     return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importLinearPathData = (data) => {
+export const importLinearPathData = (data, width, height) => {
     const start = createPoint( data.start.x, data.start.y )
     const finish = createPoint( data.finish.x, data.finish.y )
     const controlPoints = createLinearControlPoints(
@@ -92,8 +93,11 @@ export const importLinearPathData = (data) => {
         finish
     )
     const parameters = fromJS({pathPoints: data.pathPoints})
+
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
     
-    return createLinearPathDataHelper(controlPoints, parameters, false)
+    return createLinearPathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points

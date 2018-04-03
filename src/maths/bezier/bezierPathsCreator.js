@@ -8,6 +8,7 @@ import {
     getStartPoint,
     getFinishPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PATH_POINTS = 100
@@ -104,7 +105,7 @@ export const createDefaultBezierPathDataWithFixedFinish = (width, height, parame
     return createBezierPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importBezierPathData = (data) => {
+export const importBezierPathData = (data, width, height) => {
     const start = createPoint( data.start.x, data.start.y )
     const startControl = createPoint( data.startControl.x, data.startControl.y )
     const finish = createPoint( data.finish.x, data.finish.y )
@@ -117,7 +118,10 @@ export const importBezierPathData = (data) => {
     )
     const parameters = fromJS({pathPoints: data.pathPoints})
 
-    return createBezierPathDataHelper(controlPoints, parameters, false)
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
+
+    return createBezierPathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points

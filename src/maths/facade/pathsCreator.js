@@ -45,7 +45,7 @@ const bezier = {
     getFinishKey: () => getBezierFinishKey(),
     getStartPoint: (controlPoints) => getBezierStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getBezierFinishPoint(controlPoints),
-    importPathData: (data) => importBezierPathData(data)
+    importPathData: (data, width, height) => importBezierPathData(data, width, height)
 }
 
 const linear = {
@@ -57,7 +57,7 @@ const linear = {
     getFinishKey: () => getLinearFinishKey(),
     getStartPoint: (controlPoints) => getLinearStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getLinearFinishPoint(controlPoints),
-    importPathData: (data) => importLinearPathData(data)
+    importPathData: (data, width, height) => importLinearPathData(data, width, height)
 }
 
 const pause = {
@@ -69,7 +69,7 @@ const pause = {
     getFinishKey: () => getPauseFinishKey(),
     getStartPoint: (controlPoints) => getPauseStartPoint(controlPoints),
     getFinishPoint: (controlPoints) => getPauseFinishPoint(controlPoints),
-    importPathData: (data) => importPausePathData(data)
+    importPathData: (data, width, height) => importPausePathData(data, width, height)
 }
 
 // create and return the initial default path data
@@ -229,7 +229,7 @@ export const transformPathData = (type, width, height, previousType, controlPoin
     }
 }
 
-export const importPathData = (pathData) => {
+export const importPathData = (pathData, width, height) => {
 
     let paths = List()
     pathData.forEach((data) => {
@@ -237,15 +237,15 @@ export const importPathData = (pathData) => {
         
         switch (type) {
             case PathType.BEZIER:
-                paths = paths.push(bezier.importPathData(data))
+                paths = paths.push(bezier.importPathData(data, width, height))
                 break
     
             case PathType.LINEAR:
-                paths = paths.push(linear.importPathData(data))
+                paths = paths.push(linear.importPathData(data, width, height))
                 break
     
             case PathType.PAUSE:
-                paths = paths.push(pause.importPathData(data))
+                paths = paths.push(pause.importPathData(data, width, height))
                 break
     
             default:

@@ -6,6 +6,7 @@ import createPausePath from './createPausePath'
 import {
     getStartPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PAUSE_TIME = 2
@@ -73,14 +74,17 @@ export const createDefaultPausePathDataWithFixedFinish = (parameters, finish) =>
     return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPausePathData = (data) => {
+export const importPausePathData = (data, width, height) => {
     const position = createPoint( data.position.x, data.position.y )
     const controlPoints = createPauseControlPoints(
         position
     )
     const parameters = fromJS({pauseTime: data.pauseTime})
 
-    return createPausePathDataHelper(controlPoints, parameters, false)
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
+
+    return createPausePathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and pause time
