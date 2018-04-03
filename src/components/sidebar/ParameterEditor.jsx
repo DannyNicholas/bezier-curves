@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const ParameterEditor = ( {pathIndex, parameterKey, parameterValue, changePathParameter} ) => {
 
     const handleChange = (event) => {
-        const value = event.target.value === '' ? '' : parseInt(event.target.value,10)
+        const value = event.target.value === '' ? '' : parseFloat(event.target.value)
         changePathParameter(pathIndex, parameterKey, value)
     }
 
@@ -21,8 +21,8 @@ const ParameterEditor = ( {pathIndex, parameterKey, parameterValue, changePathPa
 ParameterEditor.propTypes = {
     pathIndex: PropTypes.number.isRequired,
     parameterKey: PropTypes.string.isRequired,
-    parameterValue: PropTypes.number.isRequired,
-    changePathParameter: PropTypes.func.isRequired,
+    parameterValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    changePathParameter: PropTypes.func.isRequired
 }
 
 export default ParameterEditor
