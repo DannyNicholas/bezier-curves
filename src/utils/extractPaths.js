@@ -11,10 +11,11 @@ const extractPathData = (paths) => {
     return paths.map( (path) => {
         
         const controlPoints = extractControlPoints(path.get('controlPoints'))
+        const parameters = extractParameters(path.get('parameters'))
         return Object.assign(
             { type: path.get('type') },
-            { pathPoints: path.get('pathPoints') },
-            controlPoints
+            controlPoints,
+            parameters
         )
     })
 }
@@ -36,4 +37,12 @@ const extractPoint = (controlPoint) => {
         x: point.get('x'),
         y: point.get('y')
     }
+}
+
+// return an object representing all parameters
+const extractParameters = (parameters) => {
+
+    const extractedParameters = {}
+    parameters.map((value, key) => extractedParameters[key] = value)
+    return extractedParameters
 }
