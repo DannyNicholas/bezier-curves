@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createPauseControlPoints from './createPauseControlPoints'
@@ -6,6 +6,7 @@ import createPausePath from './createPausePath'
 import {
     getStartPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PAUSE_TIME = 2
@@ -51,7 +52,9 @@ export const transformToPausePathData = (previousType, controlPoints, parameters
     // set 'position' to 'start' of previous path
     const position = getStartPoint(previousType, controlPoints)
     const pauseTime = parameters.get('pauseTime') || DEFAULT_PAUSE_TIME
-    const newParameters = parameters.set('pauseTime', pauseTime)
+    const newParameters = parameters
+        .set('pauseTime', pauseTime)
+        .filter((parameter, key) => key === 'pauseTime')
     const pauseControlPoints = createPauseControlPoints(position)
 
     return createPausePathDataHelper(pauseControlPoints, newParameters, true)
@@ -71,19 +74,17 @@ export const createDefaultPausePathDataWithFixedFinish = (parameters, finish) =>
     return createPausePathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
+export const importPausePathData = (data, width, height) => {
+    const position = createPoint( data.position.x, data.position.y )
+    const controlPoints = createPauseControlPoints(
+        position
+    )
+    const parameters = fromJS({pauseTime: data.pauseTime})
 
-    let paths = List()
-    pathData.forEach((data) => {
-        const position = createPoint( data.position.x, data.position.y )
-        const controlPoints = createPauseControlPoints(
-            position
-        )
-        const parameters = fromJS({pauseTime: data.pauseTime})
-        paths = paths.push(createPausePathDataHelper(controlPoints, parameters, false))
-      })
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
 
-      return paths
+    return createPausePathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and pause time

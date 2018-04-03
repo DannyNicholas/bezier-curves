@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/DimensionDefault'
 import createPoint from '../createPoint'
@@ -8,6 +8,7 @@ import {
     getStartPoint,
     getFinishPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PATH_POINTS = 100
@@ -71,7 +72,9 @@ export const transformToBezierPathData = (width, previousType, controlPoints, pa
         finishControl
     )
     const pathPoints = parameters.get('pathPoints') || DEFAULT_PATH_POINTS
-    const newParameters = parameters.set('pathPoints', pathPoints)
+    const newParameters = parameters
+        .set('pathPoints', pathPoints)
+        .filter((parameter, key) => key === 'pathPoints')
 
     return createBezierPathDataHelper(bezierControlPoints, newParameters, true)
 }
@@ -102,25 +105,23 @@ export const createDefaultBezierPathDataWithFixedFinish = (width, height, parame
     return createBezierPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
+export const importBezierPathData = (data, width, height) => {
+    const start = createPoint( data.start.x, data.start.y )
+    const startControl = createPoint( data.startControl.x, data.startControl.y )
+    const finish = createPoint( data.finish.x, data.finish.y )
+    const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
+    const controlPoints = createBezierControlPoints(
+        start,
+        startControl,
+        finish,
+        finishControl
+    )
+    const parameters = fromJS({pathPoints: data.pathPoints})
 
-    let paths = List()
-    pathData.forEach((data) => {
-        const start = createPoint( data.start.x, data.start.y )
-        const startControl = createPoint( data.startControl.x, data.startControl.y )
-        const finish = createPoint( data.finish.x, data.finish.y )
-        const finishControl = createPoint( data.finishControl.x, data.finishControl.y )
-        const controlPoints = createBezierControlPoints(
-            start,
-            startControl,
-            finish,
-            finishControl
-        )
-        const parameters = fromJS({pathPoints: data.pathPoints})
-        paths = paths.push(createBezierPathDataHelper(controlPoints, parameters, false))
-      })
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
 
-      return paths
+    return createBezierPathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points

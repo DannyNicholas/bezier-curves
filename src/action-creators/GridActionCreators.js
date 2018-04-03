@@ -96,7 +96,7 @@ const actions = {
 
             setTimeout(() => {
                 this.animate(dispatch, getState)
-            },50)
+            },8)
         }
     }
 

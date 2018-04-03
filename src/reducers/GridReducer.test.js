@@ -235,26 +235,28 @@ describe('reducer logic', () => {
        
         const path1 = newState.get('paths').get('0')
         const controlPoints1 = path1.get('controlPoints')
+
+        // note y-axis points are inverted when imported
         expect(controlPoints1.get('start').get('point').get('x')).toEqual(10)
-        expect(controlPoints1.get('start').get('point').get('y')).toEqual(20)
+        expect(controlPoints1.get('start').get('point').get('y')).toEqual(1300 - 20)
         expect(controlPoints1.get('finish').get('point').get('x')).toEqual(30)
-        expect(controlPoints1.get('finish').get('point').get('y')).toEqual(40)
+        expect(controlPoints1.get('finish').get('point').get('y')).toEqual(1300 - 40)
         expect(controlPoints1.get('startControl').get('point').get('x')).toEqual(50)
-        expect(controlPoints1.get('startControl').get('point').get('y')).toEqual(60)
+        expect(controlPoints1.get('startControl').get('point').get('y')).toEqual(1300 - 60)
         expect(controlPoints1.get('finishControl').get('point').get('x')).toEqual(70)
-        expect(controlPoints1.get('finishControl').get('point').get('y')).toEqual(80)
+        expect(controlPoints1.get('finishControl').get('point').get('y')).toEqual(1300 - 80)
         expect(path1.get('parameters').get('pathPoints')).toEqual(1000)
 
         const path2 = newState.get('paths').get('1')
         const controlPoints2 = path2.get('controlPoints')
         expect(controlPoints2.get('start').get('point').get('x')).toEqual(90)
-        expect(controlPoints2.get('start').get('point').get('y')).toEqual(100)
+        expect(controlPoints2.get('start').get('point').get('y')).toEqual(1300 - 100)
         expect(controlPoints2.get('finish').get('point').get('x')).toEqual(110)
-        expect(controlPoints2.get('finish').get('point').get('y')).toEqual(120)
+        expect(controlPoints2.get('finish').get('point').get('y')).toEqual(1300 - 120)
         expect(controlPoints2.get('startControl').get('point').get('x')).toEqual(130)
-        expect(controlPoints2.get('startControl').get('point').get('y')).toEqual(140)
+        expect(controlPoints2.get('startControl').get('point').get('y')).toEqual(1300 - 140)
         expect(controlPoints2.get('finishControl').get('point').get('x')).toEqual(150)
-        expect(controlPoints2.get('finishControl').get('point').get('y')).toEqual(160)
+        expect(controlPoints2.get('finishControl').get('point').get('y')).toEqual(1300 - 160)
         expect(path2.get('parameters').get('pathPoints')).toEqual(2000)
     })
 
@@ -458,6 +460,7 @@ describe('reducer logic', () => {
         return {
             "pathData": [
                 {
+                    "type" : "bezier",
                     "start": {
                         "x": 10,
                         "y": 20
@@ -477,6 +480,7 @@ describe('reducer logic', () => {
                     "pathPoints": 1000
                 },
                 {
+                    "type" : "bezier",
                     "start": {
                         "x": 90,
                         "y": 100

@@ -1,3 +1,4 @@
+import { List } from 'immutable'
 import PathType from '../../constants/PathType'
 import createBezierPath from '../bezier/createBezierPath'
 import {
@@ -8,7 +9,8 @@ import {
     createDefaultInitialBezierState,
     createDefaultBezierPathDataWithFixedStart,
     createDefaultBezierPathDataWithFixedFinish,
-    transformToBezierPathData
+    transformToBezierPathData,
+    importBezierPathData
 } from '../bezier/bezierPathsCreator'
 import createLinearPath from '../linear/createLinearPath'
 import {
@@ -18,7 +20,8 @@ import {
     getLinearFinishKey,
     createDefaultLinearPathDataWithFixedStart,
     createDefaultLinearPathDataWithFixedFinish,
-    transformToLinearPathData
+    transformToLinearPathData,
+    importLinearPathData
 } from '../linear/linearPathsCreator'
 import createPausePath from '../pause/createPausePath'
 import {
@@ -28,7 +31,8 @@ import {
     getPauseFinishKey,
     createDefaultPausePathDataWithFixedStart,
     createDefaultPausePathDataWithFixedFinish,
-    transformToPausePathData
+    transformToPausePathData,
+    importPausePathData
 } from '../pause/pausePathsCreator'
 
 const bezier = {
@@ -40,7 +44,8 @@ const bezier = {
     getStartKey: () => getBezierStartKey(),
     getFinishKey: () => getBezierFinishKey(),
     getStartPoint: (controlPoints) => getBezierStartPoint(controlPoints),
-    getFinishPoint: (controlPoints) => getBezierFinishPoint(controlPoints)
+    getFinishPoint: (controlPoints) => getBezierFinishPoint(controlPoints),
+    importPathData: (data, width, height) => importBezierPathData(data, width, height)
 }
 
 const linear = {
@@ -51,7 +56,8 @@ const linear = {
     getStartKey: () => getLinearStartKey(),
     getFinishKey: () => getLinearFinishKey(),
     getStartPoint: (controlPoints) => getLinearStartPoint(controlPoints),
-    getFinishPoint: (controlPoints) => getLinearFinishPoint(controlPoints)
+    getFinishPoint: (controlPoints) => getLinearFinishPoint(controlPoints),
+    importPathData: (data, width, height) => importLinearPathData(data, width, height)
 }
 
 const pause = {
@@ -62,7 +68,8 @@ const pause = {
     getStartKey: () => getPauseStartKey(),
     getFinishKey: () => getPauseFinishKey(),
     getStartPoint: (controlPoints) => getPauseStartPoint(controlPoints),
-    getFinishPoint: (controlPoints) => getPauseFinishPoint(controlPoints)
+    getFinishPoint: (controlPoints) => getPauseFinishPoint(controlPoints),
+    importPathData: (data, width, height) => importPausePathData(data, width, height)
 }
 
 // create and return the initial default path data
@@ -220,4 +227,32 @@ export const transformPathData = (type, width, height, previousType, controlPoin
             console.error("Unrecognised path type '" + type + "'.")
             return null
     }
+}
+
+export const importPathData = (pathData, width, height) => {
+
+    let paths = List()
+    pathData.forEach((data) => {
+        const type = data.type
+        
+        switch (type) {
+            case PathType.BEZIER:
+                paths = paths.push(bezier.importPathData(data, width, height))
+                break
+    
+            case PathType.LINEAR:
+                paths = paths.push(linear.importPathData(data, width, height))
+                break
+    
+            case PathType.PAUSE:
+                paths = paths.push(pause.importPathData(data, width, height))
+                break
+    
+            default:
+                console.error("Unrecognised path type '" + type + "'.")
+                break
+        }
+    })
+
+    return paths
 }

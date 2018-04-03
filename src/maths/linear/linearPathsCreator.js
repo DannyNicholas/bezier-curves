@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import PathType from '../../constants/PathType'
 import createPoint from '../createPoint'
 import createLinearControlPoints from './createLinearControlPoints'
@@ -7,6 +7,7 @@ import {
     getStartPoint,
     getFinishPoint
 } from '../facade/pathsCreator'
+import { invertControlPoints } from '../../utils/invertControlPoints'
 
 const pointOffset = 20
 const DEFAULT_PATH_POINTS = 100
@@ -55,7 +56,9 @@ export const transformToLinearPathData = (previousType, controlPoints, parameter
     const start = getStartPoint(previousType, controlPoints)
     const finish = getFinishPoint(previousType, controlPoints)
     const pathPoints = parameters.get('pathPoints') || DEFAULT_PATH_POINTS
-    const newParameters = parameters.set('pathPoints', pathPoints)
+    const newParameters = parameters
+        .set('pathPoints', pathPoints)
+        .filter((parameter, key) => key === 'pathPoints')
 
     const linearControlPoints = createLinearControlPoints(
         start,
@@ -82,21 +85,19 @@ export const createDefaultLinearPathDataWithFixedFinish = (width, height, parame
     return createLinearPathDataHelper(controlPoints, parameters, false)
 }
 
-export const importPathData = (pathData) => {
+export const importLinearPathData = (data, width, height) => {
+    const start = createPoint( data.start.x, data.start.y )
+    const finish = createPoint( data.finish.x, data.finish.y )
+    const controlPoints = createLinearControlPoints(
+        start,
+        finish
+    )
+    const parameters = fromJS({pathPoints: data.pathPoints})
 
-    let paths = List()
-    pathData.forEach((data) => {
-        const start = createPoint( data.start.x, data.start.y )
-        const finish = createPoint( data.finish.x, data.finish.y )
-        const controlPoints = createLinearControlPoints(
-            start,
-            finish
-        )
-        const parameters = fromJS({pathPoints: data.pathPoints})
-        paths = paths.push(createLinearPathDataHelper(controlPoints, parameters, false))
-      })
-
-      return paths
+    // invert all control points in y-axis to match expected export co-ordinates
+    const invertedControlPoints = invertControlPoints(controlPoints, height)
+    
+    return createLinearPathDataHelper(invertedControlPoints, parameters, false)
 }
 
 // create path data from supplied control points and path points
